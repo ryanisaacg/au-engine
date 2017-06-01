@@ -43,3 +43,26 @@ static void init_batch_entry(AU_BatchEntry* ent, GPU_Image* img) {
 	ent->index_count = 0;
 	ent->indices = malloc(sizeof(int) * ent->index_capacity);
 }
+
+int AU_AddVertex(AU_Context* ctx, int texture, 
+		float x, float y, float texX, float texY, float r, float g, float b, float a) {
+	AU_BatchEntry* ent = ctx->image_buffer + texture;
+	if(ent->vertex_count >= ent->vertex_capacity) {
+		ent->vertex_capacity *= 2;
+		ent->vertices = realloc(ent->vertices, sizeof(float) * ent->vertex_capacity);
+	}
+	float vertex[] = {x, y, texX, texY, r, g, b, a};
+	memcpy(ent->vertices + ent->vertex_count * 8, vertex, sizeof(float) * 8);
+	ent->vertex_count++;
+	return ent->vertex_count - 1;
+}
+
+void AU_AddIndex(AU_Context* ctx, int texture, int vertexID) {
+	AU_BatchEntry* ent = ctx->image_buffer + texture;
+	if(ent->index_count >= ent->index_capacity) {
+		ent->index_capacity *= 2;
+		ent->indices = realloc(ent->indices, sizeof(int) * ent->index_capacity);
+	}
+	ent->indices[ent->index_count] = vertexID;
+	ent->index_count++;
+}

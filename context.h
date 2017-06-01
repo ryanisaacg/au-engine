@@ -38,6 +38,11 @@ AU_Context* AU_Init(int, int);
 void AU_Quit(AU_Context*);
 //Load a texture into the context
 int AU_RegisterTexture(AU_Context*, GPU_Image*);
+//Add a single vertex into the context and return the index of that vertex
+int AU_AddVertex(AU_Context*, int texture, 
+		float x, float y, float texX, float texY, float r, float g, float b, float a);
+//Add a single index into the context
+void AU_AddIndex(AU_Context*, int texture, int vertexID);
 
 //Private facing functions:
 
