@@ -37,7 +37,7 @@ int AU_RegisterTexture(AU_Context* ctx, GPU_Image* img) {
 static void init_batch_entry(AU_BatchEntry* ent, GPU_Image* img) {
 	ent->image = *img;
 	ent->vertex_capacity = 1024;
-	ent->vertex_capacity = 0;
+	ent->vertex_count = 0;
 	ent->vertices = malloc(sizeof(float) * ent->vertex_capacity);
 	ent->index_capacity = 64;
 	ent->index_count = 0;
