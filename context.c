@@ -1,9 +1,8 @@
 #include "context.h"
 
 #include <SDL2/SDL.h>
-#include <stdlib.h>
 
-static void init_batch_entry(AU_BatchEntry*, GPU_Image*);
+#include "memory.h"
 
 AU_Context* AU_Init(char* title, int w, int h) {
 	AU_Context ctx;
@@ -11,8 +10,8 @@ AU_Context* AU_Init(char* title, int w, int h) {
 	SDL_SetWindowTitle(SDL_GetWindowFromID(ctx.target.context->windowID), title);
 	ctx.tex_count = 0;
 	ctx.tex_capacity = 32;
-	ctx.image_buffer = malloc(sizeof(AU_BatchEntry) * ctx.tex_capacity);
-	AU_Context* alloc_ctx = malloc(sizeof(AU_Context));
+	ctx.image_buffer = chk_alloc(sizeof(AU_BatchEntry) * ctx.tex_capacity);
+	AU_Context* alloc_ctx = chk_alloc(sizeof(AU_Context));
 	*alloc_ctx = ctx;
 	return alloc_ctx;
 }
@@ -29,30 +28,29 @@ void AU_Quit(AU_Context* ctx) {
 int AU_RegisterTexture(AU_Context* ctx, GPU_Image* img) {
 	if(ctx->tex_count >= ctx->tex_capacity) {
 		ctx->tex_capacity *= 2;
-		ctx->image_buffer = realloc(ctx->image_buffer, sizeof(AU_BatchEntry) * ctx->tex_capacity);
+		ctx->image_buffer = chk_realloc(ctx->image_buffer, sizeof(AU_BatchEntry) * ctx->tex_capacity);
 	}
-	init_batch_entry(ctx->image_buffer + ctx->tex_count, img);
-	ctx->tex_count++;
-	return ctx->tex_count - 1;
-}
-
-static void init_batch_entry(AU_BatchEntry* ent, GPU_Image* img) {
+	AU_BatchEntry* ent = ctx->image_buffer + ctx->tex_count;
 	ent->image = *img;
 	ent->vertex_capacity = 1024;
 	ent->vertex_count = 0;
-	ent->vertices = malloc(sizeof(float) * ent->vertex_capacity);
+	ent->vertices = chk_alloc(sizeof(float) * ent->vertex_capacity);
 	ent->index_capacity = 64;
 	ent->index_count = 0;
-	ent->indices = malloc(sizeof(int) * ent->index_capacity);
+	ent->indices = chk_alloc(sizeof(int) * ent->index_capacity);
+	ctx->tex_count++;
+	return ctx->tex_count - 1;
 }
 
 int AU_AddVertex(AU_Context* ctx, int texture, 
 		float x, float y, float texX, float texY, float r, float g, float b, float a) {
 	AU_BatchEntry* ent = ctx->image_buffer + texture;
+	//Reallocate if necessary
 	if(ent->vertex_count >= ent->vertex_capacity) {
 		ent->vertex_capacity *= 2;
-		ent->vertices = realloc(ent->vertices, sizeof(float) * ent->vertex_capacity);
+		ent->vertices = chk_realloc(ent->vertices, sizeof(float) * ent->vertex_capacity);
 	}
+	//Pack parameters into an array and copy it to the main buffer
 	float vertex[] = {x, y, texX, texY, r, g, b, a};
 	memcpy(ent->vertices + ent->vertex_count * 8, vertex, sizeof(float) * 8);
 	ent->vertex_count++;
@@ -61,9 +59,10 @@ int AU_AddVertex(AU_Context* ctx, int texture,
 
 void AU_AddIndex(AU_Context* ctx, int texture, int vertexID) {
 	AU_BatchEntry* ent = ctx->image_buffer + texture;
+	//Reallocate if necessary
 	if(ent->index_count >= ent->index_capacity) {
 		ent->index_capacity *= 2;
-		ent->indices = realloc(ent->indices, sizeof(int) * ent->index_capacity);
+		ent->indices = chk_realloc(ent->indices, sizeof(int) * ent->index_capacity);
 	}
 	ent->indices[ent->index_count] = vertexID;
 	ent->index_count++;
