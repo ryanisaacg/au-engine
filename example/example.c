@@ -20,9 +20,9 @@ int main()
 	AU_AddIndex(ctx, texid, tr);
 	AU_AddIndex(ctx, texid, br);
 
-	AU_AddIndex(ctx, texid, tr);
 	AU_AddIndex(ctx, texid, br);
 	AU_AddIndex(ctx, texid, bl);
+	AU_AddIndex(ctx, texid, tl);
 
 	AU_Present(ctx);
 
