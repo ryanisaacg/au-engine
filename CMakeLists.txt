@@ -22,7 +22,6 @@ include_directories(.)
 add_library(au-engine STATIC ${SOURCES} )
 set_property(TARGET au-engine PROPERTY C_STANDARD 99)
 set_target_properties(au-engine PROPERTIES LINKER_LANGUAGE C)
-target_link_libraries(au-engine m SDL2 SDL2_gpu)
 
 #CREATE EXECUTABLE
 add_executable(example example/example.c)
