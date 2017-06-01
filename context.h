@@ -34,7 +34,8 @@ typedef struct {
 
 //Create an AU Context with a given width and height
 AU_Context* AU_Init(int, int);
-
+//Destroy the AU Context (invalidates the pointer also
+void AU_Quit(AU_Context*);
 //Private facing functions:
 
 
