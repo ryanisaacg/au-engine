@@ -16,9 +16,16 @@ elseif(CMAKE_COMPILER_IS_GNUCC)
 endif()
 
 file(GLOB SOURCES *.c)
+include_directories(.)
 
 #LINK LIBRARY
 add_library(au-engine STATIC ${SOURCES} )
 set_property(TARGET au-engine PROPERTY C_STANDARD 99)
-set_target_properties(arcade-engine PROPERTIES LINKER_LANGUAGE C)
-target_link_libraries(arcade-engine m SDL2 SDL2_image SDL2_mixer tmx xml2 z)
+set_target_properties(au-engine PROPERTIES LINKER_LANGUAGE C)
+target_link_libraries(au-engine m SDL2 SDL2_gpu)
+
+#CREATE EXECUTABLE
+add_executable(example example/example.c)
+set_property(TARGET example PROPERTY C_STANDARD 99)
+set_target_properties(example PROPERTIES LINKER_LANGUAGE C)
+target_link_libraries(example au-engine -lm)
