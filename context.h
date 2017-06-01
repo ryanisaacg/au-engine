@@ -11,16 +11,20 @@ typedef struct {
 	int tex_count;
 	//The capacity of the textures without reallocation
 	int tex_capacity;
-	//A buffer of the textures that have been loaded
-	GPU_Image *images;
-	//A buffer of sprite counts for each image
-	int *sprite_count;
-	//The capacity for sprites for each image
-	int *sprite_capacity;
-	//A buffer of vertex buffers for each sprite (x, y, s, t, r, g, b, a) per vertex
-	float **values;
-	//A buffer of index buffers for each sprite
-	int **indices;
+	//A buffer of different image buckets
+	struct {
+		//The texture for this image
+		GPU_Image image;
+		//The number of vertices and the capacity for vertices before realloc
+		int vertex_count, vertex_capacity;
+		//The vertex buffer, tightly packed
+		//(x, y, s, t, r, g, b, a) per vertex
+		float *vertices;
+		//The number of indices and the capacity for indices before realloc
+		int index_count, index_capacity;
+		//The index buffer (each trio of indices forms a triangle)
+		int *indices;
+	}* image_buffer;
 } AU_Context;
 
 
