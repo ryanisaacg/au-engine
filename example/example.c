@@ -6,7 +6,7 @@
 int main()
 {
 	AU_Context *ctx = AU_Init(800, 600);
-	GPU_Image* img = GPU_LoadImage("img.bmp");
+	GPU_Image* img = GPU_LoadImage("img.png");
 
 	int texid = AU_RegisterTexture(ctx, img);
 
