@@ -21,5 +21,7 @@ typedef struct {
 	float **values;
 	//A buffer of index buffers for each sprite
 	int **indices;
-} AUContext;
+} AU_Context;
+
+
 
