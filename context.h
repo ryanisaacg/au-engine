@@ -32,8 +32,8 @@ typedef struct {
 
 //Public facing functions:
 
-//Create an AU Context with a given width and height
-AU_Context* AU_Init(int, int);
+//Create an AU Context with a given title, width, and height
+AU_Context* AU_Init(char*, int, int);
 //Destroy the AU Context (invalidates the pointer also
 void AU_Quit(AU_Context*);
 //Load a texture into the context

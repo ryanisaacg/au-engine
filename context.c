@@ -1,12 +1,14 @@
 #include "context.h"
 
+#include <SDL2/SDL.h>
 #include <stdlib.h>
 
 static void init_batch_entry(AU_BatchEntry*, GPU_Image*);
 
-AU_Context* AU_Init(int w, int h) {
+AU_Context* AU_Init(char* title, int w, int h) {
 	AU_Context ctx;
 	ctx.target = *(GPU_Init(w, h, GPU_DEFAULT_INIT_FLAGS));
+	SDL_SetWindowTitle(SDL_GetWindowFromID(ctx.target.context->windowID), title);
 	ctx.tex_count = 0;
 	ctx.tex_capacity = 32;
 	ctx.image_buffer = malloc(sizeof(AU_BatchEntry) * ctx.tex_capacity);

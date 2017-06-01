@@ -20,7 +20,7 @@ void draw(AU_Context *ctx, int texid, float xOffset) {
 
 int main()
 {
-	AU_Context *ctx = AU_Init(800, 600);
+	AU_Context *ctx = AU_Init("TEST WINDOW", 800, 600);
 	GPU_Image* img = GPU_LoadImage("img.png");
 	GPU_Image* img2 = GPU_LoadImage("img2.png");
 
