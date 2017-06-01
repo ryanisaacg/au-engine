@@ -36,6 +36,9 @@ typedef struct {
 AU_Context* AU_Init(int, int);
 //Destroy the AU Context (invalidates the pointer also
 void AU_Quit(AU_Context*);
+//Load a texture into the context
+int AU_RegisterTexture(AU_Context*, GPU_Image*);
+
 //Private facing functions:
 
 
