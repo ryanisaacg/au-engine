@@ -66,3 +66,19 @@ void AU_AddIndex(AU_Context* ctx, int texture, int vertexID) {
 	ent->indices[ent->index_count] = vertexID;
 	ent->index_count++;
 }
+
+void AU_Clear(AU_Context* ctx) {
+	for(int i = 0; i < ctx->tex_count; i++) {
+		ctx->image_buffer[i].vertex_count = 0;
+		ctx->image_buffer[i].index_count = 0;
+	}
+	GPU_Clear(&(ctx->target));
+}
+
+void AU_Present(AU_Context* ctx) {
+	for(int i = 0; i < ctx->tex_count; i++) {
+		AU_BatchEntry* ent = ctx->image_buffer + i;
+		GPU_TriangleBatch(&(ent->image), &(ctx->target), ent->vertex_count, ent->vertices, ent->index_count, ent->indices, GPU_BATCH_XY_ST_RGBA);
+	}
+	GPU_Flip(&(ctx->target));
+}

@@ -13,7 +13,7 @@ typedef struct {
 	//The number of indices and the capacity for indices before realloc
 	int index_count, index_capacity;
 	//The index buffer (each trio of indices forms a triangle)
-	int *indices;
+	unsigned short int *indices;
 } AU_BatchEntry;
 
 /*
@@ -43,6 +43,10 @@ int AU_AddVertex(AU_Context*, int texture,
 		float x, float y, float texX, float texY, float r, float g, float b, float a);
 //Add a single index into the context
 void AU_AddIndex(AU_Context*, int texture, int vertexID);
+//Clears all of the stuff from the previous draw call
+void AU_Clear(AU_Context*);
+//Batch-draws each of the shapes
+void AU_Present(AU_Context*);
 
 //Private facing functions:
 
