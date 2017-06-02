@@ -11,8 +11,7 @@ typedef struct {
 } AU_Engine;
 
 //Intialize the engine with a window title, width, and height
-AU_Engine *AU_Init(char*, int, int);
+AU_Engine *au_init(char*, int, int);
 //Load a texture from a file with a given name
-AU_Texture AU_LoadTexture(AU_Engine*, char* name);
-//Draw a texture at a rectangular position
-void AU_DrawTextureRect(AU_Engine*, AU_Texture, 
+AU_Texture au_load_texture(AU_Engine*, char*);
+
