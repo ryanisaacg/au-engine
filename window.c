@@ -7,7 +7,7 @@
 
 AU_Engine *AU_Init(char* title, int w, int h) {
 	AU_Engine* engine = chk_alloc(sizeof(AU_Engine));
-	engine->ctx = AU_Context_Init_Stack(title, w, h);
+	engine->ctx = au_context_init_stack(title, w, h);
 	return engine;
 }
 
@@ -17,6 +17,6 @@ AU_Texture AU_LoadTexture(AU_Engine* eng, char* name) {
 		fprintf(stderr, "Failed to load image with filename %s", name);
 		exit(1);
 	}
-	int id = AU_Context_RegisterTexture(&(eng->ctx), image);
+	int id = au_context_register_texture(&(eng->ctx), image);
 	return (AU_Texture) { id, image->w, image->h };
 }

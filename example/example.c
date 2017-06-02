@@ -5,23 +5,23 @@
 #undef main
 
 void draw(AU_Context *ctx, int texid, float xOffset) {
-	int tl = AU_Context_AddVertex(ctx, texid, xOffset, 0, 0, 0, 1, 1, 1, 1);
-	int tr = AU_Context_AddVertex(ctx, texid, xOffset + 32, 0, 1, 0, 1, 1, 1, 1);
-	int br = AU_Context_AddVertex(ctx, texid, xOffset + 32, 32, 1, 1, 1, 1, 1, 1);
-	int bl = AU_Context_AddVertex(ctx, texid, xOffset, 32, 0, 1, 1, 1, 1, 1);
+	int tl = au_context_add_vertex(ctx, texid, xOffset, 0, 0, 0, 1, 1, 1, 1);
+	int tr = au_context_add_vertex(ctx, texid, xOffset + 32, 0, 1, 0, 1, 1, 1, 1);
+	int br = au_context_add_vertex(ctx, texid, xOffset + 32, 32, 1, 1, 1, 1, 1, 1);
+	int bl = au_context_add_vertex(ctx, texid, xOffset, 32, 0, 1, 1, 1, 1, 1);
 
-	AU_Context_AddIndex(ctx, texid, tl);
-	AU_Context_AddIndex(ctx, texid, tr);
-	AU_Context_AddIndex(ctx, texid, br);
+	au_context_add_index(ctx, texid, tl);
+	au_context_add_index(ctx, texid, tr);
+	au_context_add_index(ctx, texid, br);
 
-	AU_Context_AddIndex(ctx, texid, br);
-	AU_Context_AddIndex(ctx, texid, bl);
-	AU_Context_AddIndex(ctx, texid, tl);
+	au_context_add_index(ctx, texid, br);
+	au_context_add_index(ctx, texid, bl);
+	au_context_add_index(ctx, texid, tl);
 }
 
 int main()
 {
-	AU_Context *ctx = AU_Context_Init("TEST WINDOW", 800, 600);
+	AU_Context *ctx = au_context_init("TEST WINDOW", 800, 600);
 	GPU_Image* img = GPU_LoadImage("img.png");
 	if(img == NULL) {
 		fprintf(stderr, "Failed to load image\n");
@@ -33,16 +33,16 @@ int main()
 		exit(1);
 	}
 
-	int texid1 = AU_Context_RegisterTexture(ctx, img);
-	int texid2 = AU_Context_RegisterTexture(ctx, img2);
+	int texid1 = au_context_register_texture(ctx, img);
+	int texid2 = au_context_register_texture(ctx, img2);
 
-	AU_Context_Clear(ctx);
+	au_context_clear(ctx);
 	draw(ctx, texid1, 0);
 	draw(ctx, texid2, 32);
 	draw(ctx, texid1, 64);
 	draw(ctx, texid2, 96);
-	AU_Context_Present(ctx);
+	au_context_present(ctx);
 
 	SDL_Delay(1000);
-	AU_Context_Free(ctx);
+	au_context_free(ctx);
 }
