@@ -14,7 +14,7 @@ typedef struct {
 	int index_count, index_capacity;
 	//The index buffer (each trio of indices forms a triangle)
 	unsigned short int *indices;
-} AU_BatchEntry;
+} AU_Context_BatchEntry;
 
 /*
  * Holds all of the graphics context in the engine
@@ -27,26 +27,30 @@ typedef struct {
 	//The capacity of the textures without reallocation
 	int tex_capacity;
 	//A buffer of different image buckets
-	AU_BatchEntry* image_buffer;
+	AU_Context_BatchEntry* image_buffer;
 } AU_Context;
 
 //Public facing functions:
 
+//Initialize the engine without heap allocating the context
+AU_Context AU_Context_Init_Stack(char*, int, int);
 //Create an AU Context with a given title, width, and height
-AU_Context* AU_Init(char*, int, int);
-//Destroy the AU Context (invalidates the pointer also
-void AU_Quit(AU_Context*);
+AU_Context* AU_Context_Init(char*, int, int);
+//Destroy the AU Context (does not invalidate the pointer)
+void AU_Context_Quit(AU_Context*);
+//Destroy the AU Context (invalidates the pointer also)
+void AU_Context_Free(AU_Context*);
 //Load a texture into the context
-int AU_RegisterTexture(AU_Context*, GPU_Image*);
+int AU_Context_RegisterTexture(AU_Context*, GPU_Image*);
 //Add a single vertex into the context and return the index of that vertex
-int AU_AddVertex(AU_Context*, int texture, 
+int AU_Context_AddVertex(AU_Context*, int texture, 
 		float x, float y, float texX, float texY, float r, float g, float b, float a);
 //Add a single index into the context
-void AU_AddIndex(AU_Context*, int texture, int vertexID);
+void AU_Context_AddIndex(AU_Context*, int texture, int vertexID);
 //Clears all of the stuff from the previous draw call
-void AU_Clear(AU_Context*);
+void AU_Context_Clear(AU_Context*);
 //Batch-draws each of the shapes
-void AU_Present(AU_Context*);
+void AU_Context_Present(AU_Context*);
 
 //Private facing functions:
 
