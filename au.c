@@ -6,7 +6,7 @@
 #include "memory.h"
 
 AU_Engine *au_init(char* title, int w, int h) {
-	AU_Engine* engine = chk_alloc(sizeof(AU_Engine));
+	AU_Engine* engine = au_memory_alloc(sizeof(AU_Engine));
 	engine->ctx = au_context_init_stack(title, w, h);
 	return engine;
 }
