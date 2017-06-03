@@ -1,4 +1,4 @@
-#include "window.h"
+#include "au.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,4 +19,21 @@ AU_Texture au_load_texture(AU_Engine* eng, char* name) {
 	}
 	int id = au_context_register_texture(&(eng->ctx), image);
 	return (AU_Texture) { id, image->w, image->h };
+}
+
+void au_draw_texture(AU_Engine* eng, AU_Texture tex, float x, float y, float w, float h) {
+	AU_Context* ctx = &(eng->ctx);
+
+	int tl = au_context_add_vertex(ctx, tex.id, x, y, 0, 0, 1, 1, 1, 1);
+	int tr = au_context_add_vertex(ctx, tex.id, x + w, y, 1, 0, 1, 1, 1, 1);
+	int br = au_context_add_vertex(ctx, tex.id, x + w, y + h, 1, 1, 1, 1, 1, 1);
+	int bl = au_context_add_vertex(ctx, tex.id, x, y + h, 0, 1, 1, 1, 1, 1);
+
+	au_context_add_index(ctx, tex.id, tl);
+	au_context_add_index(ctx, tex.id, tr);
+	au_context_add_index(ctx, tex.id, br);
+
+	au_context_add_index(ctx, tex.id, br);
+	au_context_add_index(ctx, tex.id, bl);
+	au_context_add_index(ctx, tex.id, tl);
 }
