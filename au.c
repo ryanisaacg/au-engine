@@ -42,18 +42,27 @@ void au_end(AU_Engine* eng) {
 }
 
 void au_draw_texture(AU_Engine* eng, AU_Texture tex, float x, float y, float w, float h) {
+	au_draw_texture_transform(eng, tex, au_geom_identity(), x, y, w, h);
+}
+
+void au_draw_texture_transform(AU_Engine* eng, AU_Texture tex, AU_Transform trans, float x, float y, float w, float h) {
 	AU_Context* ctx = &(eng->ctx);
 
-	int tl = au_context_add_vertex(ctx, tex.id, x, y, 0, 0, 1, 1, 1, 1);
-	int tr = au_context_add_vertex(ctx, tex.id, x + w, y, 1, 0, 1, 1, 1, 1);
-	int br = au_context_add_vertex(ctx, tex.id, x + w, y + h, 1, 1, 1, 1, 1, 1);
-	int bl = au_context_add_vertex(ctx, tex.id, x, y + h, 0, 1, 1, 1, 1, 1);
+	AU_Vector tl = au_geom_transform(trans, (AU_Vector) { 0, 0 });
+	AU_Vector tr = au_geom_transform(trans, (AU_Vector) { w, 0 });
+	AU_Vector br = au_geom_transform(trans, (AU_Vector) { w, h });
+	AU_Vector bl = au_geom_transform(trans, (AU_Vector) { 0, h });
 
-	au_context_add_index(ctx, tex.id, tl);
-	au_context_add_index(ctx, tex.id, tr);
-	au_context_add_index(ctx, tex.id, br);
+	int tl_index = au_context_add_vertex(ctx, tex.id, tl.x + x, tl.y + y, 0, 0, 1, 1, 1, 1);
+	int tr_index = au_context_add_vertex(ctx, tex.id, tr.x + x, tr.y + y, 1, 0, 1, 1, 1, 1);
+	int br_index = au_context_add_vertex(ctx, tex.id, br.x + x, br.y + y, 1, 1, 1, 1, 1, 1);
+	int bl_index = au_context_add_vertex(ctx, tex.id, bl.x + x, br.y + y, 0, 1, 1, 1, 1, 1);
 
-	au_context_add_index(ctx, tex.id, br);
-	au_context_add_index(ctx, tex.id, bl);
-	au_context_add_index(ctx, tex.id, tl);
+	au_context_add_index(ctx, tex.id, tl_index);
+	au_context_add_index(ctx, tex.id, tr_index);
+	au_context_add_index(ctx, tex.id, br_index);
+
+	au_context_add_index(ctx, tex.id, br_index);
+	au_context_add_index(ctx, tex.id, bl_index);
+	au_context_add_index(ctx, tex.id, tl_index);
 }

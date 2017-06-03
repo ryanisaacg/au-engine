@@ -3,6 +3,7 @@
 #include <stdbool.h>
 
 #include "context.h"
+#include "geom.h"
 
 typedef struct {
 	int id, width, height;
@@ -24,3 +25,5 @@ void au_begin(AU_Engine*);
 void au_end(AU_Engine*);
 //Draw a texture to a given area (x, y, width, height)
 void au_draw_texture(AU_Engine*, AU_Texture, float, float, float, float);
+//Draw a texture to a given area with a given transformation and origin (x, y) and dimensions (width, height)
+void au_draw_texture_transform(AU_Engine*, AU_Texture, AU_Transform, float, float, float, float);
