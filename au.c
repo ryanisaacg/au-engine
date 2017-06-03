@@ -10,6 +10,7 @@ AU_Engine *au_init(char* title, int w, int h) {
 	AU_Engine* engine = au_memory_alloc(sizeof(AU_Engine));
 	engine->ctx = au_context_init_stack(title, w, h);
 	engine->fps = 60;
+	engine->should_continue = true;
 	return engine;
 }
 
@@ -25,6 +26,14 @@ AU_Texture au_load_texture(AU_Engine* eng, char* name) {
 
 void au_begin(AU_Engine* eng) {
 	au_context_clear(&(eng->ctx));
+	SDL_Event e;
+	while(SDL_PollEvent(&e)) {
+		switch(e.type) {
+		case SDL_QUIT:
+			eng->should_continue = false;
+			break;
+		}
+	}
 }
 
 void au_end(AU_Engine* eng) {

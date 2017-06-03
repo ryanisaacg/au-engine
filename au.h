@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdbool.h>
+
 #include "context.h"
 
 typedef struct {
@@ -9,6 +11,7 @@ typedef struct {
 typedef struct {
 	AU_Context ctx;
 	int fps;
+	bool should_continue;
 } AU_Engine;
 
 //Intialize the engine with a window title, width, and height
