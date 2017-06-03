@@ -6,7 +6,7 @@
 
 #include "memory.h"
 
-AU_Engine *au_init(char* title, int w, int h) {
+AU_Engine* au_init(char* title, int w, int h) {
 	AU_Engine* engine = au_memory_alloc(sizeof(AU_Engine));
 	engine->ctx = au_context_init_stack(title, w, h);
 	engine->fps = 60;
@@ -16,22 +16,24 @@ AU_Engine *au_init(char* title, int w, int h) {
 
 AU_Texture au_load_texture(AU_Engine* eng, char* name) {
 	GPU_Image* image = GPU_LoadImage(name);
-	if(image == NULL) {
+	if (image == NULL) {
 		fprintf(stderr, "Failed to load image with filename %s", name);
 		exit(1);
 	}
 	int id = au_context_register_texture(&(eng->ctx), image);
-	return (AU_Texture) { id, image->w, image->h };
+	return (AU_Texture) {
+		id, image->w, image->h
+	};
 }
 
 void au_begin(AU_Engine* eng) {
 	au_context_clear(&(eng->ctx));
 	SDL_Event e;
-	while(SDL_PollEvent(&e)) {
-		switch(e.type) {
-		case SDL_QUIT:
-			eng->should_continue = false;
-			break;
+	while (SDL_PollEvent(&e)) {
+		switch (e.type) {
+			case SDL_QUIT:
+				eng->should_continue = false;
+				break;
 		}
 	}
 }
@@ -48,10 +50,18 @@ void au_draw_texture(AU_Engine* eng, AU_Texture tex, float x, float y, float w, 
 void au_draw_texture_transform(AU_Engine* eng, AU_Texture tex, AU_Transform trans, float x, float y, float w, float h) {
 	AU_Context* ctx = &(eng->ctx);
 
-	AU_Vector tl = au_geom_transform(trans, (AU_Vector) { 0, 0 });
-	AU_Vector tr = au_geom_transform(trans, (AU_Vector) { w, 0 });
-	AU_Vector br = au_geom_transform(trans, (AU_Vector) { w, h });
-	AU_Vector bl = au_geom_transform(trans, (AU_Vector) { 0, h });
+	AU_Vector tl = au_geom_transform(trans, (AU_Vector) {
+		0, 0
+	});
+	AU_Vector tr = au_geom_transform(trans, (AU_Vector) {
+		w, 0
+	});
+	AU_Vector br = au_geom_transform(trans, (AU_Vector) {
+		w, h
+	});
+	AU_Vector bl = au_geom_transform(trans, (AU_Vector) {
+		0, h
+	});
 
 	int tl_index = au_context_add_vertex(ctx, tex.id, tl.x + x, tl.y + y, 0, 0, 1, 1, 1, 1);
 	int tr_index = au_context_add_vertex(ctx, tex.id, tr.x + x, tr.y + y, 1, 0, 1, 1, 1, 1);

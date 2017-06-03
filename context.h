@@ -9,11 +9,11 @@ typedef struct {
 	int vertex_count, vertex_capacity;
 	//The vertex buffer, tightly packed
 	//(x, y, s, t, r, g, b, a) per vertex
-	float *vertices;
+	float* vertices;
 	//The number of indices and the capacity for indices before realloc
 	int index_count, index_capacity;
 	//The index buffer (each trio of indices forms a triangle)
-	unsigned short int *indices;
+	unsigned short int* indices;
 } AU_BatchEntry;
 
 /*
@@ -44,7 +44,7 @@ void au_context_free(AU_Context*);
 int au_context_register_texture(AU_Context*, GPU_Image*);
 //Add a single vertex into the context and return the index of that vertex
 int au_context_add_vertex(AU_Context*, int texture,
-		float x, float y, float texX, float texY, float r, float g, float b, float a);
+						  float x, float y, float texX, float texY, float r, float g, float b, float a);
 //Add a single index into the context
 void au_context_add_index(AU_Context*, int texture, int vertexID);
 //Clears all of the stuff from the previous draw call

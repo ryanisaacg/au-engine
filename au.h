@@ -16,7 +16,7 @@ typedef struct {
 } AU_Engine;
 
 //Intialize the engine with a window title, width, and height
-AU_Engine *au_init(char*, int, int);
+AU_Engine* au_init(char*, int, int);
 //Load a texture from a file with a given name
 AU_Texture au_load_texture(AU_Engine*, char*);
 //Start drawing a frame

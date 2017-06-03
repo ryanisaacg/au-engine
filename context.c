@@ -21,7 +21,7 @@ AU_Context* au_context_init(char* title, int w, int h) {
 }
 
 void au_context_quit(AU_Context* ctx) {
-	for(int i = 0; i < ctx->tex_capacity; i++) {
+	for (int i = 0; i < ctx->tex_capacity; i++) {
 		free(ctx->image_buffer[i].vertices);
 		free(ctx->image_buffer[i].indices);
 	}
@@ -35,7 +35,7 @@ void au_context_free(AU_Context* ctx) {
 }
 
 int au_context_register_texture(AU_Context* ctx, GPU_Image* img) {
-	if(ctx->tex_count >= ctx->tex_capacity) {
+	if (ctx->tex_count >= ctx->tex_capacity) {
 		ctx->tex_capacity *= 2;
 		ctx->image_buffer = au_memory_realloc(ctx->image_buffer, sizeof(AU_BatchEntry) * ctx->tex_capacity);
 	}
@@ -52,10 +52,10 @@ int au_context_register_texture(AU_Context* ctx, GPU_Image* img) {
 }
 
 int au_context_add_vertex(AU_Context* ctx, int texture,
-		float x, float y, float texX, float texY, float r, float g, float b, float a) {
+						  float x, float y, float texX, float texY, float r, float g, float b, float a) {
 	AU_BatchEntry* ent = ctx->image_buffer + texture;
 	//Reallocate if necessary
-	if(ent->vertex_count >= ent->vertex_capacity) {
+	if (ent->vertex_count >= ent->vertex_capacity) {
 		ent->vertex_capacity *= 2;
 		ent->vertices = au_memory_realloc(ent->vertices, sizeof(float) * ent->vertex_capacity);
 	}
@@ -69,7 +69,7 @@ int au_context_add_vertex(AU_Context* ctx, int texture,
 void au_context_add_index(AU_Context* ctx, int texture, int vertexID) {
 	AU_BatchEntry* ent = ctx->image_buffer + texture;
 	//Reallocate if necessary
-	if(ent->index_count >= ent->index_capacity) {
+	if (ent->index_count >= ent->index_capacity) {
 		ent->index_capacity *= 2;
 		ent->indices = au_memory_realloc(ent->indices, sizeof(int) * ent->index_capacity);
 	}
@@ -78,7 +78,7 @@ void au_context_add_index(AU_Context* ctx, int texture, int vertexID) {
 }
 
 void au_context_clear(AU_Context* ctx) {
-	for(int i = 0; i < ctx->tex_count; i++) {
+	for (int i = 0; i < ctx->tex_count; i++) {
 		ctx->image_buffer[i].vertex_count = 0;
 		ctx->image_buffer[i].index_count = 0;
 	}
@@ -86,7 +86,7 @@ void au_context_clear(AU_Context* ctx) {
 }
 
 void au_context_present(AU_Context* ctx) {
-	for(int i = 0; i < ctx->tex_count; i++) {
+	for (int i = 0; i < ctx->tex_count; i++) {
 		AU_BatchEntry* ent = ctx->image_buffer + i;
 		GPU_TriangleBatch(&(ent->image), &(ctx->target), ent->vertex_count, ent->vertices, ent->index_count, ent->indices, GPU_BATCH_XY_ST_RGBA);
 	}
