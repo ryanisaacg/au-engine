@@ -27,7 +27,7 @@ typedef struct {
 	//The capacity of the textures without reallocation
 	int tex_capacity;
 	//A buffer of different image buckets
-	AU_Context_BatchEntry* image_buffer;
+	AU_BatchEntry* image_buffer;
 } AU_Context;
 
 //Public facing functions:
