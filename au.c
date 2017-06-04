@@ -15,6 +15,11 @@ AU_Engine* au_init(char* title, int w, int h) {
 	return engine;
 }
 
+void au_quit(AU_Engine* eng) {
+	au_context_quit(&(eng->ctx));
+	free(eng);
+}
+
 AU_Texture au_load_texture(AU_Engine* eng, char* name) {
 	GPU_Image* image = GPU_LoadImage(name);
 	if (image == NULL) {
