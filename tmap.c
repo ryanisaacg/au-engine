@@ -3,6 +3,8 @@
 #include <math.h>
 #include <stdlib.h>
 
+#include "memory.h"
+
 #define VALID (x >= 0 && y >= 0 && x < AU_TL_WIDTH(map) && y < AU_TL_HEIGHT(map))
 
 inline static int tl_index(AU_Tilemap map, int x, int y) {
