@@ -23,12 +23,17 @@ AU_Tilemap au_tmap_init(int width, int height, int tl_width, int tl_height) {
 }
 
 AU_Tile au_tmap_get (AU_Tilemap map, float x, float y) {
-	if(VALID) return map[tl_index(map, x, y)];
-	else return -1;
+	if (VALID) {
+		return map[tl_index(map, x, y)];
+	} else {
+		return -1;
+	}
 }
 
 void tl_set (AU_Tilemap map, int x, int y, AU_Tile val) {
-	if(VALID) map[tl_index(map, x, y)] = val;
+	if (VALID) {
+		map[tl_index(map, x, y)] = val;
+	}
 }
 
 AU_Tile au_tmap_first (AU_Tilemap map, float x, float y, float w, float h) {
@@ -36,13 +41,15 @@ AU_Tile au_tmap_first (AU_Tilemap map, float x, float y, float w, float h) {
 	int top = (int)floor(y / AU_TL_TILE_HEIGHT(map));
 	int right = (int)ceil((x + w) / AU_TL_TILE_WIDTH(map));
 	int bottom = (int)ceil((y + h) / AU_TL_TILE_HEIGHT(map));
-	if(left < 0 || top < 0 || right > AU_TL_WIDTH(map) / AU_TL_TILE_WIDTH(map) || bottom > AU_TL_HEIGHT(map) / AU_TL_TILE_HEIGHT(map))
+	if (left < 0 || top < 0 || right > AU_TL_WIDTH(map) / AU_TL_TILE_WIDTH(map) || bottom > AU_TL_HEIGHT(map) / AU_TL_TILE_HEIGHT(map)) {
 		return -1;
-	for(int i = left; i <= right; i++) {
-		for(int j = top; j <= bottom; j++) {
+	}
+	for (int i = left; i <= right; i++) {
+		for (int j = top; j <= bottom; j++) {
 			int index = i * AU_TL_TILE_HEIGHT(map) + j + 4;
-			if(map[index])
+			if (map[index]) {
 				return map[index];
+			}
 		}
 	}
 	return 0;
@@ -53,10 +60,13 @@ AU_Tile au_tmap_first_rect(AU_Tilemap m, AU_Rectangle r) {
 }
 
 AU_Vector au_tmap_slide(AU_Tilemap m, AU_Rectangle r, AU_Vector v) {
-	while(au_geom_len2(v) >= 1) {
-		if(!au_tmap_first(m, r.x + v.x, r.y + v.y, r.width, r.height))
+	while (au_geom_len2(v) >= 1) {
+		if (!au_tmap_first(m, r.x + v.x, r.y + v.y, r.width, r.height)) {
 			return v;
+		}
 		v = au_geom_scl(v, 0.75f);
 	}
-	return (AU_Vector){0, 0};
+	return (AU_Vector) {
+		0, 0
+	};
 }
