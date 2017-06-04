@@ -21,7 +21,7 @@ AU_Context* au_context_init(char* title, int w, int h) {
 }
 
 void au_context_quit(AU_Context* ctx) {
-	for (int i = 0; i < ctx->tex_capacity; i++) {
+	for (int i = 0; i < ctx->tex_count; i++) {
 		free(ctx->image_buffer[i].vertices);
 		free(ctx->image_buffer[i].indices);
 	}
