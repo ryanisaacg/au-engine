@@ -2,25 +2,37 @@
 
 #include <math.h>
 
-AU_Vector au_geom_scl(AU_Vector vec, float scl) {
+AU_Vector au_geom_vec_add(AU_Vector a, AU_Vector b) {
+	return (AU_Vector) {
+		a.x + b.x, a.y + b.y
+	};
+}
+
+AU_Vector au_geom_vec_sub(AU_Vector a, AU_Vector b) {
+	return (AU_Vector) {
+		a.x - b.x, a.y - b.y
+	};
+}
+
+AU_Vector au_geom_vec_scl(AU_Vector vec, float scl) {
 	return (AU_Vector) {
 		vec.x* scl, vec.y* scl
 	};
 }
 
-AU_Vector au_geom_nor(AU_Vector vec) {
-	float len = au_geom_len(vec);
+AU_Vector au_geom_vec_nor(AU_Vector vec) {
+	float len = au_geom_vec_len(vec);
 	return (AU_Vector) {
 		vec.x / len, vec.y / len
 	};
 }
 
-float au_geom_len2(AU_Vector vec) {
+float au_geom_vec_len2(AU_Vector vec) {
 	return vec.x * vec.x + vec.y * vec.y;
 }
 
-float au_geom_len(AU_Vector vec) {
-	return sqrt(au_geom_len2(vec));
+float au_geom_vec_len(AU_Vector vec) {
+	return sqrt(au_geom_vec_len2(vec));
 }
 
 AU_Transform au_geom_identity() {
@@ -126,5 +138,5 @@ bool au_geom_rect_contains(AU_Rectangle r, AU_Vector v) {
 
 bool au_geom_circ_contains(AU_Circle c, AU_Vector v) {
 	AU_Vector dist = { v.x - c.x, v.y - c.y };
-	return au_geom_len2(dist) < c.radius * c.radius;
+	return au_geom_vec_len2(dist) < c.radius * c.radius;
 }

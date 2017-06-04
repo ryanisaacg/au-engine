@@ -7,14 +7,18 @@ typedef struct {
 	float x, y;
 } AU_Vector;
 
+//Add two vectors
+AU_Vector au_geom_vec_add(AU_Vector, AU_Vector);
+//Subtract two vectors
+AU_Vector au_geom_vec_sub(AU_Vector, AU_Vector);
 //Scale a vector by a scalar
-AU_Vector au_geom_scl(AU_Vector, float);
+AU_Vector au_geom_vec_scl(AU_Vector, float);
 //Normalize a vector to a length of one
-AU_Vector au_geom_nor(AU_Vector);
+AU_Vector au_geom_vec_nor(AU_Vector);
 //Get the squared length of a vector
-float au_geom_len2(AU_Vector);
+float au_geom_vec_len2(AU_Vector);
 //Get the length of a vector
-float au_geom_len(AU_Vector);
+float au_geom_vec_len(AU_Vector);
 
 
 //A 3x3 matrix indexed by [row][col]
