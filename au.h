@@ -5,6 +5,8 @@
 #include "context.h"
 #include "geom.h"
 
+#define SDL_NUM_KEYS 284
+
 typedef struct {
 	int id, width, height;
 } AU_Texture;
@@ -13,6 +15,8 @@ typedef struct {
 	AU_Context ctx;
 	int fps;
 	bool should_continue;
+	bool current_keys[SDL_NUM_KEYS]; //The total number of SDL keys
+	bool previous_keys[SDL_NUM_KEYS];
 } AU_Engine;
 
 //Intialize the engine with a window title, width, and height
