@@ -2,6 +2,8 @@
 
 #include <math.h>
 
+#include "util.h"
+
 AU_Vector au_geom_vec_add(AU_Vector a, AU_Vector b) {
 	return (AU_Vector) {
 		a.x + b.x, a.y + b.y
@@ -12,6 +14,16 @@ AU_Vector au_geom_vec_sub(AU_Vector a, AU_Vector b) {
 	return (AU_Vector) {
 		a.x - b.x, a.y - b.y
 	};
+}
+
+AU_Vector au_geom_vec_cmp_clamp(AU_Vector vec, float lower, float higher) {
+	return (AU_Vector) {
+		au_util_clamp(vec.x, lower, higher), au_util_clamp(vec.y, lower, higher)
+	};
+}
+
+AU_Vector au_geom_vec_len_clamp(AU_Vector vec, float lower, float higher) {
+	return au_geom_vec_set_len(vec, au_util_clamp(au_geom_vec_len(vec), lower, higher));
 }
 
 AU_Vector au_geom_vec_scl(AU_Vector vec, float scl) {
@@ -25,6 +37,10 @@ AU_Vector au_geom_vec_nor(AU_Vector vec) {
 	return (AU_Vector) {
 		vec.x / len, vec.y / len
 	};
+}
+
+AU_Vector au_geom_vec_set_len(AU_Vector vec, float len) {
+	return au_geom_vec_scl(au_geom_vec_nor(vec), len);
 }
 
 float au_geom_vec_len2(AU_Vector vec) {

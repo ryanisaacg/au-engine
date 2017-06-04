@@ -1,6 +1,6 @@
 #pragma once
 
 
-float au_util_clamp(float n, float lower, float higher) {
+static inline float au_util_clamp(float n, float lower, float upper) {
 	return n <= lower ? lower : n >= upper ? upper : n;
 }

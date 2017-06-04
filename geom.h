@@ -11,10 +11,16 @@ typedef struct {
 AU_Vector au_geom_vec_add(AU_Vector, AU_Vector);
 //Subtract two vectors
 AU_Vector au_geom_vec_sub(AU_Vector, AU_Vector);
+//Clamp a vector by component
+AU_Vector au_geom_vec_cmp_clamp(AU_Vector, float lower, float higher);
+//Clamp a veector by length
+AU_Vector au_geom_vec_len_clamp(AU_Vector, float lower, float higher);
 //Scale a vector by a scalar
 AU_Vector au_geom_vec_scl(AU_Vector, float);
 //Normalize a vector to a length of one
 AU_Vector au_geom_vec_nor(AU_Vector);
+//Set the length of a vector
+AU_Vector au_geom_vec_set_len(AU_Vector, float);
 //Get the squared length of a vector
 float au_geom_vec_len2(AU_Vector);
 //Get the length of a vector
