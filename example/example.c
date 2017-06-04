@@ -16,6 +16,10 @@ int main()
 			x += 2;
 		if(eng->current_keys[SDL_SCANCODE_LEFT])
 			x -= 2;
+		if(eng->mouse_left) {
+			x = eng->mouse_x;
+			y = eng->mouse_y;
+		}
 		au_draw_texture(eng, img, x, y, 32, 32);
 		au_end(eng);
 	}
