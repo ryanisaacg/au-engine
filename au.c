@@ -44,6 +44,10 @@ void au_begin(AU_Engine* eng) {
 				break;
 		}
 	}
+	int button_mask = SDL_GetMouseState(&(eng->mouse_x), &(eng->mouse_y));
+	eng->mouse_left = button_mask & SDL_BUTTON(SDL_BUTTON_LEFT);
+	eng->mouse_right = button_mask & SDL_BUTTON(SDL_BUTTON_RIGHT);
+	eng->mouse_middle = button_mask & SDL_BUTTON(SDL_BUTTON_MIDDLE);
 }
 
 void au_end(AU_Engine* eng) {

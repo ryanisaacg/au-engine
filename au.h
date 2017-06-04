@@ -17,6 +17,8 @@ typedef struct {
 	bool should_continue;
 	bool current_keys[SDL_NUM_KEYS]; //The total number of SDL keys
 	bool previous_keys[SDL_NUM_KEYS];
+	int mouse_x, mouse_y;
+	bool mouse_left, mouse_right, mouse_middle;
 } AU_Engine;
 
 //Intialize the engine with a window title, width, and height
