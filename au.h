@@ -4,6 +4,7 @@
 
 #include "context.h"
 #include "geom.h"
+#include "util.h"
 
 #define SDL_NUM_KEYS 284
 
