@@ -12,7 +12,7 @@ inline static int tl_index(AU_Tilemap map, int x, int y) {
 }
 
 AU_Tilemap au_tmap_init(int width, int height, int tl_width, int tl_height) {
-	AU_Tile* buffer = calloc(4 + width / tl_width * height / tl_height, sizeof(AU_Tile));
+	AU_Tile* buffer = au_memory_calloc(4 + width / tl_width * height / tl_height, sizeof(AU_Tile));
 	AU_TL_WIDTH(buffer) = width;
 	AU_TL_HEIGHT(buffer) = height;
 	AU_TL_TILE_WIDTH(buffer) = tl_width;
