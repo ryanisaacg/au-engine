@@ -60,12 +60,12 @@ AU_Tile au_tmap_first_rect(AU_Tilemap m, AU_Rectangle r) {
 }
 
 AU_Vector au_tmap_slide(AU_Tilemap m, AU_Rectangle r, AU_Vector v) {
-	while (au_geom_vec_len2(v) >= 1) {
+	do {
 		if (!au_tmap_first(m, r.x + v.x, r.y + v.y, r.width, r.height)) {
 			return v;
 		}
 		v = au_geom_vec_scl(v, 0.75f);
-	}
+	} while (au_geom_vec_len2(v) >= 1);
 	return (AU_Vector) {
 		0, 0
 	};
