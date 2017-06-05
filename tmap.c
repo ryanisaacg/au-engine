@@ -11,7 +11,7 @@
 inline static int tl_index(AU_Tilemap map, int x, int y) {
 	x /= AU_TL_TILE_WIDTH(map);
 	y /= AU_TL_TILE_HEIGHT(map);
-	return x * AU_TL_TILE_HEIGHT(map) + y + 4;
+	return x * AU_TL_HEIGHT(map) / AU_TL_TILE_HEIGHT(map) + y + 4;
 }
 
 AU_Tilemap au_tmap_init(int width, int height, int tl_width, int tl_height) {
