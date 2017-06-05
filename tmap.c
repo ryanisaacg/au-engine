@@ -31,7 +31,7 @@ AU_Tile au_tmap_get (AU_Tilemap map, float x, float y) {
 	}
 }
 
-void tl_set (AU_Tilemap map, int x, int y, AU_Tile val) {
+void au_tmap_set (AU_Tilemap map, float x, float y, AU_Tile val) {
 	if (VALID) {
 		map[tl_index(map, x, y)] = val;
 	}
