@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #include "memory.h"
+#include "util.h"
 
 #define VALID (x >= 0 && y >= 0 && x < AU_TL_WIDTH(map) && y < AU_TL_HEIGHT(map))
 
@@ -60,13 +61,25 @@ AU_Tile au_tmap_first_rect(AU_Tilemap m, AU_Rectangle r) {
 }
 
 AU_Vector au_tmap_slide(AU_Tilemap m, AU_Rectangle r, AU_Vector v) {
-	do {
-		if (!au_tmap_first(m, r.x + v.x, r.y + v.y, r.width, r.height)) {
-			return v;
+	if (!au_tmap_first(m, r.x + v.x, r.y + v.y, r.width, r.height)) {
+		return v;
+	} else {
+		float xsgn = copysignf(v.x, v.x);
+		float ysgn = copysignf(v.y, v.y);
+		while (au_tmap_first(m, r.x + v.x, r.y, r.width, r.height)) {
+			if(fabs(v.x) < 1) {
+				v.x = 0;
+				break;
+			}
+			v.x -= xsgn;
 		}
-		v = au_geom_vec_scl(v, 0.75f);
-	} while (au_geom_vec_len2(v) >= 1);
-	return (AU_Vector) {
-		0, 0
-	};
+		while (au_tmap_first(m, r.x , r.y + v.y, r.width, r.height)) {
+			if(fabs(v.y) >= 1) {
+				v.y = 0;
+				break;
+			}
+			v.y -= ysgn;
+		}
+		return v;
+	}
 }
