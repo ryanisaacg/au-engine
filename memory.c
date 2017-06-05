@@ -13,7 +13,7 @@ void* au_memory_alloc(size_t length) {
 }
 
 void* au_memory_calloc(size_t num, size_t length) {
-	void* buf = au_memory_calloc(num, length);
+	void* buf = calloc(num, length);
 	if (buf == NULL) {
 		fprintf(stderr, "Memory allocation failed\n");
 		exit(EXIT_FAILURE);
