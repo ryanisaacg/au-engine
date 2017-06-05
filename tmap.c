@@ -67,14 +67,14 @@ AU_Vector au_tmap_slide(AU_Tilemap m, AU_Rectangle r, AU_Vector v) {
 		return v;
 	} else {
 		while (au_tmap_first(m, r.x + v.x, r.y, r.width, r.height)) {
-			if(fabs(v.x) < 0.1f) {
+			if (fabs(v.x) < 0.1f) {
 				v.x = 0;
 				break;
 			}
 			v.x *= 0.5f;
 		}
-		while (au_tmap_first(m, r.x + v.x , r.y + v.y, r.width, r.height)) {
-			if(fabs(v.y) < 0.1f) {
+		while (au_tmap_first(m, r.x + v.x, r.y + v.y, r.width, r.height)) {
+			if (fabs(v.y) < 0.1f) {
 				v.y = 0;
 				break;
 			}
