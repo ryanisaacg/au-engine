@@ -74,7 +74,7 @@ AU_Vector au_tmap_slide(AU_Tilemap m, AU_Rectangle r, AU_Vector v) {
 			v.x -= xsgn;
 		}
 		while (au_tmap_first(m, r.x , r.y + v.y, r.width, r.height)) {
-			if(fabs(v.y) >= 1) {
+			if(fabs(v.y) < 1) {
 				v.y = 0;
 				break;
 			}
