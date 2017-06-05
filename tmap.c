@@ -42,7 +42,8 @@ AU_Tile au_tmap_first (AU_Tilemap map, float x, float y, float w, float h) {
 	int top = (int)floor(y / AU_TL_TILE_HEIGHT(map));
 	int right = (int)floor((x + w) / AU_TL_TILE_WIDTH(map));
 	int bottom = (int)floor((y + h) / AU_TL_TILE_HEIGHT(map));
-	if (left < 0 || top < 0 || right > AU_TL_WIDTH(map) / AU_TL_TILE_WIDTH(map) || bottom > AU_TL_HEIGHT(map) / AU_TL_TILE_HEIGHT(map)) {
+	if (left < 0 || top < 0 || right > AU_TL_WIDTH(map) / AU_TL_TILE_WIDTH(map)
+			|| bottom > AU_TL_HEIGHT(map) / AU_TL_TILE_HEIGHT(map)) {
 		return -1;
 	}
 	for (int i = left; i <= right; i++) {

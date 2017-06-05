@@ -88,7 +88,8 @@ void au_context_clear(AU_Context* ctx) {
 void au_context_present(AU_Context* ctx) {
 	for (int i = 0; i < ctx->tex_count; i++) {
 		AU_BatchEntry* ent = ctx->image_buffer + i;
-		GPU_TriangleBatch(&(ent->image), &(ctx->target), ent->vertex_count, ent->vertices, ent->index_count, ent->indices, GPU_BATCH_XY_ST_RGBA);
+		GPU_TriangleBatch(&(ent->image), &(ctx->target), ent->vertex_count, ent->vertices, ent->index_count, ent->indices,
+						  GPU_BATCH_XY_ST_RGBA);
 	}
 	GPU_Flip(&(ctx->target));
 }
