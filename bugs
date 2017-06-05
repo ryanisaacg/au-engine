@@ -1,3 +1,0 @@
-After a certain number of reallocs (at least 1) the application crashes
-
-Overwriting the heap is causing corruption

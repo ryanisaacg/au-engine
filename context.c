@@ -43,7 +43,7 @@ int au_context_register_texture(AU_Context* ctx, GPU_Image* img) {
 	ent->image = *img;
 	ent->vertex_capacity = 1024;
 	ent->vertex_count = 0;
-	ent->vertices = au_memory_alloc(sizeof(float) * ent->vertex_capacity);
+	ent->vertices = au_memory_alloc(sizeof(float) * ent->vertex_capacity * 8);
 	ent->index_capacity = 64;
 	ent->index_count = 0;
 	ent->indices = au_memory_alloc(sizeof(int) * ent->index_capacity);
@@ -57,7 +57,7 @@ int au_context_add_vertex(AU_Context* ctx, int texture,
 	//Reallocate if necessary
 	if (ent->vertex_count >= ent->vertex_capacity) {
 		ent->vertex_capacity *= 2;
-		ent->vertices = au_memory_realloc(ent->vertices, sizeof(float) * ent->vertex_capacity);
+		ent->vertices = au_memory_realloc(ent->vertices, sizeof(float) * ent->vertex_capacity * 8);
 	}
 	//Pack parameters into an array and copy it to the main buffer
 	float vertex[] = {x, y, texX, texY, r, g, b, a};
