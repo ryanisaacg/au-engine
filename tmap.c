@@ -40,14 +40,14 @@ void au_tmap_set (AU_Tilemap map, float x, float y, AU_Tile val) {
 AU_Tile au_tmap_first (AU_Tilemap map, float x, float y, float w, float h) {
 	int left = (int)floor(x / AU_TL_TILE_WIDTH(map));
 	int top = (int)floor(y / AU_TL_TILE_HEIGHT(map));
-	int right = (int)ceil((x + w) / AU_TL_TILE_WIDTH(map));
-	int bottom = (int)ceil((y + h) / AU_TL_TILE_HEIGHT(map));
+	int right = (int)floor((x + w) / AU_TL_TILE_WIDTH(map));
+	int bottom = (int)floor((y + h) / AU_TL_TILE_HEIGHT(map));
 	if (left < 0 || top < 0 || right > AU_TL_WIDTH(map) / AU_TL_TILE_WIDTH(map) || bottom > AU_TL_HEIGHT(map) / AU_TL_TILE_HEIGHT(map)) {
 		return -1;
 	}
 	for (int i = left; i <= right; i++) {
 		for (int j = top; j <= bottom; j++) {
-			int index = i * AU_TL_TILE_HEIGHT(map) + j + 4;
+			int index = i * AU_TL_HEIGHT(map) / AU_TL_TILE_HEIGHT(map) + j + 4;
 			if (map[index]) {
 				return map[index];
 			}
