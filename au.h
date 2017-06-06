@@ -35,5 +35,7 @@ void au_begin(AU_Engine*);
 void au_end(AU_Engine*);
 //Draw a texture to a given area (x, y, width, height)
 void au_draw_texture(AU_Engine*, AU_Texture, float, float, float, float);
+//Draw a texture to a given rectangle
+void au_draw_texture_rect(AU_Engine*, AU_Texture, AU_Rectangle);
 //Draw a texture to a given area with a given transformation and origin (x, y) and dimensions (width, height)
 void au_draw_texture_transform(AU_Engine*, AU_Texture, AU_Transform, float, float, float, float);

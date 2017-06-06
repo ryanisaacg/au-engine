@@ -64,6 +64,10 @@ void au_draw_texture(AU_Engine* eng, AU_Texture tex, float x, float y, float w, 
 	au_draw_texture_transform(eng, tex, au_geom_identity(), x, y, w, h);
 }
 
+void au_draw_texture_rect(AU_Engine* eng, AU_Texture tex, AU_Rectangle rect) {
+	au_draw_texture(eng, tex, rect.x, rect.y, rect.width, rect.height);
+}
+
 void au_draw_texture_transform(AU_Engine* eng, AU_Texture tex, AU_Transform trans, float x, float y, float w, float h) {
 	AU_Context* ctx = &(eng->ctx);
 
