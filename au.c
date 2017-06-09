@@ -6,14 +6,6 @@
 
 #include "memory.h"
 
-AU_TextureRegion au_get_region(AU_Texture tex) {
-	return (AU_TextureRegion) {
-		tex, (AU_Rectangle) {
-			0, 0, tex.width, tex.height
-		}
-	};
-}
-
 AU_Engine* au_init(char* title, int w, int h) {
 	AU_Engine* engine = au_memory_alloc(sizeof(AU_Engine));
 	engine->ctx = au_context_init_stack(title, w, h);

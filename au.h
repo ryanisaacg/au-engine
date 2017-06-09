@@ -4,22 +4,11 @@
 
 #include "context.h"
 #include "geom.h"
+#include "tex.h"
 #include "tmap.h"
 #include "util.h"
 
 #define SDL_NUM_KEYS 284
-
-typedef struct {
-	int id, width, height;
-} AU_Texture;
-
-typedef struct {
-	AU_Texture source;
-	AU_Rectangle rect;
-} AU_TextureRegion;
-
-//Turns the entire texture into a texture region
-AU_TextureRegion au_get_region(AU_Texture);
 
 typedef struct {
 	AU_Context ctx;
