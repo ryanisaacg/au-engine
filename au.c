@@ -6,6 +6,14 @@
 
 #include "memory.h"
 
+AU_TextureRegion au_get_region(AU_Texture tex) {
+	return (AU_TextureRegion) {
+		tex, (AU_Rectangle) {
+			0, 0, tex.width, tex.height
+		}
+	};
+}
+
 AU_Engine* au_init(char* title, int w, int h) {
 	AU_Engine* engine = au_memory_alloc(sizeof(AU_Engine));
 	engine->ctx = au_context_init_stack(title, w, h);
@@ -60,17 +68,19 @@ void au_end(AU_Engine* eng) {
 	SDL_Delay(1000 / eng->fps);
 }
 
-void au_draw_texture(AU_Engine* eng, AU_Texture tex, float x, float y, float w, float h) {
+void au_draw_texture(AU_Engine* eng, AU_TextureRegion tex, float x, float y, float w, float h) {
 	au_draw_texture_transform(eng, tex, au_geom_identity(), x, y, w, h);
 }
 
-void au_draw_texture_rect(AU_Engine* eng, AU_Texture tex, AU_Rectangle rect) {
+void au_draw_texture_rect(AU_Engine* eng, AU_TextureRegion tex, AU_Rectangle rect) {
 	au_draw_texture(eng, tex, rect.x, rect.y, rect.width, rect.height);
 }
 
-void au_draw_texture_transform(AU_Engine* eng, AU_Texture tex, AU_Transform trans, float x, float y, float w, float h) {
+void au_draw_texture_transform(AU_Engine* eng, AU_TextureRegion tex, AU_Transform trans, float x, float y, float w,
+							   float h) {
 	AU_Context* ctx = &(eng->ctx);
 
+	//Calculate the destination points with the transformation
 	AU_Vector tl = au_geom_transform(trans, (AU_Vector) {
 		0, 0
 	});
@@ -84,16 +94,32 @@ void au_draw_texture_transform(AU_Engine* eng, AU_Texture tex, AU_Transform tran
 		0, h
 	});
 
-	int tl_index = au_context_add_vertex(ctx, tex.id, tl.x + x, tl.y + y, 0, 0, 1, 1, 1, 1);
-	int tr_index = au_context_add_vertex(ctx, tex.id, tr.x + x, tr.y + y, 1, 0, 1, 1, 1, 1);
-	int br_index = au_context_add_vertex(ctx, tex.id, br.x + x, br.y + y, 1, 1, 1, 1, 1, 1);
-	int bl_index = au_context_add_vertex(ctx, tex.id, bl.x + x, br.y + y, 0, 1, 1, 1, 1, 1);
+	//Calculate the source points normalized to [0, 1]
+	//The conversion factor for normalizing vectors
+	float conv_factor_x = 1 / tex.rect.width;
+	float conv_factor_y = 1 / tex.rect.height;
+	float norm_x = tex.rect.x * conv_factor_x;
+	float norm_y = tex.rect.y * conv_factor_y;
+	float norm_w = tex.rect.width * conv_factor_x;
+	float norm_h = tex.rect.height * conv_factor_y;
+	AU_Vector src_tl = { norm_x, norm_y };
+	AU_Vector src_tr = { norm_x + norm_w, norm_y };
+	AU_Vector src_br = { norm_x + norm_w, norm_y + norm_h };
+	AU_Vector src_bl = { norm_x, norm_y + norm_h };
 
-	au_context_add_index(ctx, tex.id, tl_index);
-	au_context_add_index(ctx, tex.id, tr_index);
-	au_context_add_index(ctx, tex.id, br_index);
+	//Add all of the vertices to the context
+	int id = tex.source.id;
+	int tl_index = au_context_add_vertex(ctx, id, tl.x + x, tl.y + y, src_tl.x, src_tl.y, 1, 1, 1, 1);
+	int tr_index = au_context_add_vertex(ctx, id, tr.x + x, tr.y + y, src_tr.x, src_tr.y, 1, 1, 1, 1);
+	int br_index = au_context_add_vertex(ctx, id, br.x + x, br.y + y, src_br.x, src_br.y, 1, 1, 1, 1);
+	int bl_index = au_context_add_vertex(ctx, id, bl.x + x, bl.y + y, src_bl.x, src_bl.y, 1, 1, 1, 1);
 
-	au_context_add_index(ctx, tex.id, br_index);
-	au_context_add_index(ctx, tex.id, bl_index);
-	au_context_add_index(ctx, tex.id, tl_index);
+	//Create the first triangle for the quad
+	au_context_add_index(ctx, id, tl_index);
+	au_context_add_index(ctx, id, tr_index);
+	au_context_add_index(ctx, id, br_index);
+	//Create the second triangle for the quad
+	au_context_add_index(ctx, id, br_index);
+	au_context_add_index(ctx, id, bl_index);
+	au_context_add_index(ctx, id, tl_index);
 }

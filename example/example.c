@@ -20,7 +20,7 @@ int main()
 			x = eng->mouse_x;
 			y = eng->mouse_y;
 		}
-		au_draw_texture(eng, img, x, y, 32, 32);
+		au_draw_texture(eng, au_get_region(img), x, y, 32, 32);
 		au_end(eng);
 	}
 }
