@@ -7,6 +7,7 @@
 
 typedef struct {
 	AU_TextureRegion characters[FONT_MAX_CHARS];
+	int height;
 } AU_Font;
 
 //Recursive dependency- must come after type declaration

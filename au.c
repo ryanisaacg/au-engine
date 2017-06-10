@@ -153,13 +153,28 @@ void au_draw_texture_blend(AU_Engine* eng, AU_TextureRegion tex, AU_Color color,
 
 }
 
+int au_draw_char(AU_Engine* eng, AU_Font* font, char c, float x, float y) {
+	AU_TextureRegion renderChar = au_font_get_char(font, c);
+	au_draw_texture(eng, renderChar, position + x, y, renderChar.source.width, renderChar.source.height);
+	return renderChar.source.width;
+}
+
 void au_draw_string(AU_Engine* eng, AU_Font* font, const char* str, float x, float y) {
 	char c;
 	int position = 0;
 	//Loop from the beginning to end of the string
 	while ((c = *str) != '\0') {
-		AU_TextureRegion renderChar = au_font_get_char(font, c);
-		au_draw_texture(eng, renderChar, position + x, y, renderChar.source.width, renderChar.source.height);
-		position += renderChar.source.width;
+		if(c == '\t') {
+			for(int i = 0; i < 4; i++) {
+				au_draw_char(eng, font, ' ', x, y);
+			}
+		} else if(c == '\n') {
+			y += font->height;
+		} else if(c == '\r') {
+			//just ignore CR characters
+		} else {
+			position += au_draw_char(eng, font, c, x, y);
+		}
+		str++;
 	}
 }

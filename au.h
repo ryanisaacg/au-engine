@@ -46,5 +46,7 @@ void au_draw_texture_ex(AU_Engine*, AU_TextureRegion, AU_Color, float x, float y
 						float or_x, float or_y, float scale_x, float scale_y);
 //Recursive dependency- must be included after declarations
 #include "text.h"
+//Draw a single character to the screen (returns the width of the character)
+int au_draw_char(AU_Engine*, AU_Font*, char, float x, float y);
 //Draw text to the screen
 void au_draw_string(AU_Engine*, AU_Font*, const char*, float x, float y);

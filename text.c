@@ -49,6 +49,7 @@ AU_Font* au_font_init(AU_Engine* eng, TTF_Font* font, AU_Color col) {
 		position += characters[i]->w;
 		SDL_FreeSurface(characters[i]);
 	}
+	fnt->height = height;
 	return fnt;
 }
 
