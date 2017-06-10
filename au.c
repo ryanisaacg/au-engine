@@ -70,10 +70,18 @@ void au_draw_texture_rect(AU_Engine* eng, AU_TextureRegion tex, AU_Rectangle rec
 
 void au_draw_texture_transform(AU_Engine* eng, AU_TextureRegion tex, AU_Transform trans, float x, float y, float w,
 							   float h) {
-	au_draw_texture_blend(eng, tex, trans, (AU_Color) { 1, 1, 1, 1}, x, y, w, h);
+	au_draw_texture_blend(eng, tex, (AU_Color) { 1, 1, 1, 1}, trans, x, y, w, h);
 }
 
-void au_draw_texture_blend(AU_Engine* eng, AU_TextureRegion tex, AU_Transform trans, AU_Color color, float x, float y, float w, float h) {
+void au_draw_texture_ex(AU_Engine* eng, AU_TextureRegion tex, AU_Color color, float x, float y, float w, float h, float rot, float or_x, float or_y, float scale_x, float scale_y) {
+	AU_Transform trans = au_geom_identity();
+	trans = au_geom_transform_concat(trans, au_geom_transform_rotate(rot));
+	trans = au_geom_transform_concat(trans, au_geom_transform_scale(scale_x, scale_y));
+	trans = au_geom_transform_concat(trans, au_geom_transform_translate(x, y));
+	au_draw_texture_blend(eng, tex, color, trans, or_x, or_y, w, h);
+}
+
+void au_draw_texture_blend(AU_Engine* eng, AU_TextureRegion tex, AU_Color color, AU_Transform trans, float x, float y, float w, float h) {
 	AU_Context* ctx = &(eng->ctx);
 
 	//Calculate the destination points with the transformation
