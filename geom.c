@@ -75,7 +75,7 @@ AU_Vector au_geom_transform(AU_Transform matrix, AU_Vector vector) {
 	};
 }
 
-AU_Transform au_geom_trasnform_concat(AU_Transform a, AU_Transform b) {
+AU_Transform au_geom_transform_concat(AU_Transform a, AU_Transform b) {
 	AU_Transform c = a;
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
