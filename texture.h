@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SDL2/SDL.h>
+
 #include "geom.h"
 
 typedef struct {
@@ -17,3 +19,5 @@ typedef struct {
 
 //Turns the entire texture into a texture region
 AU_TextureRegion au_tex_region(AU_Texture);
+//Turn an AU_Color into an SDL_Color
+SDL_Color au_color_to_sdl(AU_Color c);

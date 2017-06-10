@@ -6,7 +6,6 @@
 #include "context.h"
 #include "geom.h"
 #include "texture.h"
-#include "text.h"
 #include "tmap.h"
 #include "util.h"
 
@@ -20,9 +19,6 @@ typedef struct {
 	bool previous_keys[SDL_NUM_KEYS];
 	int mouse_x, mouse_y;
 	bool mouse_left, mouse_right, mouse_middle;
-	AU_TextCache *cache;
-	AU_Font **fonts;
-	size_t font_count, font_capacity;
 } AU_Engine;
 
 //Intialize the engine with a window title, width, and height
@@ -31,8 +27,8 @@ AU_Engine* au_init(char*, int, int);
 void au_quit(AU_Engine*);
 //Load a texture from a file with a given name
 AU_Texture au_load_texture(AU_Engine*, const char*);
-//Load a font from a file
-AU_Font* au_load_font(AU_Engine*, const char* filename, int size);
+//Load a texture from a surface
+AU_Texture au_load_texture_from_surface(AU_Engine*, SDL_Surface*);
 //Start drawing a frame
 void au_begin(AU_Engine*);
 //Stop drawing a frame
@@ -48,5 +44,7 @@ void au_draw_texture_blend(AU_Engine*, AU_TextureRegion, AU_Color, AU_Transform,
 //Draw a texture without a precalculated transform
 void au_draw_texture_ex(AU_Engine*, AU_TextureRegion, AU_Color, float x, float y, float w, float h, float rot,
 						float or_x, float or_y, float scale_x, float scale_y);
+//Recursive dependency- must be included after declarations
+#include "text.h"
 //Draw text to the screen
-void au_draw_string(AU_Engine*, AU_Font*, const char*, AU_Color, float x, float y);
+void au_draw_string(AU_Engine*, AU_Font*, const char*, float x, float y);

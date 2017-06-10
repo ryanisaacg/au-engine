@@ -1,62 +1,62 @@
 #include "text.h"
 
-#include <SDL2/SDL_ttf.h>
-#include <string.h>
-
 #include "memory.h"
 
-unsigned long au_text_hash(const char* str) {
-	unsigned long hash = 5381;
-	int len = strlen(str);
-	for (int i = 0; i < len; i++) {
-		hash = ((hash << 5) + hash) + i;
-	}
-	return hash;
+static int get_index(char c) {
+	return c - 32;
 }
 
-AU_TextRenderEntry au_text_render(AU_Font* font, const char* text, AU_Color color) {
-	SDL_Color c = { (int)(color.r * 255), (int)(color.g * 255), (int)(color.b * 255), (int)(color.a * 255) };
-	SDL_Surface* rendered = TTF_RenderUTF8_Solid(font, text, c);
-	return (AU_TextRenderEntry) { text, rendered };
+static char get_char(int index) {
+	return index + 32;
 }
 
-AU_TextCache* au_text_cache_init() {
-	AU_TextCache* cache = au_memory_alloc(sizeof(AU_TextCache));
-	cache->entry_count = 0;
-	cache->entry_capacity = 128;
-	cache->entries = au_memory_calloc(cache->entry_capacity, sizeof(AU_TextRenderEntry));
-	return cache;
-}
-
-static int probe_index(AU_TextCache* cache, const char* key) {
-	unsigned long hash = au_text_hash(key);
-	int index = hash % cache->entry_capacity;
-	while(cache->entries[index].text != NULL) 
-		index++;
-	return index;
-}
-
-void au_text_cache_add(AU_TextCache* cache, AU_TextRenderEntry entry) {
-	if(cache->entry_count >= cache->entry_capacity) {
-		int old_capacity = cache->entry_capacity;
-		cache->entry_capacity *= 2;
-		AU_TextRenderEntry* prev = cache->entries;
-		cache->entries = au_memory_calloc(cache->entry_capacity, sizeof(AU_TextRenderEntry));
-		for(int i = 0; i < old_capacity; i++) {
-			if(prev[i].text != NULL) 
-				au_text_cache_add(cache, prev[i]);
+AU_Font* au_font_init(AU_Engine* eng, TTF_Font* font, AU_Color col) {
+	SDL_Color color = au_color_to_sdl(col);
+	char buffer[2]; //A small cstring for single-digits
+	buffer[1] = '\0';
+	SDL_Surface* characters[FONT_MAX_CHARS];
+	int total_width = 0;
+	int height = 0;
+	//Render each ASCII character to a surface
+	for (int i = 0; i < FONT_MAX_CHARS; i++) {
+		buffer[0] = get_char(i);
+		characters[i] = TTF_RenderText_Solid(font, buffer, color);
+		total_width += characters[i]->w;
+		if (characters[i]->h > height) {
+			height = characters[i]->h;
 		}
 	}
-	cache->entry_count++;
-	int i = probe_index(cache, entry.text);
-	cache->entries[i] = entry;
+	//Blit all of the characters to a large surface
+	SDL_Surface* full = SDL_CreateRGBSurface(0, total_width, height, 32, 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
+	int position = 0;
+	for (int i = 0; i < FONT_MAX_CHARS; i++) {
+		SDL_Rect dest = {position, 0, 0, 0};
+		SDL_BlitSurface(characters[i], NULL, full, &dest);
+		position += characters[i]->w;
+	}
+	//Load the surface into a texture
+	AU_Texture texture = au_load_texture_from_surface(eng, full);
+	SDL_FreeSurface(full);
+	//Add reference to the texture for each character
+	AU_Font* fnt = au_memory_alloc(sizeof(AU_Font));
+	position = 0;
+	for (int i = 0; i < FONT_MAX_CHARS; i++) {
+		fnt->characters[i] = (AU_TextureRegion) {
+			texture, (AU_Rectangle) {
+				position, 0, characters[i]->w, characters[i]->h
+			}
+		};
+		position += characters[i]->w;
+		SDL_FreeSurface(characters[i]);
+	}
+	return fnt;
 }
 
-SDL_Surface* au_text_cache_get(AU_TextCache* cache, const char* key) {
-	return cache->entries[probe_index(cache, key)].surface;
+AU_TextureRegion au_font_get_char(const AU_Font* font, char c) {
+	int index = get_index(c);
+	return font->characters[index];
 }
 
-void au_text_cache_destroy(AU_TextCache* cache) {
-	free(cache->entries);
-	free(cache);
+void au_font_destroy(AU_Font* font) {
+	free(font);
 }

@@ -13,19 +13,16 @@ AU_Engine* au_init(char* title, int w, int h) {
 	engine->should_continue = true;
 	memset(engine->current_keys, 0, sizeof(bool) * SDL_NUM_KEYS);
 
-	TTF_Init();
-	engine->fonts = au_memory_alloc(sizeof(AU_Font*) * 8);
-	engine->font_count = 0;
-	engine->font_capacity = 8;
-	engine->cache = au_text_cache_init();
+	TTF_Init(); //initialize the SDL font subsystem
 
 	return engine;
 }
 
 void au_quit(AU_Engine* eng) {
 	au_context_quit(&(eng->ctx));
-	free(eng->fonts);
-	au_text_cache_destroy(eng->cache);
+
+	TTF_Quit(); //Destroy the SDL font subsystem
+
 	free(eng);
 }
 
@@ -41,19 +38,16 @@ AU_Texture au_load_texture(AU_Engine* eng, const char* name) {
 	};
 }
 
-AU_Font* au_load_font(AU_Engine* eng, const char* filename, int size) {
-	AU_Font* font = TTF_OpenFont(filename, size);
-	if(font == NULL) {
-		fprintf(stderr, "Failed to load font with filename %s", filename);
+AU_Texture au_load_texture_from_surface(AU_Engine* eng, SDL_Surface* sur) {
+	GPU_Image* image = GPU_CopyImageFromSurface(sur);
+	if (image == NULL) {
+		fprintf(stderr, "Failed to load image from surface");
 		exit(1);
 	}
-	if(eng->font_count >= eng->font_capacity) {
-		eng->font_capacity *= 2;
-		eng->fonts = au_memory_realloc(eng->fonts, sizeof(AU_Font*) * eng->font_capacity);
-	}
-	eng->fonts[eng->font_count] = font;
-	eng->font_count++;
-	return font;
+	int id = au_context_register_texture(&(eng->ctx), image);
+	return (AU_Texture) {
+		id, image->w, image->h
+	};
 }
 
 void au_begin(AU_Engine* eng) {
@@ -159,12 +153,13 @@ void au_draw_texture_blend(AU_Engine* eng, AU_TextureRegion tex, AU_Color color,
 
 }
 
-void au_draw_string(AU_Engine* eng, AU_Font* font, const char* string, AU_Color color, float x, float y) {
-	SDL_Surface* sur = au_text_cache_get(eng->cache, string);
-	if(sur == NULL) {
-		AU_TextRenderEntry render = au_text_render(font, string, color);
-		au_text_cache_add(eng->cache, render);
-		sur = render.surface;
+void au_draw_string(AU_Engine* eng, AU_Font* font, const char* str, float x, float y) {
+	char c;
+	int position = 0;
+	//Loop from the beginning to end of the string
+	while ((c = *str) != '\0') {
+		AU_TextureRegion renderChar = au_font_get_char(font, c);
+		au_draw_texture(eng, renderChar, position + x, y, renderChar.source.width, renderChar.source.height);
+		position += renderChar.source.width;
 	}
-
 }
