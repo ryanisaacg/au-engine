@@ -83,12 +83,10 @@ void au_draw_texture_blend(AU_Engine* eng, AU_TextureRegion tex, AU_Transform tr
 	AU_Vector tr = au_geom_transform(trans, (AU_Vector) {
 		w, 0
 	});
-	AU_Vector br = au_geom_transform(trans, (AU_Vector) {
-		w, h
-	});
 	AU_Vector bl = au_geom_transform(trans, (AU_Vector) {
 		0, h
 	});
+	AU_Vector br = au_geom_vec_add(tr, bl);	
 
 	//Calculate the source points normalized to [0, 1]
 	//The conversion factor for normalizing vectors
