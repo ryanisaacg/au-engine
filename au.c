@@ -14,7 +14,9 @@ AU_Engine* au_init(char* title, int w, int h) {
 	memset(engine->current_keys, 0, sizeof(bool) * SDL_NUM_KEYS);
 
 	TTF_Init();
-	engine->font = NULL;
+	engine->fonts = au_memory_alloc(sizeof(AU_Font*) * 8);
+	engine->font_count = 0;
+	engine->font_capacity = 8;
 	engine->cache = au_text_cache_init();
 
 	return engine;
@@ -22,10 +24,12 @@ AU_Engine* au_init(char* title, int w, int h) {
 
 void au_quit(AU_Engine* eng) {
 	au_context_quit(&(eng->ctx));
+	free(eng->fonts);
+	au_text_cache_destroy(engine->cache);
 	free(eng);
 }
 
-AU_Texture au_load_texture(AU_Engine* eng, char* name) {
+AU_Texture au_load_texture(AU_Engine* eng, const char* name) {
 	GPU_Image* image = GPU_LoadImage(name);
 	if (image == NULL) {
 		fprintf(stderr, "Failed to load image with filename %s", name);
@@ -35,6 +39,21 @@ AU_Texture au_load_texture(AU_Engine* eng, char* name) {
 	return (AU_Texture) {
 		id, image->w, image->h
 	};
+}
+
+AU_Font* au_load_font(AU_Engine* eng, const char* filename, int size) {
+	AU_Font* font = TTF_OpenFont(filename, size);
+	if(font == NULL) {
+		fprintf(stderr, "Failed to load font with filename %s", filename);
+		exit(1);
+	}
+	if(eng->font_count >= eng->font_capacity) {
+		eng->font_capacity *= 2;
+		eng->fonts = au_memory_realloc(sizeof(AU_Font*) * eng->font_capacity);
+	}
+	eng->fonts[eng->font_count] = font;
+	eng->font_count++;
+	return font;
 }
 
 void au_begin(AU_Engine* eng) {
@@ -137,5 +156,15 @@ void au_draw_texture_blend(AU_Engine* eng, AU_TextureRegion tex, AU_Color color,
 	au_context_add_index(ctx, id, br_index);
 	au_context_add_index(ctx, id, bl_index);
 	au_context_add_index(ctx, id, tl_index);
+
+}
+
+void au_draw_string(AU_Engine* eng, AU_Font* font, const char* string, AU_Color color, float x, float y) {
+	SDL_Surface* sur = au_text_cache_get(eng->cache, string);
+	if(sur == NULL) {
+		AU_TextRenderEntry render = au_text_render(font, string, color);
+		au_text_cache_add(eng->cache, render);
+		sur = render.surface;
+	}
 
 }

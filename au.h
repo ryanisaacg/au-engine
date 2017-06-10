@@ -21,6 +21,8 @@ typedef struct {
 	int mouse_x, mouse_y;
 	bool mouse_left, mouse_right, mouse_middle;
 	AU_TextCache *cache;
+	AU_Font **fonts;
+	size_t font_count, font_capacity;
 } AU_Engine;
 
 //Intialize the engine with a window title, width, and height
@@ -28,9 +30,9 @@ AU_Engine* au_init(char*, int, int);
 //Quit the engine and free the memory
 void au_quit(AU_Engine*);
 //Load a texture from a file with a given name
-AU_Texture au_load_texture(AU_Engine*, char*);
+AU_Texture au_load_texture(AU_Engine*, const char*);
 //Load a font from a file
-AU_Font *au_load_font(const char* filename);
+AU_Font* au_load_font(AU_Engine*, const char* filename, int size);
 //Start drawing a frame
 void au_begin(AU_Engine*);
 //Stop drawing a frame

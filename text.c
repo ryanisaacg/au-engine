@@ -37,7 +37,7 @@ static int probe_index(AU_TextCache* cache, const char* key) {
 }
 
 void au_text_cache_add(AU_TextCache* cache, AU_TextRenderEntry entry) {
-	if(cache->entry_count * 2 < cache->entry_capacity) {
+	if(cache->entry_count >= cache->entry_capacity) {
 		int old_capacity = cache->entry_capacity;
 		cache->entry_capacity *= 2;
 		AU_TextRenderEntry* prev = cache->entries;
@@ -47,6 +47,7 @@ void au_text_cache_add(AU_TextCache* cache, AU_TextRenderEntry entry) {
 				au_text_cache_add(cache, prev[i]);
 		}
 	}
+	cache->entry_count++;
 	int i = probe_index(cache, entry.text);
 	cache->entries[i] = entry;
 }
