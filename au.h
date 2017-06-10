@@ -5,7 +5,7 @@
 
 #include "context.h"
 #include "geom.h"
-#include "tex.h"
+#include "texture.h"
 #include "text.h"
 #include "tmap.h"
 #include "util.h"

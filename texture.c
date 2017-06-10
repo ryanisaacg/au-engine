@@ -1,4 +1,4 @@
-#include "tex.h"
+#include "texture.h"
 
 AU_TextureRegion au_tex_region(AU_Texture tex) {
 	return (AU_TextureRegion) {

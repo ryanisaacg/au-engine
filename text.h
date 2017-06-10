@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 
-#include "tex.h"
+#include "texture.h"
 
 typedef TTF_Font AU_Font;
 

@@ -25,7 +25,7 @@ AU_Engine* au_init(char* title, int w, int h) {
 void au_quit(AU_Engine* eng) {
 	au_context_quit(&(eng->ctx));
 	free(eng->fonts);
-	au_text_cache_destroy(engine->cache);
+	au_text_cache_destroy(eng->cache);
 	free(eng);
 }
 
@@ -49,7 +49,7 @@ AU_Font* au_load_font(AU_Engine* eng, const char* filename, int size) {
 	}
 	if(eng->font_count >= eng->font_capacity) {
 		eng->font_capacity *= 2;
-		eng->fonts = au_memory_realloc(sizeof(AU_Font*) * eng->font_capacity);
+		eng->fonts = au_memory_realloc(eng->fonts, sizeof(AU_Font*) * eng->font_capacity);
 	}
 	eng->fonts[eng->font_count] = font;
 	eng->font_count++;
