@@ -12,6 +12,11 @@ AU_Engine* au_init(char* title, int w, int h) {
 	engine->fps = 60;
 	engine->should_continue = true;
 	memset(engine->current_keys, 0, sizeof(bool) * SDL_NUM_KEYS);
+
+	TTF_Init();
+	engine->font = NULL;
+	engine->cache = au_text_cache_init();
+
 	return engine;
 }
 
