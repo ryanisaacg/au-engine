@@ -1,10 +1,13 @@
 #pragma once
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+
+#include "tex.h"
 
 typedef struct {
 	const char* text;
-	SDL_Surface surface;
+	SDL_Surface* surface;
 } AU_TextRenderEntry;
 
 typedef struct {
@@ -13,3 +16,4 @@ typedef struct {
 } AU_TextCache;
 
 unsigned long au_text_hash(const char* str);
+AU_TextRenderEntry au_text_render(TTF_Font* font, const char* text, AU_Color color);
