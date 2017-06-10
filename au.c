@@ -70,6 +70,10 @@ void au_draw_texture_rect(AU_Engine* eng, AU_TextureRegion tex, AU_Rectangle rec
 
 void au_draw_texture_transform(AU_Engine* eng, AU_TextureRegion tex, AU_Transform trans, float x, float y, float w,
 							   float h) {
+	au_draw_texture_blend(eng, tex, trans, (AU_Color) { 1, 1, 1, 1}, x, y, w, h);
+}
+
+void au_draw_texture_blend(AU_Engine* eng, AU_TextureRegion tex, AU_Transform trans, AU_Color color, float x, float y, float w, float h) {
 	AU_Context* ctx = &(eng->ctx);
 
 	//Calculate the destination points with the transformation
@@ -101,10 +105,10 @@ void au_draw_texture_transform(AU_Engine* eng, AU_TextureRegion tex, AU_Transfor
 
 	//Add all of the vertices to the context
 	int id = tex.source.id;
-	int tl_index = au_context_add_vertex(ctx, id, tl.x + x, tl.y + y, src_tl.x, src_tl.y, 1, 1, 1, 1);
-	int tr_index = au_context_add_vertex(ctx, id, tr.x + x, tr.y + y, src_tr.x, src_tr.y, 1, 1, 1, 1);
-	int br_index = au_context_add_vertex(ctx, id, br.x + x, br.y + y, src_br.x, src_br.y, 1, 1, 1, 1);
-	int bl_index = au_context_add_vertex(ctx, id, bl.x + x, bl.y + y, src_bl.x, src_bl.y, 1, 1, 1, 1);
+	int tl_index = au_context_add_vertex(ctx, id, tl.x + x, tl.y + y, src_tl.x, src_tl.y, color.r, color.g, color.b, color.a);
+	int tr_index = au_context_add_vertex(ctx, id, tr.x + x, tr.y + y, src_tr.x, src_tr.y, color.r, color.g, color.b, color.a);
+	int br_index = au_context_add_vertex(ctx, id, br.x + x, br.y + y, src_br.x, src_br.y, color.r, color.g, color.b, color.a);
+	int bl_index = au_context_add_vertex(ctx, id, bl.x + x, bl.y + y, src_bl.x, src_bl.y, color.r, color.g, color.b, color.a);
 
 	//Create the first triangle for the quad
 	au_context_add_index(ctx, id, tl_index);
@@ -114,4 +118,5 @@ void au_draw_texture_transform(AU_Engine* eng, AU_TextureRegion tex, AU_Transfor
 	au_context_add_index(ctx, id, br_index);
 	au_context_add_index(ctx, id, bl_index);
 	au_context_add_index(ctx, id, tl_index);
+
 }
