@@ -153,6 +153,13 @@ void au_draw_texture_blend(AU_Engine* eng, AU_TextureRegion tex, AU_Color color,
 
 }
 
+AU_Font* au_load_font(AU_Engine* eng, int size, AU_Color col, const char* filename) {
+	TTF_Font* font = TTF_OpenFont(filename, size);
+	AU_Font* bitmap_font = au_font_init(eng, font, col);
+	TTF_CloseFont(font);
+	return bitmap_font;
+}
+
 int au_draw_char(AU_Engine* eng, AU_Font* font, char c, float x, float y) {
 	AU_TextureRegion renderChar = au_font_get_char(font, c);
 	au_draw_texture(eng, renderChar, x, y, renderChar.source.width, renderChar.source.height);
