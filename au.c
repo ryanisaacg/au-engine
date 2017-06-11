@@ -177,14 +177,14 @@ void au_draw_string(AU_Engine* eng, AU_Font* font, const char* str, float x, flo
 	while ((c = *str) != '\0') {
 		if(c == '\t') {
 			for(int i = 0; i < 4; i++) {
-				au_draw_char(eng, font, ' ', x, y);
+				position += au_draw_char(eng, font, ' ', position + x, y);
 			}
 		} else if(c == '\n') {
 			y += font->height;
 		} else if(c == '\r') {
 			//just ignore CR characters
 		} else {
-			position += au_draw_char(eng, font, c, x, y);
+			position += au_draw_char(eng, font, c, position + x, y);
 		}
 		str++;
 	}
