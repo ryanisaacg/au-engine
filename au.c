@@ -167,7 +167,7 @@ AU_Font* au_load_font(AU_Engine* eng, int size, AU_Color col, const char* filena
 int au_draw_char(AU_Engine* eng, AU_Font* font, char c, float x, float y) {
 	AU_TextureRegion renderChar = au_font_get_char(font, c);
 	au_draw_texture(eng, renderChar, x, y);
-	return renderChar.source.width;
+	return renderChar.rect.width;
 }
 
 void au_draw_string(AU_Engine* eng, AU_Font* font, const char* str, float x, float y) {
