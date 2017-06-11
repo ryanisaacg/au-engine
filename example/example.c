@@ -5,7 +5,7 @@ int main()
 {
 	AU_Engine *eng = au_init("TEST WINDOW", 800, 600);
 	AU_Texture img = au_load_texture(eng, "../example/img.png");
-	AU_Font* font = au_load_font(eng, 14, (AU_Color) { 1, 1, 1, 1}, "../example/example.ttf");
+	AU_Font* font = au_load_font(eng, 14, AU_WHITE, "../example/example.ttf");
 	float x = 0, y = 0;
 	while(eng->should_continue) {
 		au_begin(eng);
