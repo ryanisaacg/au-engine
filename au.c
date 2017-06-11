@@ -155,7 +155,7 @@ void au_draw_texture_blend(AU_Engine* eng, AU_TextureRegion tex, AU_Color color,
 
 int au_draw_char(AU_Engine* eng, AU_Font* font, char c, float x, float y) {
 	AU_TextureRegion renderChar = au_font_get_char(font, c);
-	au_draw_texture(eng, renderChar, position + x, y, renderChar.source.width, renderChar.source.height);
+	au_draw_texture(eng, renderChar, x, y, renderChar.source.width, renderChar.source.height);
 	return renderChar.source.width;
 }
 
