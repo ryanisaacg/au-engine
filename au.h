@@ -33,8 +33,10 @@ AU_Texture au_load_texture_from_surface(AU_Engine*, SDL_Surface*);
 void au_begin(AU_Engine*);
 //Stop drawing a frame
 void au_end(AU_Engine*);
+//Draw a texture region with its natural size (x, y)
+void au_draw_texture(AU_Engine*, AU_TextureRegion, float, float);
 //Draw a texture region to a given area (x, y, width, height)
-void au_draw_texture(AU_Engine*, AU_TextureRegion, float, float, float, float);
+void au_draw_texture_sized(AU_Engine*, AU_TextureRegion, float, float, float, float);
 //Draw a texture region to a given rectangle
 void au_draw_texture_rect(AU_Engine*, AU_TextureRegion, AU_Rectangle);
 //Draw a texture region to a given area with a given transformation and origin (x, y) and dimensions (width, height)

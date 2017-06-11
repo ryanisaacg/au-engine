@@ -78,12 +78,16 @@ void au_end(AU_Engine* eng) {
 	SDL_Delay(1000 / eng->fps);
 }
 
-void au_draw_texture(AU_Engine* eng, AU_TextureRegion tex, float x, float y, float w, float h) {
+void au_draw_texture(AU_Engine* eng, AU_TextureRegion tex, float x, float y) {
+	au_draw_texture_sized(eng, tex, x, y, tex.rect.width, tex.rect.height);
+}
+
+void au_draw_texture_sized(AU_Engine* eng, AU_TextureRegion tex, float x, float y, float w, float h) {
 	au_draw_texture_transform(eng, tex, au_geom_identity(), x, y, w, h);
 }
 
 void au_draw_texture_rect(AU_Engine* eng, AU_TextureRegion tex, AU_Rectangle rect) {
-	au_draw_texture(eng, tex, rect.x, rect.y, rect.width, rect.height);
+	au_draw_texture_sized(eng, tex, rect.x, rect.y, rect.width, rect.height);
 }
 
 void au_draw_texture_transform(AU_Engine* eng, AU_TextureRegion tex, AU_Transform trans, float x, float y, float w,
@@ -162,7 +166,7 @@ AU_Font* au_load_font(AU_Engine* eng, int size, AU_Color col, const char* filena
 
 int au_draw_char(AU_Engine* eng, AU_Font* font, char c, float x, float y) {
 	AU_TextureRegion renderChar = au_font_get_char(font, c);
-	au_draw_texture(eng, renderChar, x, y, renderChar.source.width, renderChar.source.height);
+	au_draw_texture(eng, renderChar, x, y);
 	return renderChar.source.width;
 }
 
