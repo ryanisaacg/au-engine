@@ -120,8 +120,8 @@ void au_draw_texture_blend(AU_Engine* eng, AU_TextureRegion tex, AU_Color color,
 
 	//Calculate the source points normalized to [0, 1]
 	//The conversion factor for normalizing vectors
-	float conv_factor_x = 1 / tex.rect.width;
-	float conv_factor_y = 1 / tex.rect.height;
+	float conv_factor_x = 1.0f / tex.source.width;
+	float conv_factor_y = 1.0f / tex.source.height;
 	float norm_x = tex.rect.x * conv_factor_x;
 	float norm_y = tex.rect.y * conv_factor_y;
 	float norm_w = tex.rect.width * conv_factor_x;
