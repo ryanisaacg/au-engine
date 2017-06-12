@@ -10,7 +10,7 @@ typedef struct {
 typedef struct {
 	AU_AnimationFrame* frames;
 	int current_frame, time_elapsed;
-	size_t num_frames, frame_capacity;
+	size_t frame_count, frame_capacity;
 } AU_Animation;
 
 //Instantiate an animation

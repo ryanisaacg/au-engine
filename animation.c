@@ -13,14 +13,14 @@ AU_Animation au_anim_new(AU_TextureRegion region, int delay) {
 	anim.frame_capacity = 16;
 	anim.frame_count = 1;
 	anim.time_elapsed = 0;
-	anim.current_time = 0;
+	anim.current_frame= 0;
 	return anim;
 }
 
 void au_anim_add_frame(AU_Animation* anim, AU_TextureRegion image, int delay) {
 	if (anim->frame_count >= anim->frame_capacity) {
 		anim->frame_capacity *= 2;
-		anim->frames = au_memory_realloc(sizeof(AU_TextureRegion) * anim->frame_capacity);
+		anim->frames = au_memory_realloc(anim->frames, sizeof(AU_TextureRegion) * anim->frame_capacity);
 	}
 	anim->frames[anim->frame_count] = (AU_AnimationFrame) {
 		image, delay
@@ -32,7 +32,7 @@ void au_anim_update(AU_Animation* anim) {
 	anim->time_elapsed++;
 	if (anim->time_elapsed >= anim->frames[anim->current_frame].frame_delay) {
 		anim->time_elapsed = 0;
-		anim->current_frame = (anim_current_frame + 1) % anim->frame_count;
+		anim->current_frame = (anim->current_frame + 1) % anim->frame_count;
 	}
 
 }
@@ -57,9 +57,9 @@ AU_AnimationManager au_anim_manager_new() {
 int au_anim_manager_register(AU_AnimationManager* manager, AU_Animation* anim) {
 	if (manager->anim_count >= manager->anim_capacity) {
 		manager->anim_capacity *= 2;
-		manager->animations = au_memory_realloc(sizeof(AU_Animation) * manager->anim_capacity);
+		manager->animations = au_memory_realloc(manager->animations, sizeof(AU_Animation) * manager->anim_capacity);
 	}
-	manager->animations[manager->anim_count] = anim;
+	manager->animations[manager->anim_count] = *anim;
 	int index = manager->anim_count;
 	manager->anim_count++;
 	return index;
@@ -87,7 +87,7 @@ AU_TextureRegion au_anim_manager_get_frame(AU_AnimationManager* manager) {
 
 void au_anim_manager_destroy(AU_AnimationManager manager) {
 	for (int i = 0; i < manager.anim_count; i++) {
-		au_anim_destroy(manager.animations + i);
+		au_anim_destroy(manager.animations[i]);
 	}
 	free(manager.animations);
 }
