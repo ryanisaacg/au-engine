@@ -106,7 +106,8 @@ void au_draw_texture_ex(AU_Engine* eng, AU_TextureRegion tex, AU_Color color, fl
 	au_draw_texture_blend(eng, tex, color, trans, or_x, or_y, w, h, flip_x, flip_y);
 }
 
-void au_draw_texture_blend(AU_Engine* eng, AU_TextureRegion tex, AU_Color color, AU_Transform trans, float x, float y, float w, float h, bool flip_x, bool flip_y) {
+void au_draw_texture_blend(AU_Engine* eng, AU_TextureRegion tex, AU_Color color, AU_Transform trans, float x, float y,
+						   float w, float h, bool flip_x, bool flip_y) {
 	AU_Context* ctx = &(eng->ctx);
 
 	//Calculate the destination points with the transformation
@@ -133,7 +134,7 @@ void au_draw_texture_blend(AU_Engine* eng, AU_TextureRegion tex, AU_Color color,
 	AU_Vector src_tr = { norm_x + norm_w, norm_y };
 	AU_Vector src_br = { norm_x + norm_w, norm_y + norm_h };
 	AU_Vector src_bl = { norm_x, norm_y + norm_h };
-	if(flip_x) {
+	if (flip_x) {
 		AU_Vector tmp = src_tr;
 		src_tr = src_tl;
 		src_tl = tmp;
@@ -141,7 +142,7 @@ void au_draw_texture_blend(AU_Engine* eng, AU_TextureRegion tex, AU_Color color,
 		src_br = src_bl;
 		src_bl = tmp;
 	}
-	if(flip_y) {
+	if (flip_y) {
 		AU_Vector tmp = src_tr;
 		src_tr = src_br;
 		src_br = tmp;
@@ -189,13 +190,13 @@ void au_draw_string(AU_Engine* eng, AU_Font* font, const char* str, float x, flo
 	int position = 0;
 	//Loop from the beginning to end of the string
 	while ((c = *str) != '\0') {
-		if(c == '\t') {
-			for(int i = 0; i < 4; i++) {
+		if (c == '\t') {
+			for (int i = 0; i < 4; i++) {
 				position += au_draw_char(eng, font, ' ', position + x, y);
 			}
-		} else if(c == '\n') {
+		} else if (c == '\n') {
 			y += font->height;
-		} else if(c == '\r') {
+		} else if (c == '\r') {
 			//just ignore CR characters
 		} else {
 			position += au_draw_char(eng, font, c, position + x, y);

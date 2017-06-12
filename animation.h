@@ -25,7 +25,7 @@ AU_TextureRegion au_anim_get_frame(AU_Animation*);
 void au_anim_destroy(AU_Animation);
 
 typedef struct {
-	AU_Animation *animations;
+	AU_Animation* animations;
 	size_t anim_count, anim_capacity;
 	int current_anim;
 } AU_AnimationManager;

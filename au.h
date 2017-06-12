@@ -43,7 +43,7 @@ void au_draw_texture_rect(AU_Engine*, AU_TextureRegion, AU_Rectangle);
 void au_draw_texture_transform(AU_Engine*, AU_TextureRegion, AU_Transform, float, float, float, float);
 //Draw a texture region blended with a texture
 void au_draw_texture_blend(AU_Engine*, AU_TextureRegion, AU_Color, AU_Transform, float, float, float, float,
-						bool flip_x, bool flip_y);
+						   bool flip_x, bool flip_y);
 //Draw a texture without a precalculated transform
 void au_draw_texture_ex(AU_Engine*, AU_TextureRegion, AU_Color, float x, float y, float w, float h, float rot,
 						float or_x, float or_y, float scale_x, float scale_y, bool flip_x, bool flip_y);

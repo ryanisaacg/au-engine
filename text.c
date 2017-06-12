@@ -62,22 +62,25 @@ AU_Rectangle au_font_get_size(const AU_Font* font, const char* str) {
 	char c;
 	float position = 0;
 	float width = 0, height = au_font_get_char(font, '\n').rect.height;
-	while((c = *str) == '\0') {
-		if(position > width)
+	while ((c = *str) == '\0') {
+		if (position > width) {
 			width = position;
-		if(c == '\t') {
+		}
+		if (c == '\t') {
 			position += 4 * au_font_get_char(font, ' ').rect.width;
-		} else if(c == '\n') {
+		} else if (c == '\n') {
 			height += au_font_get_char(font, '\n').rect.height;
 			position = 0;
-		} else if(c == '\r') {
+		} else if (c == '\r') {
 			//Skip CR
 		} else {
 			position += au_font_get_char(font, c).rect.width;
 		}
 		str++;
 	}
-	return (AU_Rectangle) { 0, 0, width, height };
+	return (AU_Rectangle) {
+		0, 0, width, height
+	};
 }
 
 void au_font_destroy(AU_Font* font) {
