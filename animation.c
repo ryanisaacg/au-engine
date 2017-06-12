@@ -1,5 +1,7 @@
 #include "animation.h"
 
+#include <stdio.h>
+
 #include "memory.h"
 
 AU_Animation au_anim_new(AU_TextureRegion region, int delay) {
@@ -38,3 +40,51 @@ AU_TextureRegion au_anim_get_frame(AU_Animation* anim) {
 void au_anim_destroy(AU_Animation anim) {
 	free(anim.frames);
 }
+
+AU_AnimationManager au_anim_manager_new() {
+	AU_AnimationManager manager;
+	manager.animations = au_memory_alloc(sizeof(AU_Animation) * 4);
+	manager.anim_count = 0;
+	manager.anim_capacity = 4;
+	manager.current_anim = -1;
+	return manager;
+}
+
+int au_anim_manager_register(AU_AnimationManager* manager, AU_Animation* anim) {
+	if(manager->anim_count >= manager->anim_capacity) {
+		manager->anim_capacity *= 2;
+		manager->animations = au_memory_realloc(sizeof(AU_Animation) * manager->anim_capacity);
+	}
+	manager->animations[manager->anim_count] = anim;
+	int index = manager->anim_count;
+	manager->anim_count++;
+	return index;
+}
+
+void au_anim_manager_switch(AU_AnimationManager* manager, int index) {
+	manager->current_anim = index;
+}
+
+void au_anim_manager_update(AU_AnimationManager* manager) {
+	if(manager->current_anim == -1) {
+		fprintf(stderr, "Tried to update an unset animation manager\n");
+		exit(1);
+	}
+	au_anim_update(manager->animations + manager->current_anim);
+}
+
+AU_TextureRegion au_anim_manager_get_frame(AU_AnimationManager* manager) {
+	if(manager->current_anim == -1) {
+		fprintf(stderr, "Tried to get a frame from an unset animation manager\n");
+		exit(1);
+	}
+	return au_anim_get_frame(manager->animations + manager->current_anim);
+}
+
+void au_anim_manager_destroy(AU_AnimationManager manager) {
+	for(int i = 0; i < manager.anim_count; i++) {
+		au_anim_destroy(manager.animations + i);
+	}
+	free(manager.animations);
+}
+
