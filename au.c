@@ -172,7 +172,8 @@ void au_draw_texture_blend(AU_Engine* eng, AU_TextureRegion tex, AU_Color color,
 }
 
 static void au_draw_sprite_transformed(AU_Engine* eng, AU_TextureRegion region, AU_SpriteTransform* trans) {
-	au_draw_texture_ex(eng, region, trans->color, trans->x, trans->y, trans->width, trans->height, trans->rotation, trans->origin_x, trans->origin_y, trans->scale_x, trans->scale_y, trans->flip_x, trans->flip_y);
+	au_draw_texture_ex(eng, region, trans->color, trans->x, trans->y, trans->width, trans->height, trans->rotation,
+					   trans->origin_x, trans->origin_y, trans->scale_x, trans->scale_y, trans->flip_x, trans->flip_y);
 }
 
 void au_draw_sprite(AU_Engine* eng, AU_Sprite* sprite) {
