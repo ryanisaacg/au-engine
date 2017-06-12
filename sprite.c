@@ -2,18 +2,7 @@
 
 AU_SpriteTransform au_sprite_transform_new() {
 	return (AU_SpriteTransform) {
-		.x = 0,
-		 .y = 0,
-		  .width = 0,
-		   .height = 0,
-			.rotation = 0,
-			 .origin_x = 0,
-			  .origin_y = 0,
-			   .scale_x = 1,
-				.scale_y = 1,
-				 .flip_x = false,
-				  .flip_y = false,
-				   .color = AU_WHITE,
+		0, 0, 0, 0, 0, 0, 0, 1, 1, false, false, AU_WHITE
 	};
 }
 
