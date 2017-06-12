@@ -86,7 +86,7 @@ AU_TextureRegion au_anim_manager_get_frame(AU_AnimationManager* manager) {
 }
 
 void au_anim_manager_destroy(AU_AnimationManager manager) {
-	for (int i = 0; i < manager.anim_count; i++) {
+	for (unsigned int i = 0; i < manager.anim_count; i++) {
 		au_anim_destroy(manager.animations[i]);
 	}
 	free(manager.animations);
