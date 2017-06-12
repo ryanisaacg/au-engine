@@ -5,6 +5,7 @@
 
 #include "context.h"
 #include "geom.h"
+#include "sprite.h"
 #include "texture.h"
 #include "tmap.h"
 #include "util.h"
@@ -47,6 +48,10 @@ void au_draw_texture_blend(AU_Engine*, AU_TextureRegion, AU_Color, AU_Transform,
 //Draw a texture without a precalculated transform
 void au_draw_texture_ex(AU_Engine*, AU_TextureRegion, AU_Color, float x, float y, float w, float h, float rot,
 						float or_x, float or_y, float scale_x, float scale_y, bool flip_x, bool flip_y);
+//Draw a sprite
+void au_draw_sprite(AU_Engine*, AU_Sprite*);
+//Draw an animated sprite
+void au_draw_sprite_animated(AU_Engine*, AU_AnimatedSprite*);
 //Recursive dependency- must be included after declarations
 #include "text.h"
 //Load a font with a given size and color from a file
