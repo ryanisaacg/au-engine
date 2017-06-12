@@ -188,6 +188,10 @@ void au_draw_sprite_animated(AU_Engine* eng, AU_AnimatedSprite* sprite) {
 
 AU_Font* au_load_font(AU_Engine* eng, int size, AU_Color col, const char* filename) {
 	TTF_Font* font = TTF_OpenFont(filename, size);
+	if (font == NULL) {
+		fprintf(stderr, "Font with filename %s not found\n", filename);
+		exit(1);
+	}
 	AU_Font* bitmap_font = au_font_init(eng, font, col);
 	TTF_CloseFont(font);
 	return bitmap_font;
