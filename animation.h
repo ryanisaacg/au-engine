@@ -15,6 +15,10 @@ typedef struct {
 
 //Instantiate an animation
 AU_Animation au_anim_new(AU_TextureRegion initial, int delay);
+//Create an animation with a constant time delay
+//Will copy the buffer to a new allocation
+//A zero-length buffer is undefined behavior
+AU_Animation au_anim_from_array(AU_TextureRegion* buffer, size_t length, int delay);
 //Append a frame to an animation
 void au_anim_add_frame(AU_Animation*, AU_TextureRegion, int delay);
 //Update the animation by a frame

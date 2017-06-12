@@ -6,7 +6,7 @@
 
 AU_Animation au_anim_new(AU_TextureRegion region, int delay) {
 	AU_Animation anim;
-	anim.frames = au_memory_alloc(sizeof(AU_TextureRegion) * 16);
+	anim.frames = au_memory_alloc(sizeof(AU_AnimationFrame) * 16);
 	anim.frames[0] = (AU_AnimationFrame) {
 		region, delay
 	};
@@ -14,6 +14,14 @@ AU_Animation au_anim_new(AU_TextureRegion region, int delay) {
 	anim.frame_count = 1;
 	anim.time_elapsed = 0;
 	anim.current_frame= 0;
+	return anim;
+}
+
+AU_Animation au_anim_from_array(AU_TextureRegion* buffer, size_t length, int delay) {
+	AU_Animation anim = au_anim_new(buffer[0], delay);
+	for(unsigned int i = 1; i < length; i++) {
+		au_anim_add_frame(&anim, buffer[i], delay);
+	}
 	return anim;
 }
 
