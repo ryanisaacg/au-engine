@@ -89,8 +89,8 @@ void au_end(AU_Engine* eng) {
 			i--;
 		} else {
 			AU_Sprite sprite = au_sprite_new(part->region);
-			sprite.x = part->position.x;
-			sprite.y = part->position.y;
+			sprite.transform.x = part->position.x;
+			sprite.transform.y = part->position.y;
 			au_draw_sprite(eng, &sprite);
 		}
 	}
