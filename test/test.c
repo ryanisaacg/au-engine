@@ -14,5 +14,8 @@ int main() {
 	ASSERT(au_geom_vec_eq(v1, au_geom_transform(trans, v1)), "identity 1");
 	ASSERT(au_geom_vec_eq(v2, au_geom_transform(trans, v2)), "identity 2");
 	ASSERT(au_geom_vec_eq(v3, au_geom_transform(trans, v3)), "identity 3");
+	trans = au_geom_transform_concat(trans, au_geom_transform_translate(2, -2));
+	AU_Vector v1_mov = { 3, 1 };
+	ASSERT(au_geom_vec_eq(v1_mov, au_geom_transform(trans, v1)), "movement 1");
 	printf("All tests run.\n");
 }
