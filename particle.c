@@ -13,7 +13,7 @@ void au_particle_update(AU_Particle* part) {
 AU_ParticleEmitter au_particle_emitter_new(AU_TextureRegion* possibleTextures, size_t num_textures) {
 	return (AU_ParticleEmitter) {
 		possibleTextures, num_textures, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, 0, 0, 0,
-						  0, 0, 0, 0, 0
+						  0, 0, 0, 0, 0, AU_MAP_IGNORE
 	};
 }
 
@@ -27,6 +27,7 @@ AU_Particle au_particle_emitter_emit(AU_ParticleEmitter* emit) {
 			 au_geom_vec_rand(emit->scale_velocity_min, emit->scale_velocity_max),
 			 au_util_randf_range(emit->rotation_min, emit->rotation_max),
 			 au_util_randf_range(emit->rotational_velocity_min, emit->rotational_velocity_max),
-			 au_util_randi_range(emit->lifetime_min, emit->lifetime_max)
+			 au_util_randi_range(emit->lifetime_min, emit->lifetime_max),
+			 emit->behavior
 	};
 }

@@ -4,11 +4,16 @@
 
 #include "texture.h"
 
+typedef enum {
+	AU_MAP_IGNORE, AU_MAP_DIE, AU_MAP_BOUNCE
+} AU_ParticleBehavior;
+
 typedef struct {
 	AU_TextureRegion region;
 	AU_Vector position, velocity, acceleration, scale, scale_velocity;
 	float rotation, rotational_velocity;
 	int lifetime;
+	AU_ParticleBehavior behavior;
 } AU_Particle;
 
 void au_particle_update(AU_Particle*);
@@ -21,6 +26,7 @@ typedef struct {
 	float rotation_min, rotation_max, rotational_velocity_min, rotational_velocity_max;
 	int lifetime_min, lifetime_max;
 	int particle_min, particle_max;
+	AU_ParticleBehavior behavior;
 } AU_ParticleEmitter;
 
 AU_ParticleEmitter au_particle_emitter_new(AU_TextureRegion* possibleTextures, size_t num_textures);

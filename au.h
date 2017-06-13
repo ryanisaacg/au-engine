@@ -23,6 +23,7 @@ typedef struct {
 	bool mouse_left, mouse_right, mouse_middle;
 	AU_Particle* particles;
 	size_t particle_count, particle_capacity;
+	AU_Tilemap map;
 } AU_Engine;
 
 //Intialize the engine with a window title, width, and height

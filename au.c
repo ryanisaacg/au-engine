@@ -16,6 +16,7 @@ AU_Engine* au_init(char* title, int w, int h) {
 	engine->particle_capacity = 128;
 	engine->particles = au_memory_alloc(sizeof(AU_Particle) * engine->particle_capacity);
 	engine->particle_count = 0;
+	engine->map = NULL;
 
 	TTF_Init(); //initialize the SDL font subsystem
 
@@ -80,6 +81,29 @@ void au_begin(AU_Engine* eng) {
 }
 
 void au_end(AU_Engine* eng) {
+	//Update particles
+	if(eng->map != NULL) {
+		for(size_t i = 0; i < eng->particle_count; i++) {
+			AU_Particle *part = eng->particles + i;
+			switch(part->behavior) {
+			case AU_MAP_IGNORE:
+				break;
+			case AU_MAP_DIE:
+				if(au_tmap_get(eng->map, part->position.x, part->position.y)) {
+					eng->particles[i].lifetime = 0;
+				}
+				break;
+			case AU_MAP_BOUNCE:
+				if(au_tmap_get(eng->map, part->position.x + part->velocity.x, part->position.y)) {
+					part->velocity.x *= -1;
+				}
+				if(au_tmap_get(eng->map, part->position.x, part->position.y + part->velocity.y)) {
+					part->velocity.y *= -1;
+				}
+			}
+		}
+	}
+
 	for (size_t i = 0; i < eng->particle_count; i++) {
 		AU_Particle* part = eng->particles + i;
 		au_particle_update(part);
@@ -94,6 +118,7 @@ void au_end(AU_Engine* eng) {
 			au_draw_sprite(eng, &sprite);
 		}
 	}
+
 	au_context_present(&(eng->ctx));
 	SDL_Delay(1000 / eng->fps);
 }
