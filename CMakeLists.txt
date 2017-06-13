@@ -34,3 +34,13 @@ else()
 	target_link_libraries(example GL)
 endif()
 
+#CREATE TEST EXECUTABLE
+add_executable(test test/test.c)
+set_property(TARGET test PROPERTY C_STANDARD 99)
+set_target_properties(test PROPERTIES LINKER_LANGUAGE C)
+target_link_libraries(test au-engine m SDL2_gpu SDL2_ttf SDL2)
+if(WIN32)
+	target_link_libraries(test opengl32)
+else()
+	target_link_libraries(test GL)
+endif()
