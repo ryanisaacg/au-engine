@@ -7,5 +7,5 @@ static inline float au_util_clamp(float n, float lower, float upper) {
 }
 
 static inline bool au_util_floateq(float a, float b) {
-	return abs(a - b) < 0.00001;
+	return fabs(a - b) < 0.00001;
 }
