@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <SDL2/SDL.h>
+#include <time.h>
 
 #include "memory.h"
 
@@ -14,6 +15,8 @@ AU_Engine* au_init(char* title, int w, int h) {
 	memset(engine->current_keys, 0, sizeof(bool) * SDL_NUM_KEYS);
 
 	TTF_Init(); //initialize the SDL font subsystem
+
+	srand(time(NULL));
 
 	return engine;
 }
