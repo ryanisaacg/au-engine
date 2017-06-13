@@ -12,7 +12,8 @@ void au_particle_update(AU_Particle* part) {
 
 AU_ParticleEmitter au_particle_emitter_new(AU_TextureRegion* possibleTextures, size_t num_textures) {
 	return (AU_ParticleEmitter) {
-		possibleTextures, num_textures, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, 0, 0, 0, 0, 0, 0, 0, 0
+		possibleTextures, num_textures, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, 0, 0, 0,
+						  0, 0, 0, 0, 0
 	};
 }
 

@@ -80,10 +80,10 @@ void au_begin(AU_Engine* eng) {
 }
 
 void au_end(AU_Engine* eng) {
-	for(size_t i = 0; i < eng->particle_count; i++) {
-		AU_Particle *part = eng->particles + i;
+	for (size_t i = 0; i < eng->particle_count; i++) {
+		AU_Particle* part = eng->particles + i;
 		au_particle_update(part);
-		if(part->lifetime <= 0) {
+		if (part->lifetime <= 0) {
 			eng->particles[i] = eng->particles[eng->particle_count - 1];
 			eng->particle_count--;
 			i--;
@@ -247,11 +247,11 @@ void au_draw_string(AU_Engine* eng, AU_Font* font, const char* str, float x, flo
 
 void au_add_particles(AU_Engine* eng, AU_ParticleEmitter* emitter) {
 	int parts = au_util_randi_range(emitter->particle_min, emitter->particle_max);
-	if(eng->particle_count + parts >= eng->particle_capacity) {
+	if (eng->particle_count + parts >= eng->particle_capacity) {
 		eng->particle_capacity *= 2;
 		eng->particles = au_memory_realloc(eng->particles, sizeof(AU_Particle) * eng->particle_capacity);
 	}
-	for(int i = 0; i < parts; i++) {
+	for (int i = 0; i < parts; i++) {
 		eng->particles[eng->particle_count] = au_particle_emitter_emit(emitter);
 		eng->particle_count++;
 	}
