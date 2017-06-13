@@ -25,6 +25,8 @@ AU_Vector au_geom_vec_set_len(AU_Vector, float);
 float au_geom_vec_len2(AU_Vector);
 //Get the length of a vector
 float au_geom_vec_len(AU_Vector);
+//Check if two vectors are equal
+bool au_geom_vec_eq(AU_Vector, AU_Vector);
 
 
 //A 3x3 matrix indexed by [row][col]

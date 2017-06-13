@@ -51,6 +51,10 @@ float au_geom_vec_len(AU_Vector vec) {
 	return sqrt(au_geom_vec_len2(vec));
 }
 
+bool au_geom_vec_eq(AU_Vector a, AU_Vector b) {
+	return au_util_floateq(a.x, b.x) && au_util_floateq(a.y, b.y);
+}
+
 AU_Transform au_geom_identity() {
 	return (AU_Transform) {
 		{
