@@ -89,7 +89,7 @@ AU_Transform au_geom_transform_concat(AU_Transform a, AU_Transform b) {
 	};
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
-			for(int k = 0; k < 3; k++) {
+			for (int k = 0; k < 3; k++) {
 				c.data[i][j] += a.data[i][k] * b.data[k][j];
 			}
 		}
