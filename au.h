@@ -5,6 +5,7 @@
 
 #include "context.h"
 #include "geom.h"
+#include "particle.h"
 #include "sprite.h"
 #include "texture.h"
 #include "tmap.h"
@@ -20,6 +21,8 @@ typedef struct {
 	bool previous_keys[SDL_NUM_KEYS];
 	int mouse_x, mouse_y;
 	bool mouse_left, mouse_right, mouse_middle;
+	AU_Particle* particles;
+	size_t particle_count, particle_capacity;
 } AU_Engine;
 
 //Intialize the engine with a window title, width, and height
@@ -52,6 +55,8 @@ void au_draw_texture_ex(AU_Engine*, AU_TextureRegion, AU_Color, float x, float y
 void au_draw_sprite(AU_Engine*, AU_Sprite*);
 //Draw an animated sprite
 void au_draw_sprite_animated(AU_Engine*, AU_AnimatedSprite*);
+//Add a burst of particles
+void au_add_particles(AU_Engine*, AU_ParticleEmitter*);
 //Recursive dependency- must be included after declarations
 #include "text.h"
 //Load a font with a given size and color from a file
