@@ -60,3 +60,5 @@ AU_Font* au_load_font(AU_Engine*, int size, AU_Color, const char* filename);
 int au_draw_char(AU_Engine*, AU_Font*, char, float x, float y);
 //Draw text to the screen
 void au_draw_string(AU_Engine*, AU_Font*, const char*, float x, float y);
+
+#undef main
