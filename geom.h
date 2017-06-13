@@ -27,6 +27,8 @@ float au_geom_vec_len2(AU_Vector);
 float au_geom_vec_len(AU_Vector);
 //Check if two vectors are equal
 bool au_geom_vec_eq(AU_Vector, AU_Vector);
+//Generate a random vector bounded by two vectors
+AU_Vector au_geom_vec_rand(AU_Vector min, AU_Vector max);
 
 
 //A 3x3 matrix indexed by [row][col]
