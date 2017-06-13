@@ -1,5 +1,7 @@
 #include "particle.h"
 
+#include "util.h"
+
 void au_particle_update(AU_Particle* part) {
 	part->velocity = au_geom_vec_add(part->velocity, part->acceleration);
 	part->position = au_geom_vec_add(part->position, part->velocity);
@@ -10,7 +12,7 @@ void au_particle_update(AU_Particle* part) {
 
 AU_ParticleEmitter au_particle_emitter_new(AU_TextureRegion* possibleTextures, size_t num_textures) {
 	return (AU_ParticleEmitter) {
-		possibleTextures, num_textures
+		possibleTextures, num_textures, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, 0, 0, 0, 0, 0, 0, 0, 0
 	};
 }
 
