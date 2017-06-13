@@ -14,7 +14,7 @@ AU_ParticleEmitter au_particle_emitter_new(AU_TextureRegion* possibleTextures, s
 	};
 }
 
-AU_Particle au_particle_emit(AU_ParticleEmitter* emit) {
+AU_Particle au_particle_emitter_emit(AU_ParticleEmitter* emit) {
 	return (AU_Particle) {
 		emit->regions[au_util_randi_range(0, emit->num_textures)],
 			 au_geom_vec_rand(emit->top_left, emit->bottom_right),
