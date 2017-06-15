@@ -1,8 +1,7 @@
-#include <SDL_gpu.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "geom.h"
+#include "au.h"
 #include "memory.h"
 
 typedef struct {
@@ -17,8 +16,6 @@ int compare_rects(const void* ptr1, const void* ptr2) {
 	const AU_Rectangle* r2 = ptr2;
 	return r2->height - r1->height;
 }
-
-//TODO: change the function to be in-place
 
 AU_Rectangle pack_rects(AU_Rectangle* rects, size_t length) {
 	qsort(rects, length, sizeof(AU_Rectangle), &compare_rects);
@@ -65,6 +62,7 @@ void pack_to_file(char** filenames, size_t length, char* image_file, FILE* manif
 void print_rect(AU_Rectangle r) {
 	printf("%f:%f:%f:%f\n", r.x, r.y, r.width, r.height);
 }
+
 
 int main(int argc, char *argv[]) {
 	FILE* manifest = fopen(argv[1], "r");
