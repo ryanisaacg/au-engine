@@ -123,8 +123,9 @@ void au_end(AU_Engine* eng) {
 	au_context_present(&(eng->ctx));
 
 	unsigned int time = SDL_GetTicks();
-
-	SDL_Delay(1000 / eng->fps - (time - eng->previous_ticks)); //account for the time elapsed during the frame
+	if(time - eng->previous_ticks < 1000 / eng->fps) {
+		SDL_Delay(1000 / eng->fps - (time - eng->previous_ticks)); //account for the time elapsed during the frame
+	}
 	eng->previous_ticks = time;
 }
 

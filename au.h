@@ -15,7 +15,7 @@
 
 typedef struct {
 	AU_Context ctx;
-	int fps;
+	unsigned int fps;
 	bool should_continue;
 	bool current_keys[SDL_NUM_KEYS]; //The total number of SDL keys
 	bool previous_keys[SDL_NUM_KEYS];
