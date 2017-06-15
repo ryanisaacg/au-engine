@@ -68,8 +68,8 @@ int main(int argc, char *argv[]) {
 	if(argc < 3) {
 		printf("Usage: packer [image-filename] [manifest-filename] [input images]...\n");
 	} else {
-		FILE* manifest = fopen(argv[1], "r");
-		pack_to_file(argv + 2, argc - 2, argv[0], manifest);
+		FILE* manifest = fopen(argv[2], "w");
+		pack_to_file(argv + 3, argc - 3, argv[1], manifest);
 		fclose(manifest);
 	}
 	return 0;
