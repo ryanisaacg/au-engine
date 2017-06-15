@@ -24,6 +24,7 @@ typedef struct {
 	AU_Particle* particles;
 	size_t particle_count, particle_capacity;
 	AU_Tilemap map;
+	unsigned int previous_ticks;
 } AU_Engine;
 
 //Intialize the engine with a window title, width, and height

@@ -58,6 +58,7 @@ AU_Texture au_load_texture_from_surface(AU_Engine* eng, SDL_Surface* sur) {
 }
 
 void au_begin(AU_Engine* eng) {
+	eng->previous_ticks = SDL_GetTicks();
 	au_context_clear(&(eng->ctx));
 	memcpy(eng->previous_keys, eng->current_keys, sizeof(bool) * SDL_NUM_KEYS);
 	SDL_Event e;
@@ -120,7 +121,11 @@ void au_end(AU_Engine* eng) {
 	}
 
 	au_context_present(&(eng->ctx));
-	SDL_Delay(1000 / eng->fps);
+
+	unsigned int time = SDL_GetTicks();
+
+	SDL_Delay(1000 / eng->fps - (time - eng->previous_ticks)); //account for the time elapsed during the frame
+	eng->previous_ticks = time;
 }
 
 void au_draw_texture(AU_Engine* eng, AU_TextureRegion tex, float x, float y) {
