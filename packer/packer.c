@@ -65,8 +65,12 @@ void print_rect(AU_Rectangle r) {
 
 
 int main(int argc, char *argv[]) {
-	FILE* manifest = fopen(argv[1], "r");
-	pack_to_file(argv + 2, argc - 2, argv[0], manifest);
-	fclose(manifest);
+	if(argc < 3) {
+		printf("Usage: packer [image-filename] [manifest-filename] [input images]...\n");
+	} else {
+		FILE* manifest = fopen(argv[1], "r");
+		pack_to_file(argv + 2, argc - 2, argv[0], manifest);
+		fclose(manifest);
+	}
 	return 0;
 }
