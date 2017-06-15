@@ -8,7 +8,7 @@ int main()
 	AU_Font* font = au_load_font(eng, 14, AU_WHITE, "../example/example.ttf");
 	float x = 0, y = 0;
 	while(eng->should_continue) {
-		au_begin(eng);
+		au_begin(eng, AU_BLACK);
 		if(eng->current_keys[SDL_SCANCODE_UP])
 			y -= 2;
 		if(eng->current_keys[SDL_SCANCODE_DOWN])

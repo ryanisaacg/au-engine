@@ -77,12 +77,12 @@ void au_context_add_index(AU_Context* ctx, int texture, int vertexID) {
 	ent->index_count++;
 }
 
-void au_context_clear(AU_Context* ctx) {
+void au_context_clear(AU_Context* ctx, AU_Color color) {
 	for (int i = 0; i < ctx->tex_count; i++) {
 		ctx->image_buffer[i].vertex_count = 0;
 		ctx->image_buffer[i].index_count = 0;
 	}
-	GPU_Clear(&(ctx->target));
+	GPU_ClearColor(&(ctx->target), au_color_to_sdl(color));
 }
 
 void au_context_present(AU_Context* ctx) {

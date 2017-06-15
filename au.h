@@ -36,7 +36,7 @@ AU_Texture au_load_texture(AU_Engine*, const char*);
 //Load a texture from a surface
 AU_Texture au_load_texture_from_surface(AU_Engine*, SDL_Surface*);
 //Start drawing a frame
-void au_begin(AU_Engine*);
+void au_begin(AU_Engine*, AU_Color);
 //Stop drawing a frame
 void au_end(AU_Engine*);
 //Draw a texture region with its natural size (x, y)

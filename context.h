@@ -2,6 +2,8 @@
 //Get the necessary structures for GPU targets and images
 #include <SDL_gpu.h>
 
+#include "texture.h"
+
 typedef struct {
 	//The texture for this image
 	GPU_Image image;
@@ -47,8 +49,8 @@ int au_context_add_vertex(AU_Context*, int texture,
 						  float x, float y, float texX, float texY, float r, float g, float b, float a);
 //Add a single index into the context
 void au_context_add_index(AU_Context*, int texture, int vertexID);
-//Clears all of the stuff from the previous draw call
-void au_context_clear(AU_Context*);
+//Clears all of the stuff from the previous draw call and replaces it with a color
+void au_context_clear(AU_Context*, AU_Color);
 //Batch-draws each of the shapes
 void au_context_present(AU_Context*);
 

@@ -57,9 +57,9 @@ AU_Texture au_load_texture_from_surface(AU_Engine* eng, SDL_Surface* sur) {
 	};
 }
 
-void au_begin(AU_Engine* eng) {
+void au_begin(AU_Engine* eng, AU_Color bg) {
 	eng->previous_ticks = SDL_GetTicks();
-	au_context_clear(&(eng->ctx));
+	au_context_clear(&(eng->ctx), bg);
 	memcpy(eng->previous_keys, eng->current_keys, sizeof(bool) * SDL_NUM_KEYS);
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
