@@ -46,7 +46,7 @@ else()
 endif()
 
 #CREATE THE TEXTURE PACKING TOOL
-add_executable(aupack texture-packer/packer.c)
+add_executable(aupack packer/packer.c)
 set_property(TARGET aupack PROPERTY C_STANDARD 99)
 set_target_properties(aupack PROPERTIES LINKER_LANGUAGE C)
 target_link_libraries(aupack au-engine m SDL2_gpu SDL2)
