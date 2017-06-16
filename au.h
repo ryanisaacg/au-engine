@@ -47,7 +47,7 @@ void au_draw_texture_sized(AU_Engine*, AU_TextureRegion, float, float, float, fl
 void au_draw_texture_rect(AU_Engine*, AU_TextureRegion, AU_Rectangle);
 //Draw a texture region to a given area with a given transformation and origin (x, y) and dimensions (width, height)
 void au_draw_texture_transform(AU_Engine*, AU_TextureRegion, AU_Transform, float, float, float, float);
-//Draw a texture region blended with a texture
+//Draw a texture region blended with a texture (origin x, origin y, width, height)
 void au_draw_texture_blend(AU_Engine*, AU_TextureRegion, AU_Color, AU_Transform, float, float, float, float,
 						   bool flip_x, bool flip_y);
 //Draw a texture without a precalculated transform

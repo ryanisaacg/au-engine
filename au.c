@@ -134,7 +134,7 @@ void au_draw_texture(AU_Engine* eng, AU_TextureRegion tex, float x, float y) {
 }
 
 void au_draw_texture_sized(AU_Engine* eng, AU_TextureRegion tex, float x, float y, float w, float h) {
-	au_draw_texture_transform(eng, tex, au_geom_identity(), x, y, w, h);
+	au_draw_texture_transform(eng, tex, au_geom_transform_translate(x, y), 0, 0, w, h);
 }
 
 void au_draw_texture_rect(AU_Engine* eng, AU_TextureRegion tex, AU_Rectangle rect) {
@@ -163,16 +163,16 @@ void au_draw_texture_blend(AU_Engine* eng, AU_TextureRegion tex, AU_Color color,
 
 	//Calculate the destination points with the transformation
 	AU_Vector tl = au_geom_transform(trans, (AU_Vector) {
-		0, 0
+		-x, -y
 	});
 	AU_Vector tr = au_geom_transform(trans, (AU_Vector) {
-		w, 0
+		-x + w, -y
 	});
 	AU_Vector bl = au_geom_transform(trans, (AU_Vector) {
-		0, h
+		-x, -y + h
 	});
 	AU_Vector br = au_geom_transform(trans, (AU_Vector) {
-		w, h
+		-x + w, -y + h
 	});
 
 	//Calculate the source points normalized to [0, 1]
