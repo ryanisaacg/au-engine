@@ -27,8 +27,8 @@ typedef struct {
 	unsigned int previous_ticks;
 } AU_Engine;
 
-//Intialize the engine with a window title, width, and height
-AU_Engine* au_init(char*, int, int);
+//Intialize the engine with a window
+AU_Engine* au_init(char* title, int width, int height, char* icon);
 //Quit the engine and free the memory
 void au_quit(AU_Engine*);
 //Load a texture from a file with a given name

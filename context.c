@@ -4,19 +4,24 @@
 
 #include "memory.h"
 
-AU_Context au_context_init_stack(char* title, int w, int h) {
+AU_Context au_context_init_stack(char* title, int w, int h, char* image_path) {
 	AU_Context ctx;
 	ctx.target = *(GPU_Init(w, h, GPU_DEFAULT_INIT_FLAGS));
 	SDL_SetWindowTitle(SDL_GetWindowFromID(ctx.target.context->windowID), title);
 	ctx.tex_count = 0;
 	ctx.tex_capacity = 32;
 	ctx.image_buffer = au_memory_alloc(sizeof(AU_BatchEntry) * ctx.tex_capacity);
+	if(image_path == NULL) {
+		SDL_Surface* icon = GPU_LoadSurface(image_path);
+		SDL_SetWindowIcon(SDL_GetWindowFromID(ctx.target.context->windowID), icon);
+		SDL_FreeSurface(icon);
+	}
 	return ctx;
 }
 
-AU_Context* au_context_init(char* title, int w, int h) {
+AU_Context* au_context_init(char* title, int w, int h, char *image_path) {
 	AU_Context* alloc_ctx = au_memory_alloc(sizeof(AU_Context));
-	*alloc_ctx = au_context_init_stack(title, w, h);
+	*alloc_ctx = au_context_init_stack(title, w, h, image_path);
 	return alloc_ctx;
 }
 

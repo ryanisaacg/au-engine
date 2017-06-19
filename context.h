@@ -34,10 +34,10 @@ typedef struct {
 
 //Public facing functions:
 
-//Initialize the engine without heap allocating the context
-AU_Context au_context_init_stack(char*, int, int);
+//Initialize the engine without heap allocating the context (set image path to null for no icon)
+AU_Context au_context_init_stack(char*, int, int, char* image_path);
 //Create an AU Context with a given title, width, and height
-AU_Context* au_context_init(char*, int, int);
+AU_Context* au_context_init(char*, int, int, char* image_path);
 //Destroy the AU Context (does not invalidate the pointer)
 void au_context_quit(AU_Context*);
 //Destroy the AU Context (invalidates the pointer also)

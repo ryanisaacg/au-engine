@@ -3,7 +3,7 @@
 #undef main
 int main()
 {
-	AU_Engine *eng = au_init("TEST WINDOW", 800, 600);
+	AU_Engine *eng = au_init("TEST WINDOW", 800, 600, "../example/img.png");
 	AU_Texture img = au_load_texture(eng, "../example/img.png");
 	AU_Font* font = au_load_font(eng, 14, AU_WHITE, "../example/example.ttf");
 	float x = 0, y = 0;

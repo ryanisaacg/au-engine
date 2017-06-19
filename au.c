@@ -2,14 +2,15 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <SDL_gpu.h>
 #include <SDL2/SDL.h>
 #include <time.h>
 
 #include "memory.h"
 
-AU_Engine* au_init(char* title, int w, int h) {
+AU_Engine* au_init(char* title, int w, int h, char* image) {
 	AU_Engine* engine = au_memory_alloc(sizeof(AU_Engine));
-	engine->ctx = au_context_init_stack(title, w, h);
+	engine->ctx = au_context_init_stack(title, w, h, image);
 	engine->fps = 60;
 	engine->should_continue = true;
 	memset(engine->current_keys, 0, sizeof(bool) * SDL_NUM_KEYS);
