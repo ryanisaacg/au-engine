@@ -3,6 +3,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <stdbool.h>
 
+#include "color.h"
 #include "context.h"
 #include "geom.h"
 #include "particle.h"

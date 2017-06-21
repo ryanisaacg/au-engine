@@ -2,7 +2,7 @@
 //Get the necessary structures for GPU targets and images
 #include <SDL_gpu.h>
 
-#include "texture.h"
+#include "color.h"
 
 typedef struct {
 	//The texture for this image
