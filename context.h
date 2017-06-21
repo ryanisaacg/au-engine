@@ -46,7 +46,7 @@ void au_context_free(AU_Context*);
 int au_context_register_texture(AU_Context*, GPU_Image*);
 //Add a single vertex into the context and return the index of that vertex
 int au_context_add_vertex(AU_Context*, int texture,
-						  float x, float y, float texX, float texY, float r, float g, float b, float a);
+						  float x, float y, float z, float texX, float texY, float r, float g, float b, float a);
 //Add a single index into the context
 void au_context_add_index(AU_Context*, int texture, int vertexID);
 //Clears all of the stuff from the previous draw call and replaces it with a color
