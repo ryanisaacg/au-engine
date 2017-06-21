@@ -17,7 +17,7 @@ const GLchar* vertex_shader = R"glsl(
 	void main() {
 		Color = color;
 		Tex_coord = tex_coord;
-		glPosition = vec4(position, 1.0);
+		gl_Position = vec4(position, 1.0);
 	}
 )glsl";
 const GLchar* fragment_shader = R"glsl(
@@ -25,11 +25,11 @@ const GLchar* fragment_shader = R"glsl(
     in vec4 Color;
     in vec2 Tex_coord;
     out vec4 outColor;
-    uniform sampler2D texture;
+    uniform sampler2D tex;
 
     void main()
     {
-        outColor = mix(texture(texture, Tex_coord), Color, 0.5);
+        outColor = mix(texture(tex, Tex_coord), Color, 0.5);
     }
 )glsl";
 
@@ -60,6 +60,9 @@ AU_Context au_context_init_stack(SDL_Window* wind) {
 	glGetShaderiv(ctx.vertex, GL_COMPILE_STATUS, &status);
 	if(status != GL_TRUE) {
 		printf("Vertex shader compilation failed\n");
+		char buffer[512];
+		glGetShaderInfoLog(ctx.vertex, 512, NULL, buffer);
+		printf("Error: %s\n", buffer);
 		exit(-1);
 	}
 	ctx.fragment = glCreateShader(GL_FRAGMENT_SHADER);
@@ -68,6 +71,9 @@ AU_Context au_context_init_stack(SDL_Window* wind) {
 	glGetShaderiv(ctx.fragment, GL_COMPILE_STATUS, &status);
 	if(status != GL_TRUE) {
 		printf("Fragment shader compilation failed\n");
+		char buffer[512];
+		glGetShaderInfoLog(ctx.fragment, 512, NULL, buffer);
+		printf("Error: %s\n", buffer);
 		exit(-1);
 	}
 	ctx.shader = glCreateProgram();
@@ -86,7 +92,7 @@ AU_Context au_context_init_stack(SDL_Window* wind) {
     GLint colAttrib = glGetAttribLocation(ctx.shader, "color");
     glEnableVertexAttribArray(colAttrib);
     glVertexAttribPointer(colAttrib, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), (void*)(5 * sizeof(GLfloat)));
-	ctx.texture_location = glGetUniformLocation(ctx.shader, "texture");
+	ctx.texture_location = glGetUniformLocation(ctx.shader, "tex");
 	return ctx;
 }
 
