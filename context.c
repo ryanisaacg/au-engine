@@ -183,7 +183,7 @@ void au_context_present(AU_Context* ctx) {
 		glBufferData(GL_ARRAY_BUFFER, ent->vertex_count * sizeof(float) * VERTEX_SIZE, ent->vertices, GL_STREAM_DRAW);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ctx->ebo);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, ent->index_count, ent->indices, GL_STREAM_DRAW);
-		glUniform1i(ctx->texture_location, i);
+		glUniform1i(ctx->texture_location, ent->image);
 		glDrawElements(GL_TRIANGLES, ent->index_count, GL_UNSIGNED_INT, 0);
 	}
 	SDL_GL_SwapWindow(ctx->window);
