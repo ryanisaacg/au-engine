@@ -1,6 +1,8 @@
 #pragma once
 
+#include "color.h"
 #include "texture.h"
+
 #include <SDL2/SDL_ttf.h>
 
 #define FONT_MAX_CHARS 223
