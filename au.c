@@ -2,15 +2,17 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <SDL_gpu.h>
 #include <SDL2/SDL.h>
 #include <time.h>
 
 #include "memory.h"
+#include "stb_image.h"
 
 AU_Engine* au_init(char* title, int w, int h, char* image) {
 	AU_Engine* engine = au_memory_alloc(sizeof(AU_Engine));
-	engine->ctx = au_context_init_stack(title, w, h, image);
+	SDL_Init(SDL_INIT_EVERYTHING);
+	SDL_Window* window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w, h, SDL_WINDOW_OPENGL);
+	engine->ctx = au_context_init_stack(window);
 	engine->fps = 60;
 	engine->should_continue = true;
 	memset(engine->current_keys, 0, sizeof(bool) * SDL_NUM_KEYS);
@@ -34,28 +36,28 @@ void au_quit(AU_Engine* eng) {
 	free(eng);
 }
 
-AU_Texture au_load_texture(AU_Engine* eng, const char* name) {
-	GPU_Image* image = GPU_LoadImage(name);
-	if (image == NULL) {
-		fprintf(stderr, "Failed to load image with filename %s", name);
-		exit(1);
-	}
-	int id = au_context_register_texture(&(eng->ctx), image);
+AU_Texture au_load_texture_from_memory(AU_Engine* eng, unsigned char* data, int w, int h, bool has_alpha) {
+	GLuint texture;
+	glGenTextures(1, &texture);
+	int id = au_context_register_texture(&eng->ctx, texture);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 	return (AU_Texture) {
-		id, image->w, image->h
+		id, w, h
 	};
 }
 
+AU_Texture au_load_texture(AU_Engine* eng, const char* name) {
+	int width, height, bpp;
+	unsigned char* data = stbi_load(name, &width, &height, &bpp, 4);
+	AU_Texture texture = au_load_texture_from_memory(eng, data, width, height, true);
+	stbi_image_free(data);
+	return texture;
+}
+
 AU_Texture au_load_texture_from_surface(AU_Engine* eng, SDL_Surface* sur) {
-	GPU_Image* image = GPU_CopyImageFromSurface(sur);
-	if (image == NULL) {
-		fprintf(stderr, "Failed to load image from surface");
-		exit(1);
-	}
-	int id = au_context_register_texture(&(eng->ctx), image);
-	return (AU_Texture) {
-		id, image->w, image->h
-	};
+	return au_load_texture_from_memory(eng, sur->pixels, sur->w, sur->h, sur->format->BytesPerPixel == 4);
 }
 
 void au_begin(AU_Engine* eng, AU_Color bg) {

@@ -32,6 +32,8 @@ typedef struct {
 AU_Engine* au_init(char* title, int width, int height, char* icon);
 //Quit the engine and free the memory
 void au_quit(AU_Engine*);
+//Load a texture from RGBA data
+AU_Texture au_load_texture_from_memory(AU_Engine*, unsigned char*, int w, int h, bool has_alpha);
 //Load a texture from a file with a given name
 AU_Texture au_load_texture(AU_Engine*, const char*);
 //Load a texture from a surface
