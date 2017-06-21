@@ -23,7 +23,8 @@ int main()
 		}
 		AU_TextureRegion region = au_tex_region(img);
 		region.rect = (AU_Rectangle) {8, 8, 16, 16};
-		au_draw_texture_ex(eng, region, AU_WHITE, x, y, 32, 32, 0, 0, 0, 1, 1, true, false);
+		au_draw_texture_ex(eng, region, AU_WHITE, 0, 0, 32, 32, 0, 0, 0, 1, 1, true, false, 0);
+		au_draw_texture_ex(eng, region, AU_WHITE, x, y, 32, 32, 0, 0, 0, 1, 1, true, false, -50);
 		au_draw_string(eng, font, "Hello there! test string", 0, 100);
 		au_end(eng);
 	}

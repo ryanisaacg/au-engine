@@ -135,7 +135,7 @@ void au_draw_texture(AU_Engine* eng, AU_TextureRegion tex, float x, float y) {
 }
 
 void au_draw_texture_sized(AU_Engine* eng, AU_TextureRegion tex, float x, float y, float w, float h) {
-	au_draw_texture_transform(eng, tex, au_geom_transform_translate(x, y), 0, 0, w, h);
+	au_draw_texture_transform(eng, tex, au_geom_transform_translate(x, y), 0, 0, w, h, 0);
 }
 
 void au_draw_texture_rect(AU_Engine* eng, AU_TextureRegion tex, AU_Rectangle rect) {
@@ -143,23 +143,21 @@ void au_draw_texture_rect(AU_Engine* eng, AU_TextureRegion tex, AU_Rectangle rec
 }
 
 void au_draw_texture_transform(AU_Engine* eng, AU_TextureRegion tex, AU_Transform trans, float x, float y, float w,
-							   float h) {
-	au_draw_texture_blend(eng, tex, (AU_Color) {
-		1, 1, 1, 1
-	}, trans, x, y, w, h, false, false);
+							   float h, int depth) {
+	au_draw_texture_blend(eng, tex, AU_WHITE, trans, x, y, w, h, false, false, depth);
 }
 
 void au_draw_texture_ex(AU_Engine* eng, AU_TextureRegion tex, AU_Color color, float x, float y, float w, float h,
-						float rot, float or_x, float or_y, float scale_x, float scale_y, bool flip_x, bool flip_y) {
+						float rot, float or_x, float or_y, float scale_x, float scale_y, bool flip_x, bool flip_y, int depth) {
 	AU_Transform trans = au_geom_identity();
 	trans = au_geom_transform_concat(trans, au_geom_transform_rotate(rot));
 	trans = au_geom_transform_concat(trans, au_geom_transform_scale(scale_x, scale_y));
 	trans = au_geom_transform_concat(trans, au_geom_transform_translate(x, y));
-	au_draw_texture_blend(eng, tex, color, trans, or_x, or_y, w, h, flip_x, flip_y);
+	au_draw_texture_blend(eng, tex, color, trans, or_x, or_y, w, h, flip_x, flip_y, depth);
 }
 
 void au_draw_texture_blend(AU_Engine* eng, AU_TextureRegion tex, AU_Color color, AU_Transform trans, float x, float y,
-						   float w, float h, bool flip_x, bool flip_y) {
+						   float w, float h, bool flip_x, bool flip_y, int depth) {
 	AU_Context* ctx = &(eng->ctx);
 
 	//Calculate the destination points with the transformation
@@ -206,13 +204,13 @@ void au_draw_texture_blend(AU_Engine* eng, AU_TextureRegion tex, AU_Color color,
 	}
 	//Add all of the vertices to the context
 	int id = tex.source.id;
-	int tl_index = au_context_add_vertex(ctx, id, tl.x + x, tl.y + y, 0, src_tl.x, src_tl.y, color.r, color.g, color.b,
+	int tl_index = au_context_add_vertex(ctx, id, tl.x + x, tl.y + y, -depth, src_tl.x, src_tl.y, color.r, color.g, color.b,
 										 color.a);
-	int tr_index = au_context_add_vertex(ctx, id, tr.x + x, tr.y + y, 0, src_tr.x, src_tr.y, color.r, color.g, color.b,
+	int tr_index = au_context_add_vertex(ctx, id, tr.x + x, tr.y + y, -depth, src_tr.x, src_tr.y, color.r, color.g, color.b,
 										 color.a);
-	int br_index = au_context_add_vertex(ctx, id, br.x + x, br.y + y, 0, src_br.x, src_br.y, color.r, color.g, color.b,
+	int br_index = au_context_add_vertex(ctx, id, br.x + x, br.y + y, -depth, src_br.x, src_br.y, color.r, color.g, color.b,
 										 color.a);
-	int bl_index = au_context_add_vertex(ctx, id, bl.x + x, bl.y + y, 0, src_bl.x, src_bl.y, color.r, color.g, color.b,
+	int bl_index = au_context_add_vertex(ctx, id, bl.x + x, bl.y + y, -depth, src_bl.x, src_bl.y, color.r, color.g, color.b,
 										 color.a);
 
 	//Create the first triangle for the quad
@@ -227,7 +225,7 @@ void au_draw_texture_blend(AU_Engine* eng, AU_TextureRegion tex, AU_Color color,
 
 static void au_draw_sprite_transformed(AU_Engine* eng, AU_TextureRegion region, AU_SpriteTransform* trans) {
 	au_draw_texture_ex(eng, region, trans->color, trans->x, trans->y, trans->width, trans->height, trans->rotation,
-					   trans->origin_x, trans->origin_y, trans->scale_x, trans->scale_y, trans->flip_x, trans->flip_y);
+					   trans->origin_x, trans->origin_y, trans->scale_x, trans->scale_y, trans->flip_x, trans->flip_y, 0);
 }
 
 void au_draw_sprite(AU_Engine* eng, AU_Sprite* sprite) {

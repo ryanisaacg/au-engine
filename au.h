@@ -45,14 +45,14 @@ void au_draw_texture(AU_Engine*, AU_TextureRegion, float, float);
 void au_draw_texture_sized(AU_Engine*, AU_TextureRegion, float, float, float, float);
 //Draw a texture region to a given rectangle
 void au_draw_texture_rect(AU_Engine*, AU_TextureRegion, AU_Rectangle);
-//Draw a texture region to a given area with a given transformation and origin (x, y) and dimensions (width, height)
-void au_draw_texture_transform(AU_Engine*, AU_TextureRegion, AU_Transform, float, float, float, float);
+//Draw a texture region to a given area with a given transformation and origin (x, y) and dimensions (width, height) at a depth
+void au_draw_texture_transform(AU_Engine*, AU_TextureRegion, AU_Transform, float, float, float, float, int);
 //Draw a texture region blended with a texture (origin x, origin y, width, height)
 void au_draw_texture_blend(AU_Engine*, AU_TextureRegion, AU_Color, AU_Transform, float, float, float, float,
-						   bool flip_x, bool flip_y);
+						   bool flip_x, bool flip_y, int depth);
 //Draw a texture without a precalculated transform
 void au_draw_texture_ex(AU_Engine*, AU_TextureRegion, AU_Color, float x, float y, float w, float h, float rot,
-						float or_x, float or_y, float scale_x, float scale_y, bool flip_x, bool flip_y);
+						float or_x, float or_y, float scale_x, float scale_y, bool flip_x, bool flip_y, int depth);
 //Draw a sprite
 void au_draw_sprite(AU_Engine*, AU_Sprite*);
 //Draw an animated sprite
