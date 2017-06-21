@@ -6,24 +6,24 @@
 
 #define VERTEX_SIZE 9
 
-AU_Context au_context_init_stack(char* title, int w, int h, char* image_path) {
+AU_Context au_context_init_stack(SDL_Window* wind) {
 	AU_Context ctx;
-	ctx.target = *(GPU_Init(w, h, GPU_DEFAULT_INIT_FLAGS));
-	SDL_SetWindowTitle(SDL_GetWindowFromID(ctx.target.context->windowID), title);
+	ctx.ctx = SDL_GL_CreateContext(wind);
 	ctx.tex_count = 0;
 	ctx.tex_capacity = 32;
 	ctx.image_buffer = au_memory_alloc(sizeof(AU_BatchEntry) * ctx.tex_capacity);
-	if(image_path == NULL) {
-		SDL_Surface* icon = GPU_LoadSurface(image_path);
-		SDL_SetWindowIcon(SDL_GetWindowFromID(ctx.target.context->windowID), icon);
-		SDL_FreeSurface(icon);
-	}
+	GLuint vao;
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+	glGenBuffers(1, &(ctx.vbo));
+	glGenBuffers(1, &(ctx.shader));
+	glGenBuffers(1, &(ctx.ebo));
 	return ctx;
 }
 
-AU_Context* au_context_init(char* title, int w, int h, char *image_path) {
+AU_Context* au_context_init(SDL_Window* wind) {
 	AU_Context* alloc_ctx = au_memory_alloc(sizeof(AU_Context));
-	*alloc_ctx = au_context_init_stack(title, w, h, image_path);
+	*alloc_ctx = au_context_init_stack(wind);
 	return alloc_ctx;
 }
 
@@ -33,7 +33,7 @@ void au_context_quit(AU_Context* ctx) {
 		free(ctx->image_buffer[i].indices);
 	}
 	free(ctx->image_buffer);
-
+	SDL_GL_DeleteContext(ctx->ctx);
 }
 
 void au_context_free(AU_Context* ctx) {
@@ -41,7 +41,7 @@ void au_context_free(AU_Context* ctx) {
 	free(ctx);
 }
 
-int au_context_register_texture(AU_Context* ctx, GPU_Image* img) {
+int au_context_register_texture(AU_Context* ctx, GLuint img) {
 	if (ctx->tex_count >= ctx->tex_capacity) {
 		ctx->tex_capacity *= 2;
 		ctx->image_buffer = au_memory_realloc(ctx->image_buffer, sizeof(AU_BatchEntry) * ctx->tex_capacity);
