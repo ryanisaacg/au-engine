@@ -10,20 +10,21 @@ typedef struct {
 	//The number of vertices and the capacity for vertices before realloc
 	int vertex_count, vertex_capacity;
 	//The vertex buffer, tightly packed
-	//(x, y, s, t, r, g, b, a) per vertex
+	//(x, y, z, s, t, r, g, b, a) per vertex
 	float* vertices;
 	//The number of indices and the capacity for indices before realloc
 	int index_count, index_capacity;
 	//The index buffer (each trio of indices forms a triangle)
-	unsigned short int* indices;
+	GLuint* indices;
 } AU_BatchEntry;
 
 /*
  * Holds all of the graphics context in the engine
  */
 typedef struct {
+	SDL_Window* window;
 	SDL_GLContext ctx;
-	GLuint shader, vbo, ebo;
+	GLuint shader, fragment, vertex, vbo, ebo, vao, texture_location;
 	//The number of loaded textures stored in the context
 	int tex_count;
 	//The capacity of the textures without reallocation
