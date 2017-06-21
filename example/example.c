@@ -1,6 +1,5 @@
 #include "au.h"
 
-#undef main
 int main()
 {
 	AU_Engine *eng = au_init("TEST WINDOW", 800, 600, "../example/img.png");
