@@ -7,6 +7,7 @@ typedef struct {
 	float x, y, width, height, rotation, origin_x, origin_y, scale_x, scale_y;
 	bool flip_x, flip_y;
 	AU_Color color;
+	int depth;
 } AU_SpriteTransform;
 
 AU_SpriteTransform au_sprite_transform_new();

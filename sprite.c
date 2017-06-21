@@ -2,7 +2,7 @@
 
 AU_SpriteTransform au_sprite_transform_new() {
 	return (AU_SpriteTransform) {
-		0, 0, 0, 0, 0, 0, 0, 1, 1, false, false, AU_WHITE
+		0, 0, 0, 0, 0, 0, 0, 1, 1, false, false, AU_WHITE, 0
 	};
 }
 
