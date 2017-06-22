@@ -40,13 +40,14 @@ AU_Texture au_load_texture_from_memory(AU_Engine* eng, unsigned char* data, int 
 	GLuint texture;
 	glGenTextures(1, &texture);
 	int id = au_context_register_texture(&eng->ctx, texture);
-	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, has_alpha ? GL_RGBA : GL_RGB, w, h, 0, has_alpha ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, data);
+	glGenerateMipmap(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, 0);
 	return (AU_Texture) {
 		id, w, h
 	};
@@ -55,7 +56,7 @@ AU_Texture au_load_texture_from_memory(AU_Engine* eng, unsigned char* data, int 
 AU_Texture au_load_texture(AU_Engine* eng, const char* name) {
 	int width, height, bpp;
 	unsigned char* data = stbi_load(name, &width, &height, &bpp, 4);
-	AU_Texture texture = au_load_texture_from_memory(eng, data, width, height, true);
+	AU_Texture texture = au_load_texture_from_memory(eng, data, width, height, bpp == 4);
 	stbi_image_free(data);
 	return texture;
 }
