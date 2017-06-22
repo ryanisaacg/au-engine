@@ -12,12 +12,13 @@ const GLchar* vertex_shader = R"glsl(
 	in vec3 position;
 	in vec2 tex_coord;
 	in vec4 color;
+	uniform mat4 transform;
 	out vec4 Color;
 	out vec2 Tex_coord;
 	void main() {
 		Color = color;
 		Tex_coord = tex_coord;
-		gl_Position = vec4(position, 1.0);
+		gl_Position = transform * vec4(position, 1.0);
 	}
 )glsl";
 const GLchar* fragment_shader = R"glsl(
@@ -188,7 +189,16 @@ void au_context_clear(AU_Context* ctx, AU_Color color) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void au_context_present(AU_Context* ctx) {
+void au_context_present(AU_Context* ctx, AU_Rectangle camera) {
+	float left = camera.x, right = camera.x + camera.width, top = camera.y, bottom = camera.y + camera.height;
+	float transform_matrix[] = {
+		2 / (right - left), 0, 0, 0,
+		0, 2 / (top - bottom), 0, 0,
+		0, 0, 1, 0,
+		-(right + left) / (right - left), -(top + bottom) / (top - bottom), 0, 1
+	};
+	GLint transform_attrib = glGetUniformLocation(ctx->shader, "transform");
+	glUniformMatrix4fv(transform_attrib, 1, GL_FALSE, transform_matrix);
 	for (int i = 0; i < ctx->tex_count; i++) {
 		AU_BatchEntry* ent = ctx->image_buffer + i;
 		//Bind the vertex data

@@ -3,6 +3,7 @@
 #include "glad/glad.h"
 
 #include "color.h"
+#include "geom.h"
 
 typedef struct {
 	//The texture for this image
@@ -51,6 +52,6 @@ void au_context_add_index(AU_Context*, int texture, int vertexID);
 //Clears all of the stuff from the previous draw call and replaces it with a color
 void au_context_clear(AU_Context*, AU_Color);
 //Batch-draws each of the shapes
-void au_context_present(AU_Context*);
+void au_context_present(AU_Context*, AU_Rectangle camera);
 
 

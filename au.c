@@ -134,7 +134,10 @@ void au_end(AU_Engine* eng) {
 		}
 	}
 
-	au_context_present(&(eng->ctx));
+	int width, height;
+	SDL_GetWindowSize(eng->ctx.window, &width, &height);
+
+	au_context_present(&(eng->ctx), (AU_Rectangle) { 0, 0, width, height });
 
 	unsigned int time = SDL_GetTicks();
 	if(time - eng->previous_ticks < 1000 / eng->fps) {
