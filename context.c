@@ -29,7 +29,7 @@ const GLchar* fragment_shader = R"glsl(
 
     void main()
     {
-        outColor = texture(tex, Tex_coord); //mix(texture(tex, Tex_coord), Color, 0.5);
+        outColor = Color;//texture(tex, Tex_coord); //mix(texture(tex, Tex_coord), Color, 0.5);
     }
 )glsl";
 
@@ -191,10 +191,13 @@ void au_context_clear(AU_Context* ctx, AU_Color color) {
 void au_context_present(AU_Context* ctx) {
 	for (int i = 0; i < ctx->tex_count; i++) {
 		AU_BatchEntry* ent = ctx->image_buffer + i;
+		//Bind the vertex data
 		glBindBuffer(GL_ARRAY_BUFFER, ctx->vbo);
 		glBufferData(GL_ARRAY_BUFFER, ent->vertex_count * sizeof(float) * VERTEX_SIZE, ent->vertices, GL_STREAM_DRAW);
+		//Bind the index data
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ctx->ebo);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, ent->index_count * sizeof(unsigned int), ent->indices, GL_STREAM_DRAW);
+		//Set up the vertex attributes
 		GLint posAttrib = glGetAttribLocation(ctx->shader, "position");
 		glEnableVertexAttribArray(posAttrib);
 		glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), 0);
@@ -204,8 +207,12 @@ void au_context_present(AU_Context* ctx) {
 		GLint colAttrib = glGetAttribLocation(ctx->shader, "color");
 		glEnableVertexAttribArray(colAttrib);
 		glVertexAttribPointer(colAttrib, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), (void*)(5 * sizeof(GLfloat)));
+		//Upload the texture to the GPU
 		ctx->texture_location = glGetUniformLocation(ctx->shader, "tex");
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, ctx->texture_location);
 		glUniform1i(ctx->texture_location, ent->image);
+		//Draw the triangles
 		glDrawElements(GL_TRIANGLES, ent->index_count, GL_UNSIGNED_INT, 0);
 	}
 	SDL_GL_SwapWindow(ctx->window);
