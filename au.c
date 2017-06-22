@@ -24,6 +24,8 @@ AU_Engine* au_init(char* title, int w, int h, char* image) {
 	TTF_Init(); //initialize the SDL font subsystem
 
 	srand(time(NULL));
+	
+	stbi_set_flip_vertically_on_load(true); //flip the images because opengl
 
 	return engine;
 }
