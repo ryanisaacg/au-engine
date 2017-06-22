@@ -29,7 +29,7 @@ const GLchar* fragment_shader = R"glsl(
 
     void main()
     {
-        outColor = Color;//texture(tex, Tex_coord); //mix(texture(tex, Tex_coord), Color, 0.5);
+        outColor = texture(tex, Tex_coord);
     }
 )glsl";
 
@@ -196,7 +196,7 @@ void au_context_present(AU_Context* ctx) {
 		glBufferData(GL_ARRAY_BUFFER, ent->vertex_count * sizeof(float) * VERTEX_SIZE, ent->vertices, GL_STREAM_DRAW);
 		//Bind the index data
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ctx->ebo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, ent->index_count * sizeof(unsigned int), ent->indices, GL_STREAM_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, ent->index_count * sizeof(GLuint), ent->indices, GL_STREAM_DRAW);
 		//Set up the vertex attributes
 		GLint posAttrib = glGetAttribLocation(ctx->shader, "position");
 		glEnableVertexAttribArray(posAttrib);
@@ -210,8 +210,8 @@ void au_context_present(AU_Context* ctx) {
 		//Upload the texture to the GPU
 		ctx->texture_location = glGetUniformLocation(ctx->shader, "tex");
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, ctx->texture_location);
-		glUniform1i(ctx->texture_location, ent->image);
+		glBindTexture(GL_TEXTURE_2D, ent->image);
+		glUniform1i(ctx->texture_location, 0);
 		//Draw the triangles
 		glDrawElements(GL_TRIANGLES, ent->index_count, GL_UNSIGNED_INT, 0);
 	}

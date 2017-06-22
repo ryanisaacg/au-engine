@@ -55,7 +55,7 @@ AU_Texture au_load_texture_from_memory(AU_Engine* eng, unsigned char* data, int 
 
 AU_Texture au_load_texture(AU_Engine* eng, const char* name) {
 	int width, height, bpp;
-	unsigned char* data = stbi_load(name, &width, &height, &bpp, 4);
+	unsigned char* data = stbi_load(name, &width, &height, &bpp, 0); //todo: check a file with alpha
 	if(data == NULL) {
 		fprintf(stderr, "Failed to load image %s\n", name);
 		exit(1);
