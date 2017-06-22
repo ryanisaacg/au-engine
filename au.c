@@ -56,6 +56,10 @@ AU_Texture au_load_texture_from_memory(AU_Engine* eng, unsigned char* data, int 
 AU_Texture au_load_texture(AU_Engine* eng, const char* name) {
 	int width, height, bpp;
 	unsigned char* data = stbi_load(name, &width, &height, &bpp, 4);
+	if(data == NULL) {
+		fprintf(stderr, "Failed to load image %s\n", name);
+		exit(1);
+	}
 	AU_Texture texture = au_load_texture_from_memory(eng, data, width, height, bpp == 4);
 	stbi_image_free(data);
 	return texture;
