@@ -29,9 +29,31 @@ const GLchar* fragment_shader = R"glsl(
 
     void main()
     {
-        outColor = mix(texture(tex, Tex_coord), Color, 0.5);
+        outColor = texture(tex, Tex_coord); //mix(texture(tex, Tex_coord), Color, 0.5);
     }
 )glsl";
+
+void check_gl_errors() {
+	switch(glGetError()) {
+	case GL_NO_ERROR:
+		return;
+	case GL_INVALID_ENUM:
+		printf("GL invalid enum\n");
+	case GL_OUT_OF_MEMORY:
+		printf("GL out of memory\n");
+		break;
+	case GL_INVALID_VALUE:
+		printf("GL invalid value\n");
+		break;
+	case GL_INVALID_OPERATION:
+		printf("GL invalid operation\n");
+		break;
+	case GL_INVALID_FRAMEBUFFER_OPERATION:
+		printf("GL invalid frambuffer operation");
+		break;
+	}
+	exit(1);
+}
 
 AU_Context au_context_init_stack(SDL_Window* wind) {
 	AU_Context ctx;
@@ -83,16 +105,6 @@ AU_Context au_context_init_stack(SDL_Window* wind) {
 	glLinkProgram(ctx.shader);
 	glUseProgram(ctx.shader);
 	//Tell the shaders how to receive data
-	GLint posAttrib = glGetAttribLocation(ctx.shader, "position");
-    glEnableVertexAttribArray(posAttrib);
-    glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), 0);
-	GLint texAttrib = glGetAttribLocation(ctx.shader, "tex_coord");
-    glEnableVertexAttribArray(texAttrib);
-    glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
-    GLint colAttrib = glGetAttribLocation(ctx.shader, "color");
-    glEnableVertexAttribArray(colAttrib);
-    glVertexAttribPointer(colAttrib, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), (void*)(5 * sizeof(GLfloat)));
-	ctx.texture_location = glGetUniformLocation(ctx.shader, "tex");
 	return ctx;
 }
 
@@ -182,7 +194,17 @@ void au_context_present(AU_Context* ctx) {
 		glBindBuffer(GL_ARRAY_BUFFER, ctx->vbo);
 		glBufferData(GL_ARRAY_BUFFER, ent->vertex_count * sizeof(float) * VERTEX_SIZE, ent->vertices, GL_STREAM_DRAW);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ctx->ebo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, ent->index_count, ent->indices, GL_STREAM_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, ent->index_count * sizeof(unsigned int), ent->indices, GL_STREAM_DRAW);
+		GLint posAttrib = glGetAttribLocation(ctx->shader, "position");
+		glEnableVertexAttribArray(posAttrib);
+		glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), 0);
+		GLint texAttrib = glGetAttribLocation(ctx->shader, "tex_coord");
+		glEnableVertexAttribArray(texAttrib);
+		glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+		GLint colAttrib = glGetAttribLocation(ctx->shader, "color");
+		glEnableVertexAttribArray(colAttrib);
+		glVertexAttribPointer(colAttrib, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(GLfloat), (void*)(5 * sizeof(GLfloat)));
+		ctx->texture_location = glGetUniformLocation(ctx->shader, "tex");
 		glUniform1i(ctx->texture_location, ent->image);
 		glDrawElements(GL_TRIANGLES, ent->index_count, GL_UNSIGNED_INT, 0);
 	}
