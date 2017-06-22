@@ -104,7 +104,7 @@ AU_Context au_context_init_stack(SDL_Window* wind) {
 	glBindFragDataLocation(ctx.shader, 0, "outColor");
 	glLinkProgram(ctx.shader);
 	glUseProgram(ctx.shader);
-	//Tell the shaders how to receive data
+	glEnable (GL_DEPTH_TEST);
 	return ctx;
 }
 
@@ -185,7 +185,7 @@ void au_context_clear(AU_Context* ctx, AU_Color color) {
 		ctx->image_buffer[i].index_count = 0;
 	}
 	glClearColor(color.r, color.g, color.b, color.a);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void au_context_present(AU_Context* ctx) {
