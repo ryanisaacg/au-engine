@@ -10,13 +10,13 @@ int main()
 	while(eng->should_continue) {
 		au_begin(eng, AU_BLACK);
 		if(eng->current_keys[SDL_SCANCODE_UP])
-			y -= 0.1;
+			y -= 1;
 		if(eng->current_keys[SDL_SCANCODE_DOWN])
-			y += 0.1;
+			y += 1;
 		if(eng->current_keys[SDL_SCANCODE_RIGHT])
-			x += 0.1;
+			x += 1;
 		if(eng->current_keys[SDL_SCANCODE_LEFT])
-			x -= 0.1;
+			x -= 1;
 		if(eng->mouse_left) {
 			x = eng->mouse_x;
 			y = eng->mouse_y;
