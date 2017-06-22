@@ -10,7 +10,7 @@
 
 AU_Engine* au_init(char* title, int w, int h, char* image) {
 	AU_Engine* engine = au_memory_alloc(sizeof(AU_Engine));
-	SDL_Init(SDL_INIT_EVERYTHING);
+	SDL_Init(SDL_INIT_VIDEO);
 	SDL_Window* window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w, h, SDL_WINDOW_OPENGL);
 	engine->ctx = au_context_init_stack(window);
 	engine->fps = 60;
