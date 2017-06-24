@@ -1,5 +1,4 @@
 #include "au.h"
-#include <stdio.h>
 
 int main()
 {
@@ -22,7 +21,6 @@ int main()
 			y = eng->mouse_y;
 		}
 		AU_TextureRegion region = au_tex_region(img);
-		region.rect = (AU_Rectangle) {8, 8, 16, 16};
 		au_draw_texture_ex(eng, region, AU_WHITE, 0, 0, 32, 32, 0, 0, 0, 1, 1, false, false, 0.5f);
 		au_draw_texture_ex(eng, region, AU_GREEN, x, y, 32, 32, 0, 0, 0, 1, 1, false, false, 0);
 		au_draw_string(eng, font, "Hello there! test string", 0, 100);
