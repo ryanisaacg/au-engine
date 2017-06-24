@@ -20,6 +20,7 @@ AU_Engine* au_init(char* title, int w, int h, char* image) {
 	engine->particles = au_memory_alloc(sizeof(AU_Particle) * engine->particle_capacity);
 	engine->particle_count = 0;
 	engine->map = NULL;
+	engine->camera = (AU_Rectangle) { 0, 0, w, h };
 
 	TTF_Init(); //initialize the SDL font subsystem
 
@@ -137,7 +138,7 @@ void au_end(AU_Engine* eng) {
 	int width, height;
 	SDL_GetWindowSize(eng->ctx.window, &width, &height);
 
-	au_context_present(&(eng->ctx), (AU_Rectangle) { 0, 0, width, height });
+	au_context_present(&(eng->ctx), eng->camera);
 
 	unsigned int time = SDL_GetTicks();
 	if(time - eng->previous_ticks < 1000 / eng->fps) {

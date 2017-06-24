@@ -26,6 +26,7 @@ typedef struct {
 	size_t particle_count, particle_capacity;
 	AU_Tilemap map;
 	unsigned int previous_ticks;
+	AU_Rectangle camera;
 } AU_Engine;
 
 //Intialize the engine with a window
