@@ -24,7 +24,6 @@ inline static AU_Rectangle vertical(AU_Rectangle r, float aspect_ratio) {
 
 void au_viewport_apply(AU_Viewport* viewport, float window_width, float window_height) {
 	AU_Rectangle area = viewport->area;
-	//area.y = window_height - area.y;
 	switch(viewport->type) {
 	case STRETCH:
 		break;
