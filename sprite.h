@@ -12,6 +12,8 @@ typedef struct {
 } AU_SpriteTransform;
 
 AU_SpriteTransform au_sprite_transform_new();
+AU_Rectangle au_sprite_transform_get_bounds(AU_SpriteTransform*);
+void au_sprite_transform_set_bounds(AU_SpriteTransform*, AU_Rectangle);
 
 typedef struct {
 	AU_SpriteTransform transform;

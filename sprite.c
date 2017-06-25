@@ -6,6 +6,17 @@ AU_SpriteTransform au_sprite_transform_new() {
 	};
 }
 
+AU_Rectangle au_sprite_transform_get_bounds(AU_SpriteTransform* trans) {
+	return (AU_Rectangle) { trans->x, trans->y, trans->width, trans->height };
+}
+
+void au_sprite_transform_set_bounds(AU_SpriteTransform* trans, AU_Rectangle rect) {
+	trans->x = rect.x;
+	trans->y = rect.y;
+	trans->width = rect.width;
+	trans->height = rect.height;
+}
+
 static AU_SpriteTransform au_sprite_transform_from_region(AU_TextureRegion region) {
 	AU_SpriteTransform trans = au_sprite_transform_new();
 	trans.width = region.rect.width;
