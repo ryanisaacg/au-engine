@@ -11,7 +11,7 @@
 AU_Engine* au_init(char* title, int w, int h, char* image) {
 	AU_Engine* engine = au_memory_alloc(sizeof(AU_Engine));
 	SDL_Init(SDL_INIT_VIDEO);
-	SDL_Window* window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w, h, SDL_WINDOW_OPENGL);
+	SDL_Window* window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w, h, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 	engine->ctx = au_context_init_stack(window);
 	engine->fps = 60;
 	engine->should_continue = true;
@@ -21,6 +21,8 @@ AU_Engine* au_init(char* title, int w, int h, char* image) {
 	engine->particle_count = 0;
 	engine->map = NULL;
 	engine->camera = (AU_Rectangle) { 0, 0, w, h };
+	engine->window_width = w;
+	engine->window_height = h;
 
 	TTF_Init(); //initialize the SDL font subsystem
 
@@ -135,10 +137,9 @@ void au_end(AU_Engine* eng) {
 		}
 	}
 
-	int width, height;
-	SDL_GetWindowSize(eng->ctx.window, &width, &height);
+	SDL_GetWindowSize(eng->ctx.window, &eng->window_width, &eng->window_height);
 
-	au_context_present(&(eng->ctx), eng->camera);
+	au_context_present(&eng->ctx, eng->camera);
 
 	unsigned int time = SDL_GetTicks();
 	if(time - eng->previous_ticks < 1000 / eng->fps) {

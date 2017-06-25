@@ -28,6 +28,7 @@ typedef struct {
 	AU_Tilemap map;
 	unsigned int previous_ticks;
 	AU_Rectangle camera;
+	int window_width, window_height;
 } AU_Engine;
 
 //Intialize the engine with a window
