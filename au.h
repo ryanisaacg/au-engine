@@ -11,6 +11,7 @@
 #include "texture.h"
 #include "tmap.h"
 #include "util.h"
+#include "viewport.h"
 
 #define SDL_NUM_KEYS 284
 
