@@ -3,8 +3,8 @@
 #include <glad/glad.h>
 #include <stdio.h>
 
-AU_Viewport au_viewport_new(AU_ViewportType type, AU_Rectangle rect, float ratio) {
-	return (AU_Viewport) { rect, type, ratio };
+AU_Viewport au_viewport_new(AU_ViewportType type, float ratio) {
+	return (AU_Viewport) { type, ratio };
 }
 
 inline static AU_Rectangle horizontal(AU_Rectangle r, float aspect_ratio) {
@@ -23,7 +23,7 @@ inline static AU_Rectangle vertical(AU_Rectangle r, float aspect_ratio) {
 }
 
 void au_viewport_apply(AU_Viewport* viewport, float window_width, float window_height) {
-	AU_Rectangle area = viewport->area;
+	AU_Rectangle area = (AU_Rectangle) { 0, 0, window_width, window_height };
 	switch(viewport->type) {
 	case STRETCH:
 		break;
