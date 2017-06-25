@@ -178,6 +178,9 @@ void au_draw_texture_blend(AU_Engine* eng, AU_TextureRegion tex, AU_Color color,
 						   float w, float h, bool flip_x, bool flip_y, float depth) {
 	AU_Context* ctx = &(eng->ctx);
 
+	//Switch depth so that 0 is drawn first and 1 last
+	depth = 1 - depth;
+
 	//Calculate the destination points with the transformation
 	AU_Vector tl = au_geom_transform(trans, (AU_Vector) {
 		-x, -y
