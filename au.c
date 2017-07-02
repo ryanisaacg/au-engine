@@ -30,6 +30,8 @@ AU_Engine* au_init(char* title, int w, int h, char* image) {
 	
 	stbi_set_flip_vertically_on_load(true); //flip the images because opengl
 
+	au_set_viewport(engine, au_viewport_new(STRETCH, (float)w / h));
+
 	return engine;
 }
 
@@ -39,6 +41,11 @@ void au_quit(AU_Engine* eng) {
 	TTF_Quit(); //Destroy the SDL font subsystem
 
 	free(eng);
+}
+
+void au_set_viewport(AU_Engine* eng, AU_Viewport viewport) {
+	eng->viewport = viewport;
+	au_viewport_apply(viewport, eng->window_width, eng->window_height);
 }
 
 AU_Texture au_load_texture_from_memory(AU_Engine* eng, unsigned char* data, int w, int h, bool has_alpha) {
@@ -92,7 +99,9 @@ void au_begin(AU_Engine* eng, AU_Color bg) {
 				break;
 		}
 	}
-	int button_mask = SDL_GetMouseState(&(eng->mouse_x), &(eng->mouse_y));
+	int x, y;
+	int button_mask = SDL_GetMouseState(&x, &y);
+	eng->mouse = au_viewport_unproject(eng->viewport, (AU_Vector) { x, y }, eng->window_width, eng->window_height);
 	eng->mouse_left = button_mask & SDL_BUTTON(SDL_BUTTON_LEFT);
 	eng->mouse_right = button_mask & SDL_BUTTON(SDL_BUTTON_RIGHT);
 	eng->mouse_middle = button_mask & SDL_BUTTON(SDL_BUTTON_MIDDLE);

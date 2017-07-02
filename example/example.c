@@ -5,8 +5,7 @@ int main()
 	AU_Engine *eng = au_init("TEST WINDOW", 800, 600, "../example/img.png");
 	AU_Texture img = au_load_texture(eng, "../example/img.png");
 	AU_Font* font = au_load_font(eng, 14, AU_WHITE, "../example/example.ttf");
-	AU_Viewport view = au_viewport_new(LETTERBOX, 16.0f / 9);
-	au_viewport_apply(view, eng->window_width, eng->window_height);
+	au_set_viewport(eng, au_viewport_new(LETTERBOX, 16.0f / 9));
 	eng->camera.height = 450;
 	float x = 0, y = 0;
 	while(eng->should_continue) {
@@ -20,8 +19,8 @@ int main()
 		if(eng->current_keys[SDL_SCANCODE_LEFT])
 			x -= 1;
 		if(eng->mouse_left) {
-			x = eng->mouse_x;
-			y = eng->mouse_y;
+			x = eng->mouse.x;
+			y = eng->mouse.y;
 		}
 		AU_TextureRegion region = au_tex_region(img);
 		au_draw_texture_ex(eng, region, AU_WHITE, 0, 0, 32, 32, 0, 0, 0, 1, 1, false, false, 0.5f);
