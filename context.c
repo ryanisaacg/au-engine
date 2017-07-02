@@ -8,7 +8,7 @@
 #define VERTEX_SIZE 9
 
 const GLchar* vertex_shader = R"glsl(
-#version 150
+#version 130
 	in vec3 position;
 	in vec2 tex_coord;
 	in vec4 color;
@@ -22,7 +22,7 @@ const GLchar* vertex_shader = R"glsl(
 	}
 )glsl";
 const GLchar* fragment_shader = R"glsl(
-	#version 150 core
+	#version 130
     in vec4 Color;
     in vec2 Tex_coord;
     out vec4 outColor;
