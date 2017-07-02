@@ -6,10 +6,10 @@ int main()
 	AU_Texture img = au_load_texture(eng, "../example/img.png");
 	AU_Font* font = au_load_font(eng, 14, AU_WHITE, "../example/example.ttf");
 	AU_Viewport view = au_viewport_new(LETTERBOX, 16.0f / 9);
+	au_viewport_apply(view, eng->window_width, eng->window_height);
 	eng->camera.height = 450;
 	float x = 0, y = 0;
 	while(eng->should_continue) {
-		au_viewport_apply(&view, eng->window_width, eng->window_height);
 		au_begin(eng, AU_BLACK);
 		if(eng->current_keys[SDL_SCANCODE_UP])
 			y -= 1;
