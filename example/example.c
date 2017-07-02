@@ -5,7 +5,7 @@ int main()
 	AU_Engine *eng = au_init("TEST WINDOW", 800, 600, "../example/img.png");
 	AU_Texture img = au_load_texture(eng, "../example/img.png");
 	AU_Font* font = au_load_font(eng, 14, AU_WHITE, "../example/example.ttf");
-	au_set_viewport(eng, au_viewport_new(LETTERBOX, 16.0f / 9));
+	au_set_viewport(eng, au_viewport_new(AU_VIEWPORT_LETTERBOX, 16.0f / 9));
 	eng->camera.height = 450;
 	float x = 0, y = 0;
 	while(eng->should_continue) {

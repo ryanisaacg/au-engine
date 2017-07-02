@@ -2,7 +2,7 @@
 
 #include "geom.h"
 
-typedef enum { STRETCH, LETTERBOX, FILL } AU_ViewportType;
+typedef enum { AU_VIEWPORT_STRETCH, AU_VIEWPORT_LETTERBOX, AU_VIEWPORT_FILL } AU_ViewportType;
 
 typedef struct {
 	AU_ViewportType type;

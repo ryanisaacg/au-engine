@@ -30,7 +30,7 @@ AU_Engine* au_init(char* title, int w, int h, char* image) {
 	
 	stbi_set_flip_vertically_on_load(true); //flip the images because opengl
 
-	au_set_viewport(engine, au_viewport_new(STRETCH, (float)w / h));
+	au_set_viewport(engine, au_viewport_new(AU_VIEWPORT_STRETCH, (float)w / h));
 
 	return engine;
 }
