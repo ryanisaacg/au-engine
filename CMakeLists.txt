@@ -47,5 +47,5 @@ add_executable(net-example example/net-example.c)
 target_link_libraries(net-example ${au-engine-libs})
 
 #CREATE THE TEXTURE PACKING TOOL
-add_executable(aupack packer/packer.c)
-target_link_libraries(aupack ${au-engine-libs})
+#add_executable(aupack packer/packer.c)
+#target_link_libraries(aupack ${au-engine-libs})
