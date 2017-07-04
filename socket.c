@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 //Platform specific includes and defines to provide a universal socket API
 //Use WinSock on Win32 platforms and use BSD sockets on everything else
@@ -12,8 +13,11 @@
 	#define SHUTDOWN_OPTION SD_BOTH
 	#define CLOSE closesocket
 #else
-	//TODO: Unix includes
 	#include <sys/socket.h>
+	#include <netinet/in.h>
+	#include <netinet/ip.h> 
+	#include <arpa/inet.h>
+	#include <unistd.h>
 	#define SHUTDOWN_OPTION SHUT_RDWR
 	#define CLOSE close
 #endif
@@ -62,7 +66,7 @@ AU_Socket au_socket_server_new(int port) {
 
 AU_Socket au_socket_server_accept(AU_Socket server) {
 	struct sockaddr_in serv_addr;
-	int serv_size = sizeof(serv_addr);
+	socklen_t serv_size = sizeof(serv_addr);
 	int socket = accept(server.tcp, (struct sockaddr*) &serv_addr, &serv_size);
 	int udp = new_socket(true);
 	int return_val = bind(udp, (struct sockaddr*) &serv_addr, serv_size);
