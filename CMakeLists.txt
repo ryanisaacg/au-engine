@@ -27,7 +27,7 @@ set_target_properties(au PROPERTIES LINKER_LANGUAGE C)
 
 set(au-engine-libs au SDL2_ttf SDL2 m)
 if(WIN32)
-	set(au-engine-libs ${au-engine-libs} opengl32)
+	set(au-engine-libs ${au-engine-libs} opengl32 ws2_32)
 else()
 	set(au-engine-libs ${au-engine-libs} dl GL)
 endif()
@@ -41,6 +41,10 @@ target_link_libraries(example ${au-engine-libs})
 #CREATE TEST EXECUTABLE
 add_executable(tests test/test.c)
 target_link_libraries(tests ${au-engine-libs})
+
+#CREATE NETWORKING EXAMPLE
+add_executable(net-example example/net-example.c)
+target_link_libraries(net-example ${au-engine-libs})
 
 #CREATE THE TEXTURE PACKING TOOL
 add_executable(aupack packer/packer.c)
