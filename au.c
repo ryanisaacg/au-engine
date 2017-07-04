@@ -8,6 +8,11 @@
 #include "memory.h"
 #include "stb_image.h"
 
+//Include winsock for windows socket initialization
+#ifdef _WIN32
+	#include <winsock2.h> 
+#endif
+
 AU_Engine* au_init(char* title, int w, int h, char* image) {
 	AU_Engine* engine = au_memory_alloc(sizeof(AU_Engine));
 	SDL_Init(SDL_INIT_VIDEO);
@@ -32,7 +37,21 @@ AU_Engine* au_init(char* title, int w, int h, char* image) {
 
 	au_set_viewport(engine, au_viewport_new(AU_VIEWPORT_STRETCH, (float)w / h));
 
+	au_init_headless();
+
 	return engine;
+}
+
+void au_init_headless() {
+#ifdef _WIN32
+	WSADATA wsaData;
+	int result = WSAStartup(MAKEWORD(2,2), &wsaData);
+	if (result != 0) {
+		printf("WSAStartup failed: %d\n", result);
+		exit(1);
+	}
+#endif
+
 }
 
 void au_quit(AU_Engine* eng) {

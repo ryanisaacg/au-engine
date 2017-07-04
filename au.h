@@ -7,6 +7,7 @@
 #include "context.h"
 #include "geom.h"
 #include "particle.h"
+#include "socket.h"
 #include "sprite.h"
 #include "texture.h"
 #include "tmap.h"
@@ -31,9 +32,10 @@ typedef struct {
 	int window_width, window_height;
 	AU_Viewport viewport;
 } AU_Engine;
-
 //Intialize the engine with a window
 AU_Engine* au_init(char* title, int width, int height, char* icon);
+//Initialize the engine headlessly
+void au_init_headless();
 //Quit the engine and free the memory
 void au_quit(AU_Engine*);
 //Set the viewport for the game
