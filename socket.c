@@ -10,6 +10,7 @@
 //Define close as a macro so closesocket and close look the same
 #ifdef _WIN32
 	#include <winsock2.h> 
+	#include <ws2tcpip.h>
 	#define SHUTDOWN_OPTION SD_BOTH
 	#define CLOSE closesocket
 #else
