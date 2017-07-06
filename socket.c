@@ -10,7 +10,7 @@
 //Define close as a macro so closesocket and close look the same
 #ifdef _WIN32
 	#include <winsock2.h> 
-	#include <ws2tcpip.h>
+	#include <Ws2tcpip.h>
 	#define SHUTDOWN_OPTION SD_BOTH
 	#define CLOSE closesocket
 #else
@@ -23,6 +23,10 @@
 	#define CLOSE close
 #endif
 
+
+const char* inet_ntop(int af, const void* src, char* dst, size_t size);
+
+
 static int new_socket(bool is_udp) {
 	int id = socket(AF_INET, is_udp ? SOCK_DGRAM : SOCK_STREAM, 0);
 	if(id < 0) {
@@ -32,7 +36,8 @@ static int new_socket(bool is_udp) {
 	return id;
 }
 
-static int bind_socket(int id, int port) {
+static int create_bind_socket(bool is_udp, int port) {
+	int id = new_socket(is_udp);
 	struct sockaddr_in name;
 	memset(&name, 0, sizeof(name));
 	name.sin_family = AF_INET;
@@ -43,11 +48,14 @@ static int bind_socket(int id, int port) {
 		fprintf(stderr, "Failed to bind a socket to port %d\n", port);
 		exit(1);
 	}
-	listen(id, 5);
+	if(!is_udp) {
+		listen(id, 5);
+	}
 	return id;
 }
 
-static int connect_socket(int id, const char* name, int port) {
+static int create_connect_socket(bool is_udp, const char* name, int port) {
+	int id = new_socket(is_udp);
 	struct sockaddr_in serv_addr;
 	memset(&(serv_addr), 0, sizeof(struct sockaddr_in));
 	serv_addr.sin_addr.s_addr = inet_addr(name);
@@ -62,7 +70,7 @@ static int connect_socket(int id, const char* name, int port) {
 }
 
 AU_Socket au_socket_server_new(int port) {
-	return (AU_Socket) { bind_socket(new_socket(false), port), bind_socket(new_socket(true), port), true };
+	return (AU_Socket) { create_bind_socket(false, port), create_bind_socket(true, port), true };
 }
 
 AU_Socket au_socket_server_accept(AU_Socket server) {
@@ -79,7 +87,7 @@ AU_Socket au_socket_server_accept(AU_Socket server) {
 }
 
 AU_Socket au_socket_connection_new(const char* remote_address, int port) {
-	return (AU_Socket) { connect_socket(new_socket(false), remote_address, port), connect_socket(new_socket(true),remote_address, port), false };
+	return (AU_Socket) { create_connect_socket(false, remote_address, port), create_connect_socket(true, remote_address, port), false };
 
 }
 
@@ -89,14 +97,6 @@ void au_socket_tcp_send(AU_Socket socket, const void* message, size_t length) {
 
 size_t au_socket_tcp_recv(AU_Socket socket, void* message, size_t buffer_length) {
 	return recv(socket.tcp, message, buffer_length, 0);
-}
-
-void au_socket_udp_send(AU_Socket socket, const void* message, size_t length) {
-	send(socket.udp, message, length, 0);
-}
-
-size_t au_socket_udp_recv(AU_Socket socket, void* message, size_t buffer_length) {
-	return recv(socket.udp, message, buffer_length, 0);
 }
 
 void au_socket_close(AU_Socket socket) {
