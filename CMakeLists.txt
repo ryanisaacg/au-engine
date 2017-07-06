@@ -27,7 +27,6 @@ set_target_properties(au PROPERTIES LINKER_LANGUAGE C)
 
 set(au-engine-libs au SDL2_ttf SDL2 m)
 if(WIN32)
-<<<<<<< HEAD
 	set(au-engine-libs ${au-engine-libs} opengl32 ws2_32)
 elseif(APPLE)
 	find_library(OpenGL REQUIRED)
