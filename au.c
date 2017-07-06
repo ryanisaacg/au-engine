@@ -10,13 +10,14 @@
 
 //Include winsock for windows socket initialization
 #ifdef _WIN32
-	#include <winsock2.h> 
+	#include <winsock2.h>
 #endif
 
 AU_Engine* au_init(char* title, int w, int h, char* image) {
 	AU_Engine* engine = au_memory_alloc(sizeof(AU_Engine));
 	SDL_Init(SDL_INIT_VIDEO);
-	SDL_Window* window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w, h, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+	SDL_Window* window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w, h,
+										  SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 	engine->ctx = au_context_init_stack(window);
 	engine->fps = 60;
 	engine->should_continue = true;
@@ -25,14 +26,16 @@ AU_Engine* au_init(char* title, int w, int h, char* image) {
 	engine->particles = au_memory_alloc(sizeof(AU_Particle) * engine->particle_capacity);
 	engine->particle_count = 0;
 	engine->map = NULL;
-	engine->camera = (AU_Rectangle) { 0, 0, w, h };
+	engine->camera = (AU_Rectangle) {
+		0, 0, w, h
+	};
 	engine->window_width = w;
 	engine->window_height = h;
 
 	TTF_Init(); //initialize the SDL font subsystem
 
 	srand(time(NULL));
-	
+
 	stbi_set_flip_vertically_on_load(true); //flip the images because opengl
 
 	au_set_viewport(engine, au_viewport_new(AU_VIEWPORT_STRETCH, (float)w / h));
@@ -45,7 +48,7 @@ AU_Engine* au_init(char* title, int w, int h, char* image) {
 void au_init_headless() {
 #ifdef _WIN32
 	WSADATA wsaData;
-	int result = WSAStartup(MAKEWORD(2,2), &wsaData);
+	int result = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (result != 0) {
 		printf("WSAStartup failed: %d\n", result);
 		exit(1);
@@ -73,10 +76,11 @@ AU_Texture au_load_texture_from_memory(AU_Engine* eng, unsigned char* data, int 
 	int id = au_context_register_texture(&eng->ctx, texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, has_alpha ? GL_RGBA : GL_RGB, w, h, 0, has_alpha ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, data);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, has_alpha ? GL_RGBA : GL_RGB, w, h, 0, has_alpha ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE,
+				 data);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	return (AU_Texture) {
@@ -87,7 +91,7 @@ AU_Texture au_load_texture_from_memory(AU_Engine* eng, unsigned char* data, int 
 AU_Texture au_load_texture(AU_Engine* eng, const char* name) {
 	int width, height, bpp;
 	unsigned char* data = stbi_load(name, &width, &height, &bpp, 0); //todo: check a file with alpha
-	if(data == NULL) {
+	if (data == NULL) {
 		fprintf(stderr, "Failed to load image %s\n", name);
 		exit(1);
 	}
@@ -120,7 +124,9 @@ void au_begin(AU_Engine* eng, AU_Color bg) {
 	}
 	int x, y;
 	int button_mask = SDL_GetMouseState(&x, &y);
-	eng->mouse = au_viewport_unproject(eng->viewport, (AU_Vector) { x, y }, eng->window_width, eng->window_height);
+	eng->mouse = au_viewport_unproject(eng->viewport, (AU_Vector) {
+		x, y
+	}, eng->window_width, eng->window_height);
 	eng->mouse_left = button_mask & SDL_BUTTON(SDL_BUTTON_LEFT);
 	eng->mouse_right = button_mask & SDL_BUTTON(SDL_BUTTON_RIGHT);
 	eng->mouse_middle = button_mask & SDL_BUTTON(SDL_BUTTON_MIDDLE);
@@ -128,24 +134,24 @@ void au_begin(AU_Engine* eng, AU_Color bg) {
 
 void au_end(AU_Engine* eng) {
 	//Update particles
-	if(eng->map != NULL) {
-		for(size_t i = 0; i < eng->particle_count; i++) {
-			AU_Particle *part = eng->particles + i;
-			switch(part->behavior) {
-			case AU_MAP_IGNORE:
-				break;
-			case AU_MAP_DIE:
-				if(au_tmap_get(eng->map, part->position.x, part->position.y)) {
-					eng->particles[i].lifetime = 0;
-				}
-				break;
-			case AU_MAP_BOUNCE:
-				if(au_tmap_get(eng->map, part->position.x + part->velocity.x, part->position.y)) {
-					part->velocity.x *= -1;
-				}
-				if(au_tmap_get(eng->map, part->position.x, part->position.y + part->velocity.y)) {
-					part->velocity.y *= -1;
-				}
+	if (eng->map != NULL) {
+		for (size_t i = 0; i < eng->particle_count; i++) {
+			AU_Particle* part = eng->particles + i;
+			switch (part->behavior) {
+				case AU_MAP_IGNORE:
+					break;
+				case AU_MAP_DIE:
+					if (au_tmap_get(eng->map, part->position.x, part->position.y)) {
+						eng->particles[i].lifetime = 0;
+					}
+					break;
+				case AU_MAP_BOUNCE:
+					if (au_tmap_get(eng->map, part->position.x + part->velocity.x, part->position.y)) {
+						part->velocity.x *= -1;
+					}
+					if (au_tmap_get(eng->map, part->position.x, part->position.y + part->velocity.y)) {
+						part->velocity.y *= -1;
+					}
 			}
 		}
 	}
@@ -170,7 +176,7 @@ void au_end(AU_Engine* eng) {
 	au_context_present(&eng->ctx, eng->camera);
 
 	unsigned int time = SDL_GetTicks();
-	if(time - eng->previous_ticks < 1000 / eng->fps) {
+	if (time - eng->previous_ticks < 1000 / eng->fps) {
 		SDL_Delay(1000 / eng->fps - (time - eng->previous_ticks)); //account for the time elapsed during the frame
 	}
 	eng->previous_ticks = time;

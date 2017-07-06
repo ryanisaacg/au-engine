@@ -1,4 +1,4 @@
-#include "color.h" 
+#include "color.h"
 
 SDL_Color au_color_to_sdl(AU_Color c) {
 	return (SDL_Color) {

@@ -31,23 +31,23 @@ void main() { \
 }";
 
 void check_gl_errors() {
-	switch(glGetError()) {
-	case GL_NO_ERROR:
-		return;
-	case GL_INVALID_ENUM:
-		printf("GL invalid enum\n");
-	case GL_OUT_OF_MEMORY:
-		printf("GL out of memory\n");
-		break;
-	case GL_INVALID_VALUE:
-		printf("GL invalid value\n");
-		break;
-	case GL_INVALID_OPERATION:
-		printf("GL invalid operation\n");
-		break;
-	case GL_INVALID_FRAMEBUFFER_OPERATION:
-		printf("GL invalid frambuffer operation");
-		break;
+	switch (glGetError()) {
+		case GL_NO_ERROR:
+			return;
+		case GL_INVALID_ENUM:
+			printf("GL invalid enum\n");
+		case GL_OUT_OF_MEMORY:
+			printf("GL out of memory\n");
+			break;
+		case GL_INVALID_VALUE:
+			printf("GL invalid value\n");
+			break;
+		case GL_INVALID_OPERATION:
+			printf("GL invalid operation\n");
+			break;
+		case GL_INVALID_FRAMEBUFFER_OPERATION:
+			printf("GL invalid frambuffer operation");
+			break;
 	}
 	exit(1);
 }
@@ -58,7 +58,7 @@ AU_Context au_context_init_stack(SDL_Window* wind) {
 	ctx.window = wind;
 	ctx.ctx = SDL_GL_CreateContext(wind);
 	//Load OpenGL
-	if(!gladLoadGL()) {
+	if (!gladLoadGL()) {
 		printf("Failed to initialize OpenGL\n");
 		exit(1);
 	}
@@ -77,7 +77,7 @@ AU_Context au_context_init_stack(SDL_Window* wind) {
 	glCompileShader(ctx.vertex);
 	GLint status;
 	glGetShaderiv(ctx.vertex, GL_COMPILE_STATUS, &status);
-	if(status != GL_TRUE) {
+	if (status != GL_TRUE) {
 		printf("Vertex shader compilation failed\n");
 		char buffer[512];
 		glGetShaderInfoLog(ctx.vertex, 512, NULL, buffer);
@@ -88,7 +88,7 @@ AU_Context au_context_init_stack(SDL_Window* wind) {
 	glShaderSource(ctx.fragment, 1, &fragment_shader, NULL);
 	glCompileShader(ctx.fragment);
 	glGetShaderiv(ctx.fragment, GL_COMPILE_STATUS, &status);
-	if(status != GL_TRUE) {
+	if (status != GL_TRUE) {
 		printf("Fragment shader compilation failed\n");
 		char buffer[512];
 		glGetShaderInfoLog(ctx.fragment, 512, NULL, buffer);
@@ -118,13 +118,13 @@ void au_context_quit(AU_Context* ctx) {
 	}
 	free(ctx->image_buffer);
 	glDeleteProgram(ctx->shader);
-    glDeleteShader(ctx->fragment);
-    glDeleteShader(ctx->vertex);
+	glDeleteShader(ctx->fragment);
+	glDeleteShader(ctx->vertex);
 
-    glDeleteBuffers(1, &ctx->vbo);
-    glDeleteBuffers(1, &ctx->ebo);
+	glDeleteBuffers(1, &ctx->vbo);
+	glDeleteBuffers(1, &ctx->ebo);
 
-    glDeleteVertexArrays(1, &ctx->vao);
+	glDeleteVertexArrays(1, &ctx->vao);
 	SDL_GL_DeleteContext(ctx->ctx);
 }
 

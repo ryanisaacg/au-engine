@@ -9,14 +9,14 @@
 //Define an alias for shutdown reading and writing
 //Define close as a macro so closesocket and close look the same
 #ifdef _WIN32
-	#include <winsock2.h> 
+	#include <winsock2.h>
 	#include <Ws2tcpip.h>
 	#define SHUTDOWN_OPTION SD_BOTH
 	#define CLOSE closesocket
 #else
 	#include <sys/socket.h>
 	#include <netinet/in.h>
-	#include <netinet/ip.h> 
+	#include <netinet/ip.h>
 	#include <arpa/inet.h>
 	#include <unistd.h>
 	#define SHUTDOWN_OPTION SHUT_RDWR
@@ -29,7 +29,7 @@ const char* inet_ntop(int af, const void* src, char* dst, size_t size);
 
 static int new_socket(bool is_udp) {
 	int id = socket(AF_INET, is_udp ? SOCK_DGRAM : SOCK_STREAM, 0);
-	if(id < 0) {
+	if (id < 0) {
 		fprintf(stderr, "Failed to create %s socket\n", is_udp ? "UDP" : "TCP");
 		exit(1);
 	}
@@ -44,11 +44,11 @@ static int create_bind_socket(bool is_udp, int port) {
 	name.sin_port = port;
 	name.sin_addr.s_addr = INADDR_ANY;
 	int return_val = bind(id, (struct sockaddr*) &name, sizeof(name));
-	if(return_val != 0) {
+	if (return_val != 0) {
 		fprintf(stderr, "Failed to bind a socket to port %d\n", port);
 		exit(1);
 	}
-	if(!is_udp) {
+	if (!is_udp) {
 		listen(id, 5);
 	}
 	return id;
@@ -62,7 +62,7 @@ static int create_connect_socket(bool is_udp, const char* name, int port) {
 	serv_addr.sin_family = AF_INET;
 	serv_addr.sin_port = port;
 	int return_val = connect(id, (struct sockaddr*) &serv_addr, sizeof(serv_addr));
-	if(return_val != 0) {
+	if (return_val != 0) {
 		fprintf(stderr, "Failed to connect to a remote socket at address %s and port %d\n", name, port);
 		exit(1);
 	}
@@ -70,7 +70,9 @@ static int create_connect_socket(bool is_udp, const char* name, int port) {
 }
 
 AU_Socket au_socket_server_new(int port) {
-	return (AU_Socket) { create_bind_socket(false, port), create_bind_socket(true, port), true };
+	return (AU_Socket) {
+		create_bind_socket(false, port), create_bind_socket(true, port), true
+	};
 }
 
 AU_Socket au_socket_server_accept(AU_Socket server) {
@@ -79,15 +81,19 @@ AU_Socket au_socket_server_accept(AU_Socket server) {
 	int socket = accept(server.tcp, (struct sockaddr*) &serv_addr, &serv_size);
 	int udp = new_socket(true);
 	int return_val = bind(udp, (struct sockaddr*) &serv_addr, serv_size);
-	if(return_val != 0) {
+	if (return_val != 0) {
 		fprintf(stderr, "Failed to accept a connection\n");
 		exit(1);
 	}
-	return (AU_Socket) { socket, udp, false };
+	return (AU_Socket) {
+		socket, udp, false
+	};
 }
 
 AU_Socket au_socket_connection_new(const char* remote_address, int port) {
-	return (AU_Socket) { create_connect_socket(false, remote_address, port), create_connect_socket(true, remote_address, port), false };
+	return (AU_Socket) {
+		create_connect_socket(false, remote_address, port), create_connect_socket(true, remote_address, port), false
+	};
 
 }
 
