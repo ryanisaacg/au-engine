@@ -7,32 +7,28 @@
 
 #define VERTEX_SIZE 9
 
-const GLchar* vertex_shader = R"glsl(
-#version 130
-	in vec3 position;
-	in vec2 tex_coord;
-	in vec4 color;
-	uniform mat4 transform;
-	out vec4 Color;
-	out vec2 Tex_coord;
-	void main() {
-		Color = color;
-		Tex_coord = tex_coord;
-		gl_Position = transform * vec4(position, 1.0);
-	}
-)glsl";
-const GLchar* fragment_shader = R"glsl(
-	#version 130
-    in vec4 Color;
-    in vec2 Tex_coord;
-    out vec4 outColor;
-    uniform sampler2D tex;
-
-    void main()
-    {
-        outColor = texture(tex, Tex_coord);
-    }
-)glsl";
+const GLchar* vertex_shader = "\
+#version 130 \
+in vec3 position; \
+in vec2 tex_coord; \
+in vec4 color; \
+uniform mat4 transform; \
+out vec4 Color; \
+out vec2 Tex_coord; \
+void main() { \
+	Color = color; \
+	Tex_coord = tex_coord; \
+	gl_Position = transform * vec4(position, 1.0); \
+}";
+const GLchar* fragment_shader = "\
+#version 130 \
+in vec4 Color; \
+in vec2 Tex_coord; \
+out vec4 outColor; \
+uniform sampler2D tex; \
+void main() { \
+	outColor = texture(tex, Tex_coord); \
+}";
 
 void check_gl_errors() {
 	switch(glGetError()) {
