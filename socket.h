@@ -18,10 +18,5 @@ AU_Socket au_socket_connection_new(const char* remote_address, int port);
 void au_socket_tcp_send(AU_Socket socket, const void* message, size_t length);
 //Receive data from TCP and return the amount of data read
 size_t au_socket_tcp_recv(AU_Socket socket, void* message, size_t buffer_length);
-//Send a message with a given length over UDP
-void au_socket_udp_send(AU_Socket socket, const void* message, size_t length);
-//Receive data from UDP and return the amount of data read
-//TODO: Add a user-facing way to determine the origin of the message
-size_t au_socket_udp_recv(AU_Socket socket, void* message, size_t buffer_length);
 //Close a socket and shut down its IO
 void au_socket_close(AU_Socket socket);
