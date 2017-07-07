@@ -49,9 +49,6 @@ target_link_libraries(tests ${au-engine-libs})
 add_executable(net-example example/net-example.c)
 target_link_libraries(net-example ${au-engine-libs})
 
-#CREATE THE TEXTURE PACKING TOOL
-#add_executable(aupack packer/packer.c)
-#target_link_libraries(aupack ${au-engine-libs})
-
+#EXPORT THE VARIABLES
 set(au-engine-include ${au-engine-include} PARENT_SCOPE)
 set(au-engine-libs ${au-engine-libs} PARENT_SCOPE)
