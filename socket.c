@@ -24,7 +24,7 @@
 #endif
 
 
-const char* inet_ntop(int af, const void* src, char* dst, size_t size);
+const char* inet_ntop(int af, const void* src, char* dst, socklen_t size);
 
 
 static int new_socket(bool is_udp) {
