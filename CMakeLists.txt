@@ -4,6 +4,10 @@ set(CMAKE_BUILD_TYPE Debug)
 cmake_policy(SET CMP0003 NEW)
 cmake_policy(SET CMP0015 NEW)
 
+#Add the dependency libraries
+add_subdirectory(sdl2)
+add_subdirectory(freetype)
+
 #SET WARNINGS
 if(MSVC)
   if(CMAKE_C_FLAGS MATCHES "/W[0-4]")
@@ -17,7 +21,7 @@ endif()
 
 file(GLOB SOURCES *.c)
 file(GLOB DEPENDENCIES deps/*.c)
-set(au-engine-include ${au-engine_SOURCE_DIR} ${au-engine_SOURCE_DIR}/deps)
+set(au-engine-include ${au-engine_SOURCE_DIR} ${au-engine_SOURCE_DIR}/deps ${au-engine_SOURCE_DIR}/sdl2/include ${au-engine_SOURCE_DIR}/freetype/include)
 include_directories(${au-engine-include})
 
 #LINK LIBRARY
@@ -25,7 +29,7 @@ add_library(au STATIC ${SOURCES} ${DEPENDENCIES} )
 set_property(TARGET au PROPERTY C_STANDARD 99)
 set_target_properties(au PROPERTIES LINKER_LANGUAGE C)
 
-set(au-engine-libs au SDL2_ttf SDL2 m)
+set(au-engine-libs au SDL2-static m)
 if(WIN32)
 	set(au-engine-libs ${au-engine-libs} opengl32 ws2_32)
 elseif(APPLE)
@@ -49,6 +53,9 @@ target_link_libraries(tests ${au-engine-libs})
 add_executable(net-example example/net-example.c)
 target_link_libraries(net-example ${au-engine-libs})
 
-#EXPORT THE VARIABLES
-set(au-engine-include ${au-engine-include} PARENT_SCOPE)
-set(au-engine-libs ${au-engine-libs} PARENT_SCOPE)
+#EXPORT THE VARIABLES IF NECESSARY
+get_directory_property(hasParent PARENT_DIRECTORY)
+if(hasParent)
+	set(au-engine-include ${au-engine-include} PARENT_SCOPE)
+	set(au-engine-libs ${au-engine-libs} PARENT_SCOPE)
+endif()
