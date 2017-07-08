@@ -6,7 +6,7 @@ cmake_policy(SET CMP0015 NEW)
 
 #Add the dependency libraries
 add_subdirectory(sdl2)
-add_subdirectory(freetype)
+add_subdirectory(sdl2_ttf)
 
 #SET WARNINGS
 if(MSVC)
@@ -21,15 +21,15 @@ endif()
 
 file(GLOB SOURCES *.c)
 file(GLOB DEPENDENCIES deps/*.c)
-set(au-engine-include ${au-engine_SOURCE_DIR} ${au-engine_SOURCE_DIR}/deps ${au-engine_SOURCE_DIR}/sdl2/include ${au-engine_SOURCE_DIR}/freetype/include)
+set(au-engine-include ${au-engine_SOURCE_DIR} ${au-engine_SOURCE_DIR}/deps ${au-engine_SOURCE_DIR}/sdl2/include ${au-engine_SOURCE_DIR}/sdl2_ttf/freetype/include ${au-engine_SOURCE_DIR}/sdl2_ttf)
 include_directories(${au-engine-include})
 
 #LINK LIBRARY
-add_library(au STATIC ${SOURCES} ${DEPENDENCIES} )
+add_library(au SHARED ${SOURCES} ${DEPENDENCIES} )
 set_property(TARGET au PROPERTY C_STANDARD 99)
 set_target_properties(au PROPERTIES LINKER_LANGUAGE C)
 
-set(au-engine-libs au SDL2-static m)
+set(au-engine-libs au SDL2-static SDL2_ttf freetype m)
 if(WIN32)
 	set(au-engine-libs ${au-engine-libs} opengl32 ws2_32)
 elseif(APPLE)
