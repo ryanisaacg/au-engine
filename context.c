@@ -1,14 +1,15 @@
 #include "context.h"
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "memory.h"
 
 #define VERTEX_SIZE 9
 
 const GLchar* vertex_shader = "\
-#version 130 \
+#version 130\n \
 in vec3 position; \
 in vec2 tex_coord; \
 in vec4 color; \
@@ -21,7 +22,7 @@ void main() { \
 	gl_Position = transform * vec4(position, 1.0); \
 }";
 const GLchar* fragment_shader = "\
-#version 130 \
+#version 130\n \
 in vec4 Color; \
 in vec2 Tex_coord; \
 out vec4 outColor; \
