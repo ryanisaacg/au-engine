@@ -4,8 +4,10 @@ set(CMAKE_BUILD_TYPE Debug)
 cmake_policy(SET CMP0003 NEW)
 cmake_policy(SET CMP0015 NEW)
 
+set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+
 #Add the dependency libraries
-add_subdirectory(sdl2)
 add_subdirectory(sdl2_ttf)
 
 #SET WARNINGS
@@ -21,15 +23,10 @@ endif()
 
 file(GLOB SOURCES *.c)
 file(GLOB DEPENDENCIES deps/*.c)
-set(au-engine-include ${au-engine_SOURCE_DIR} ${au-engine_SOURCE_DIR}/deps ${au-engine_SOURCE_DIR}/sdl2/include ${au-engine_SOURCE_DIR}/sdl2_ttf/freetype/include ${au-engine_SOURCE_DIR}/sdl2_ttf)
+set(au-engine-include ${au-engine_SOURCE_DIR} ${au-engine_SOURCE_DIR}/deps ${au-engine_SOURCE_DIR}/sdl2_ttf/sdl2/include ${au-engine_SOURCE_DIR}/sdl2_ttf/freetype/include ${au-engine_SOURCE_DIR}/sdl2_ttf)
 include_directories(${au-engine-include})
 
-#LINK LIBRARY
-add_library(au SHARED ${SOURCES} ${DEPENDENCIES} )
-set_property(TARGET au PROPERTY C_STANDARD 99)
-set_target_properties(au PROPERTIES LINKER_LANGUAGE C)
-
-set(au-engine-libs au SDL2-static SDL2_ttf freetype m)
+set(au-engine-libs SDL2 SDL2_ttf freetype m)
 if(WIN32)
 	set(au-engine-libs ${au-engine-libs} opengl32 ws2_32)
 elseif(APPLE)
@@ -39,7 +36,13 @@ else()
 	set(au-engine-libs ${au-engine-libs} dl GL)
 endif()
 
-execute_process(COMMAND "sdl2-config --cflags" au-engine-include)
+#LINK LIBRARY
+add_library(au SHARED ${SOURCES} ${DEPENDENCIES} )
+set_property(TARGET au PROPERTY C_STANDARD 99)
+set_target_properties(au PROPERTIES LINKER_LANGUAGE C)
+target_link_libraries(au ${au-engine-libs})
+
+set(au-engine-libs au ${au-engine-libs})
 
 #CREATE EXECUTABLE
 add_executable(example example/example.c)
@@ -51,7 +54,7 @@ target_link_libraries(tests ${au-engine-libs})
 
 #CREATE NETWORKING EXAMPLE
 add_executable(net-example example/net-example.c)
-target_link_libraries(net-example ${au-engine-libs})
+target_link_libraries(net-example au ${au-engine-libs})
 
 #EXPORT THE VARIABLES IF NECESSARY
 get_directory_property(hasParent PARENT_DIRECTORY)
