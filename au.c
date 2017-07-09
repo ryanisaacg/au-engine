@@ -121,6 +121,11 @@ void au_begin(AU_Engine* eng, AU_Color bg) {
 			case SDL_KEYUP:
 				eng->current_keys[e.key.keysym.scancode] = false;
 				break;
+			case SDL_WINDOWEVENT_RESIZED: {
+				int w, h;
+				SDL_GetWindowSize(eng->ctx.window, &w, &h);
+				au_viewport_apply(eng->viewport, w, h);
+										  }
 		}
 	}
 	int x, y;
