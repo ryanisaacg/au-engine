@@ -71,7 +71,7 @@ void au_draw_sprite_animated(AU_Engine*, AU_AnimatedSprite*);
 //Add a burst of particles
 void au_add_particles(AU_Engine*, AU_ParticleEmitter*);
 //Recursive dependency- must be included after declarations
-#include "text.h"
+#include "font.h"
 //Load a font with a given size and color from a file
 AU_Font* au_load_font(AU_Engine*, int size, AU_Color, const char* filename);
 //Draw a single character to the screen (returns the width of the character)
