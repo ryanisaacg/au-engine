@@ -14,11 +14,17 @@
 	#include <winsock2.h>
 #endif
 
-AU_Engine* au_init(char* title, int w, int h, char* image) {
+AU_Engine* au_init(char* title, int width, int height, char* icon, AU_WindowConfig config) {
 	AU_Engine* engine = au_memory_alloc(sizeof(AU_Engine));
 	SDL_Init(SDL_INIT_VIDEO);
-	SDL_Window* window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, w, h,
-										  SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+	SDL_Window* window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height,
+										  SDL_WINDOW_OPENGL | (SDL_WINDOW_RESIZABLE && config.resizable) | 
+										  (SDL_WINDOW_FULLSCREEN && config.fullscreen) | 
+										  (SDL_WINDOW_BORDERLESS && config.borderless) | 
+										  (SDL_WINDOW_MINIMIZED && config.minimized) |
+										  (SDL_WINDOW_MAXIMIZED && config.maximized) | 
+										  (SDL_WINDOW_INPUT_GRABBED && config.input_grabbed) |
+										  (SDL_WINDOW_ALLOW_HIGHDPI && config.highdpi));
 	engine->ctx = au_context_init_stack(window);
 	engine->fps = 60;
 	engine->should_continue = true;
@@ -28,10 +34,10 @@ AU_Engine* au_init(char* title, int w, int h, char* image) {
 	engine->particle_count = 0;
 	engine->map = NULL;
 	engine->camera = (AU_Rectangle) {
-		0, 0, w, h
+		0, 0, width, height
 	};
-	engine->window_width = w;
-	engine->window_height = h;
+	engine->window_width = width;
+	engine->window_height = height;
 
 	TTF_Init(); //initialize the SDL font subsystem
 
@@ -39,7 +45,7 @@ AU_Engine* au_init(char* title, int w, int h, char* image) {
 
 	stbi_set_flip_vertically_on_load(true); //flip the images because opengl
 
-	au_set_viewport(engine, au_viewport_new(AU_VIEWPORT_STRETCH, (float)w / h));
+	au_set_viewport(engine, au_viewport_new(AU_VIEWPORT_STRETCH, (float)width / height));
 
 	au_init_headless();
 

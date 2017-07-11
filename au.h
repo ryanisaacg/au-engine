@@ -17,6 +17,12 @@
 #define SDL_NUM_KEYS 284
 
 typedef struct {
+	bool fullscreen, resizable, borderless, minimized, maximized, input_grabbed, highdpi;
+} AU_WindowConfig;
+
+#define DEFAULT_CONFIG (AU_WindowConfig) { false, false, false, false, false, false, false };
+
+typedef struct {
 	AU_Context ctx;
 	unsigned int fps;
 	bool should_continue;
@@ -32,8 +38,8 @@ typedef struct {
 	int window_width, window_height;
 	AU_Viewport viewport;
 } AU_Engine;
-//Intialize the engine with a window
-AU_Engine* au_init(char* title, int width, int height, char* icon);
+//Intialize the engine with a window (pass null to have no icon)
+AU_Engine* au_init(char* title, int width, int height, char* icon, AU_WindowConfig config);
 //Initialize the engine headlessly
 void au_init_headless();
 //Quit the engine and free the memory

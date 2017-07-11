@@ -2,7 +2,8 @@
 
 int main()
 {
-	AU_Engine *eng = au_init("TEST WINDOW", 800, 600, "../example/img.png");
+	AU_WindowConfig config = DEFAULT_CONFIG;
+	AU_Engine *eng = au_init("TEST WINDOW", 800, 600, "../example/img.png", config);
 	AU_Texture img = au_load_texture(eng, "../example/img.png");
 	AU_Font* font = au_load_font(eng, 14, AU_WHITE, "../example/example.ttf");
 	au_set_viewport(eng, au_viewport_new(AU_VIEWPORT_LETTERBOX, 16.0f / 9));
