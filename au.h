@@ -37,6 +37,7 @@ typedef struct {
 	AU_Rectangle camera;
 	int window_width, window_height;
 	AU_Viewport viewport;
+	AU_Texture white;
 } AU_Engine;
 //Intialize the engine with a window (pass null to have no icon)
 AU_Engine* au_init(char* title, int width, int height, char* icon, AU_WindowConfig config);
@@ -56,6 +57,10 @@ AU_Texture au_load_texture_from_surface(AU_Engine*, SDL_Surface*);
 void au_begin(AU_Engine*, AU_Color);
 //Stop drawing a frame
 void au_end(AU_Engine*);
+//Draw a convex polygon with a given list of vertices with a given color
+void au_draw_shape(AU_Engine*, AU_Color, AU_Vector*, size_t length);
+//Draw a convex polygon with a given list of vertices at a given depth
+void au_draw_shape_depth(AU_Engine*, AU_Color, AU_Vector*, size_t length, float depth);
 //Draw a texture region with its natural size (x, y)
 void au_draw_texture(AU_Engine*, AU_TextureRegion, float, float);
 //Draw a texture region to a given area (x, y, width, height)

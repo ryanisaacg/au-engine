@@ -49,6 +49,10 @@ AU_Engine* au_init(char* title, int width, int height, char* icon, AU_WindowConf
 
 	au_init_headless();
 
+	unsigned char white_pixel[] = { 255, 255, 255 };
+
+	engine->white = au_load_texture_from_memory(engine, white_pixel, 1, 1, false);
+
 	return engine;
 }
 
@@ -192,6 +196,26 @@ void au_end(AU_Engine* eng) {
 		SDL_Delay(1000 / eng->fps - (time - eng->previous_ticks)); //account for the time elapsed during the frame
 	}
 	eng->previous_ticks = time;
+}
+
+void au_draw_shape(AU_Engine* eng, AU_Color color, AU_Vector* points, size_t length) {
+	au_draw_shape_depth(eng, color, points, length, 0);
+}
+
+void au_draw_shape_depth(AU_Engine* eng, AU_Color color, AU_Vector* points, size_t length, float depth) {
+	if (length < 3) {
+		fprintf(stderr, "Cannot draw a polygon with less than three vertices\n");
+		exit(1);
+	}
+	int indices[length];
+	for (size_t i = 0; i < length; i++) {
+		indices[i] = au_context_add_vertex(&eng->ctx, eng->white.id, points[i].x, points[i].y, -(1 - depth), 0, 0, color.r, color.g, color.b, color.a);
+	}
+	for (size_t i = 1; i < length - 1; i++) {
+		au_context_add_index(&eng->ctx, eng->white.id, indices[0]);
+		au_context_add_index(&eng->ctx, eng->white.id, indices[i]);
+		au_context_add_index(&eng->ctx, eng->white.id, indices[i + 1]);
+	}
 }
 
 void au_draw_texture(AU_Engine* eng, AU_TextureRegion tex, float x, float y) {
