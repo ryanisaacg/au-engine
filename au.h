@@ -65,6 +65,10 @@ void au_draw_shape_depth(AU_Engine*, AU_Color, AU_Vector*, size_t length, float 
 void au_draw_circle(AU_Engine*, AU_Color, AU_Circle);
 //Draw a circle with a given depth
 void au_draw_circle_depth(AU_Engine*, AU_Color, AU_Circle, float);
+//Draw a rectangle with a given color
+void au_draw_rect(AU_Engine*, AU_Color, AU_Rectangle);
+//Draw a rectangle with a given color with a given depth
+void au_draw_rect_depth(AU_Engine*, AU_Color, AU_Rectangle, float);
 //Draw a texture region with its natural size (x, y)
 void au_draw_texture(AU_Engine*, AU_TextureRegion, float, float);
 //Draw a texture region to a given area (x, y, width, height)

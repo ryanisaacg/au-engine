@@ -234,6 +234,15 @@ void au_draw_circle_depth(AU_Engine* eng, AU_Color color, AU_Circle circle, floa
 	au_draw_shape_depth(eng, color, points, num_points, depth);
 }
 
+void au_draw_rect(AU_Engine* eng, AU_Color color, AU_Rectangle rect) {
+	au_draw_rect_depth(eng, color, rect, 0);
+}
+
+void au_draw_rect_depth(AU_Engine* eng, AU_Color color, AU_Rectangle rect, float depth) {
+	AU_Vector points[] = {{rect.x, rect.y}, {rect.x + rect.width, rect.y}, {rect.x + rect.width, rect.y + rect.height}, {rect.x, rect.y + rect.height}};
+	au_draw_shape_depth(eng, color, points, 4, depth);
+}
+
 void au_draw_texture(AU_Engine* eng, AU_TextureRegion tex, float x, float y) {
 	au_draw_texture_sized(eng, tex, x, y, tex.rect.width, tex.rect.height);
 }
