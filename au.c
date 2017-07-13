@@ -218,18 +218,18 @@ void au_draw_shape_depth(AU_Engine* eng, AU_Color color, AU_Vector* points, size
 	}
 }
 
-void au_draw_circle(AU_Engine* eng, AU_Color color, AU_Vector center, float radius) {
-	au_draw_circle_depth(eng, color, center, radius, 0);
+void au_draw_circle(AU_Engine* eng, AU_Color color, AU_Circle circle) {
+	au_draw_circle_depth(eng, color, circle, 0);
 }
 
-void au_draw_circle_depth(AU_Engine* eng, AU_Color color, AU_Vector center, float radius, float depth) {
+void au_draw_circle_depth(AU_Engine* eng, AU_Color color, AU_Circle circle, float depth) {
 	const size_t num_points = 32;
 	AU_Vector points[num_points]; //A large array of points to simulate a circle
 	AU_Transform rotation = au_geom_transform_rotate(360 / num_points);
-	AU_Vector pointing = { 0, -radius };
+	AU_Vector pointing = { 0, -circle.radius };
 	for(size_t i = 0; i < num_points; i++) {
 		pointing  = au_geom_transform(rotation, pointing);
-		points[i] = au_geom_vec_add(center, pointing);
+		points[i] = au_geom_vec_add((AU_Vector) { circle.x, circle.y }, pointing);
 	}
 	au_draw_shape_depth(eng, color, points, num_points, depth);
 }
