@@ -7,8 +7,17 @@ cmake_policy(SET CMP0015 NEW)
 set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
-#Add the dependency libraries
-add_subdirectory(sdl2_ttf)
+find_package(PkgConfig QUIET)
+if(PkgConfig_FOUND)
+	pkg_check_modules(SDL2 REQUIRED sdl2 sdl2_ttf)
+endif()
+
+if(NOT SDL2_FOUND)
+	#Add the dependency libraries
+	add_subdirectory(sdl2_ttf)
+	set(SDL2_INCLUDE_DIRS ${au-engine_SOURCE_DIR}/sdl2_ttf ${au-engine_SOURCE_DIR}/sdl2_ttf/freetype/include ${au-engine_SOURCE_DIR}/sdl2_ttf/sdl2/include)
+	set(SDL2_LIBRARIES SDL2 SDL2_ttf freetype)
+endif()
 
 #SET WARNINGS
 if(MSVC)
@@ -23,10 +32,10 @@ endif()
 
 file(GLOB SOURCES *.c)
 file(GLOB DEPENDENCIES deps/*.c)
-set(au-engine-include ${au-engine_SOURCE_DIR} ${au-engine_SOURCE_DIR}/deps ${au-engine_SOURCE_DIR}/sdl2_ttf/sdl2/include ${au-engine_SOURCE_DIR}/sdl2_ttf/freetype/include ${au-engine_SOURCE_DIR}/sdl2_ttf)
+set(au-engine-include ${au-engine_SOURCE_DIR} ${SDL2_INCLUDE_DIRS} ${au-engine_SOURCE_DIR}/deps)
 include_directories(${au-engine-include})
 
-set(au-engine-libs SDL2 SDL2_ttf freetype m)
+set(au-engine-libs ${SDL2_LIBRARIES} freetype m)
 if(WIN32)
 	set(au-engine-libs ${au-engine-libs} opengl32 ws2_32)
 elseif(APPLE)
