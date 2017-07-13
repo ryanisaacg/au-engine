@@ -28,7 +28,7 @@ in vec2 Tex_coord; \
 out vec4 outColor; \
 uniform sampler2D tex; \
 void main() { \
-	outColor = texture(tex, Tex_coord); \
+	outColor = Color * texture(tex, Tex_coord); \
 }";
 
 void check_gl_errors() {
