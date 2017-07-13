@@ -114,8 +114,8 @@ AU_Transform au_geom_transform_translate(float x, float y) {
 }
 
 AU_Transform au_geom_transform_rotate(float angle) {
-	float c = cos(angle * 180.0f / M_PI);
-	float s = sin(angle * 180.0f / M_PI);
+	float c = cos(angle * M_PI / 180);
+	float s = sin(angle * M_PI / 180);
 	return (AU_Transform) {
 		{
 			{c, -s, 0},
