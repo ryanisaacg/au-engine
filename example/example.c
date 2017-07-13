@@ -26,6 +26,7 @@ int main()
 		}
 		AU_TextureRegion region = au_tex_region(img);
 		au_draw_shape(eng, AU_BLUE, polygon, 4);
+		au_draw_circle(eng, AU_RED, (AU_Vector) { 400, 400 }, 32);
 		au_draw_texture_ex(eng, region, AU_WHITE, 0, 0, 32, 32, 0, 0, 0, 1, 1, false, false, 0.5f);
 //		au_draw_texture_ex(eng, region, AU_GREEN, x, y, 32, 32, 0, 0, 0, 1, 1, false, false, 0);
 		au_draw_string(eng, font, "Hello there! test string", 0, 100);
