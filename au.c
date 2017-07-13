@@ -18,11 +18,11 @@ AU_Engine* au_init(char* title, int width, int height, char* icon, AU_WindowConf
 	AU_Engine* engine = au_memory_alloc(sizeof(AU_Engine));
 	SDL_Init(SDL_INIT_VIDEO);
 	SDL_Window* window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height,
-										  SDL_WINDOW_OPENGL | (SDL_WINDOW_RESIZABLE && config.resizable) | 
-										  (SDL_WINDOW_FULLSCREEN && config.fullscreen) | 
-										  (SDL_WINDOW_BORDERLESS && config.borderless) | 
+										  SDL_WINDOW_OPENGL | (SDL_WINDOW_RESIZABLE && config.resizable) |
+										  (SDL_WINDOW_FULLSCREEN && config.fullscreen) |
+										  (SDL_WINDOW_BORDERLESS && config.borderless) |
 										  (SDL_WINDOW_MINIMIZED && config.minimized) |
-										  (SDL_WINDOW_MAXIMIZED && config.maximized) | 
+										  (SDL_WINDOW_MAXIMIZED && config.maximized) |
 										  (SDL_WINDOW_INPUT_GRABBED && config.input_grabbed) |
 										  (SDL_WINDOW_ALLOW_HIGHDPI && config.highdpi));
 	engine->ctx = au_context_init_stack(window);
@@ -135,7 +135,7 @@ void au_begin(AU_Engine* eng, AU_Color bg) {
 				int w, h;
 				SDL_GetWindowSize(eng->ctx.window, &w, &h);
 				au_viewport_apply(eng->viewport, w, h);
-										  }
+			}
 		}
 	}
 	int x, y;
@@ -209,7 +209,8 @@ void au_draw_shape_depth(AU_Engine* eng, AU_Color color, AU_Vector* points, size
 	}
 	int indices[length];
 	for (size_t i = 0; i < length; i++) {
-		indices[i] = au_context_add_vertex(&eng->ctx, eng->white.id, points[i].x, points[i].y, -(1 - depth), 0, 0, color.r, color.g, color.b, color.a);
+		indices[i] = au_context_add_vertex(&eng->ctx, eng->white.id, points[i].x, points[i].y, -(1 - depth), 0, 0, color.r,
+										   color.g, color.b, color.a);
 	}
 	for (size_t i = 1; i < length - 1; i++) {
 		au_context_add_index(&eng->ctx, eng->white.id, indices[0]);
@@ -227,9 +228,11 @@ void au_draw_circle_depth(AU_Engine* eng, AU_Color color, AU_Circle circle, floa
 	AU_Vector points[num_points]; //A large array of points to simulate a circle
 	AU_Transform rotation = au_geom_transform_rotate(360 / num_points);
 	AU_Vector pointing = { 0, -circle.radius };
-	for(size_t i = 0; i < num_points; i++) {
+	for (size_t i = 0; i < num_points; i++) {
 		pointing  = au_geom_transform(rotation, pointing);
-		points[i] = au_geom_vec_add((AU_Vector) { circle.x, circle.y }, pointing);
+		points[i] = au_geom_vec_add((AU_Vector) {
+			circle.x, circle.y
+		}, pointing);
 	}
 	au_draw_shape_depth(eng, color, points, num_points, depth);
 }
