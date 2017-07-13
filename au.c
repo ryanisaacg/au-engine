@@ -218,6 +218,22 @@ void au_draw_shape_depth(AU_Engine* eng, AU_Color color, AU_Vector* points, size
 	}
 }
 
+void au_draw_circle(AU_Engine* eng, AU_Color color, AU_Vector center, float radius) {
+	au_draw_circle_depth(eng, color, center, radius, 0);
+}
+
+void au_draw_circle_depth(AU_Engine* eng, AU_Color color, AU_Vector center, float radius, float depth) {
+	const size_t num_points = 32;
+	AU_Vector points[num_points]; //A large array of points to simulate a circle
+	AU_Transform rotation = au_geom_transform_rotate(360 / num_points);
+	AU_Vector pointing = { 0, -radius };
+	for(size_t i = 0; i < num_points; i++) {
+		pointing  = au_geom_transform(rotation, pointing);
+		points[i] = au_geom_vec_add(center, pointing);
+	}
+	au_draw_shape_depth(eng, color, points, num_points, depth);
+}
+
 void au_draw_texture(AU_Engine* eng, AU_TextureRegion tex, float x, float y) {
 	au_draw_texture_sized(eng, tex, x, y, tex.rect.width, tex.rect.height);
 }

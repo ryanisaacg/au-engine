@@ -61,6 +61,10 @@ void au_end(AU_Engine*);
 void au_draw_shape(AU_Engine*, AU_Color, AU_Vector*, size_t length);
 //Draw a convex polygon with a given list of vertices at a given depth
 void au_draw_shape_depth(AU_Engine*, AU_Color, AU_Vector*, size_t length, float depth);
+//Draw a circle with a given color, center, and radius
+void au_draw_circle(AU_Engine*, AU_Color, AU_Vector, float);
+//Draw a circle with a given depth
+void au_draw_circle_depth(AU_Engine*, AU_Color, AU_Vector, float, float);
 //Draw a texture region with its natural size (x, y)
 void au_draw_texture(AU_Engine*, AU_TextureRegion, float, float);
 //Draw a texture region to a given area (x, y, width, height)
