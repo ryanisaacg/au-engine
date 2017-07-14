@@ -6,13 +6,14 @@ The project is written in ISO C99 for maximum portability. It has been tested an
 
 ## Required tools to build
 
-- [CMake] (https://cmake.org/)
+- [CMake](https://cmake.org/)
 - A C build system compatible with CMake
 - A C compiler compatible with your build system
 
 ### Recommended compilers and toolchains
 
-- Windows: [MinGW-w64] (https://mingw-w64.org/doku.php/download)
+- Windows: [MinGW-w64](https://mingw-w64.org/doku.php/download)
+	- SDL notes that the default 32-bit MinGW will likely not work, and this is known to be the case for the engine
 - macOS: clang ( `brew install clang` )
 - Linux: gcc (install from your system package manager)
 
