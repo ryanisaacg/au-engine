@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <SDL.h>
+#include <SDL_mixer.h>
 #include <time.h>
 
 #include "memory.h"
@@ -40,6 +41,7 @@ AU_Engine* au_init(char* title, int width, int height, char* icon, AU_WindowConf
 	engine->window_height = height;
 
 	TTF_Init(); //initialize the SDL font subsystem
+	Mix_Init(MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_MP3 | MIX_INIT_OGG); //Initialize the SDL mixer
 
 	srand(time(NULL));
 
