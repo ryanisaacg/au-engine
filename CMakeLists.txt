@@ -9,7 +9,7 @@ set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 find_package(PkgConfig QUIET)
 if(PkgConfig_FOUND)
-	pkg_check_modules(SDL2 REQUIRED sdl2 sdl2_ttf)
+	pkg_check_modules(SDL2 QUIET sdl2 sdl2_ttf sdl2_mixer)
 endif()
 
 if(NOT SDL2_FOUND)
