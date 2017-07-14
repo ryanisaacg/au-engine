@@ -14,6 +14,7 @@ The project is written in ISO C99 for maximum portability. It has been tested an
 
 - Windows: [MinGW-w64](https://mingw-w64.org/doku.php/download)
 	- SDL notes that the default 32-bit MinGW will likely not work, and this is known to be the case for the engine
+	- There seems to be an issue with GCC 7 and SDL; it is recommended you use GCC version 6 on Windows.
 - macOS: clang ( `brew install clang` )
 - Linux: gcc (install from your system package manager)
 
@@ -51,5 +52,7 @@ AU Engine contains a project generation script in Python that automates creating
 - [ ] Featureset
 	- [ ] Loading and playing sound
 	- [ ] Gamepad API
+	- [ ] Screen-shake, inverted screen, etc.
+	- [ ] User-created shaders
 - [ ] Bugs
 	- [ ] Viewports seem not to correctly apply when the window is resized
