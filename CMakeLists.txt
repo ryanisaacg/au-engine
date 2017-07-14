@@ -14,8 +14,9 @@ endif()
 
 if(NOT SDL2_FOUND)
 	#Add the dependency libraries
+	add_subdirectory(sdl2)
 	add_subdirectory(sdl2_ttf)
-	set(SDL2_INCLUDE_DIRS ${au-engine_SOURCE_DIR}/sdl2_ttf ${au-engine_SOURCE_DIR}/sdl2_ttf/freetype/include ${au-engine_SOURCE_DIR}/sdl2_ttf/sdl2/include)
+	set(SDL2_INCLUDE_DIRS ${au-engine_SOURCE_DIR}/sdl2_ttf ${au-engine_SOURCE_DIR}/sdl2_ttf/freetype/include ${au-engine_SOURCE_DIR}/sdl2/include)
 	set(SDL2_LIBRARIES SDL2 SDL2_ttf freetype)
 endif()
 
