@@ -142,7 +142,8 @@ bool au_geom_rect_overlaps_rect(AU_Rectangle a, AU_Rectangle b) {
 bool au_geom_circ_overlaps_circ(AU_Circle a, AU_Circle b) {
 	float x = a.x - b.x;
 	float y = a.y - b.y;
-	return x * x + y * y < a.radius * b.radius;
+	float rad = a.radius + b.radius;
+	return x * x + y * y < rad * rad;
 }
 
 bool au_geom_rect_overlaps_circ(AU_Rectangle r, AU_Circle c) {
