@@ -8,19 +8,21 @@ else:
 def main():
     name = sys.argv[1]
     cmake_contents='''cmake_minimum_required(VERSION 2.4.0)
-    project (''' + name + ''')
-    set(CMAKE_BUILD_TYPE Debug)
-    cmake_policy(SET CMP0003 NEW)
-    cmake_policy(SET CMP0015 NEW)
+project (''' + name + ''')
+set(CMAKE_BUILD_TYPE Debug)
+cmake_policy(SET CMP0003 NEW)
+cmake_policy(SET CMP0015 NEW)
 
-    file(GLOB SOURCES *.c)
+file(GLOB SOURCES *.c)
 
-    add_subdirectory(au-engine)
+add_subdirectory(au-engine)
 
-    include_directories(${au-engine-include})
+include_directories(${au-engine-include})
 
-    add_executable(game ${SOURCES})
-    target_link_libraries(game ${au-engine-libs})'''
+add_executable(game ${SOURCES})
+target_link_libraries(game ${au-engine-libs})
+configure_file(assets assets COPYONLY)
+'''
     os.system('mkdir ' + name)
     os.chdir(name)
     os.system('git init')
