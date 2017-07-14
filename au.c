@@ -74,6 +74,7 @@ void au_quit(AU_Engine* eng) {
 	au_context_quit(&(eng->ctx));
 
 	TTF_Quit(); //Destroy the SDL font subsystem
+	Mix_Quit();
 
 	free(eng);
 }
