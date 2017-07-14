@@ -22,7 +22,7 @@ typedef struct {
 	bool fullscreen, resizable, borderless, minimized, maximized, input_grabbed, highdpi;
 } AU_WindowConfig;
 
-#define DEFAULT_CONFIG (AU_WindowConfig) { false, false, false, false, false, false, false };
+#define DEFAULT_CONFIG (AU_WindowConfig) { false, false, false, false, false, false, false }
 
 typedef struct {
 	AU_Context ctx;
