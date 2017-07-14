@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL_mixer.h>
+#include <stdbool.h>
 
 typedef struct {
 	Mix_Chunk* source;
@@ -13,7 +14,7 @@ void au_sound_set_volume(AU_Sound, int);
 //Play a sound a given number of times (0 for loop) 
 //Returns the sound channel ID, use for other 
 //Once a sound finishes, the id is invalid and may be used for other sounds
-int au_sound_play(AU_Sound, int, int);
+int au_sound_play(AU_Sound, int);
 //Pause a playing sound
 void au_sound_pause(int);
 //Play a paused sound
@@ -23,8 +24,8 @@ void au_sound_stop(int);
 //Fade out a playing sound
 void au_sound_fadeout(int, int);
 //Checks if a sound is playing
-void au_sound_is_playing(int);
+bool au_sound_is_playing(int);
 //Checks if a sound is paused
-void au_sound_is_paused(int);
+bool au_sound_is_paused(int);
 //Destroy a sound clip
 void au_sound_destroy(AU_Sound);
