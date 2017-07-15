@@ -28,7 +28,8 @@ in vec2 Tex_coord; \
 out vec4 outColor; \
 uniform sampler2D tex; \
 void main() { \
-	outColor = Color * texture(tex, Tex_coord); \
+	vec4 tex_color = texture(tex, Tex_coord);\
+	outColor = Color * tex_color;\
 }";
 
 void check_gl_errors() {
@@ -104,6 +105,8 @@ AU_Context au_context_init_stack(SDL_Window* wind) {
 	glLinkProgram(ctx.shader);
 	glUseProgram(ctx.shader);
 	glEnable (GL_DEPTH_TEST);
+	glEnable (GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  
 	return ctx;
 }
 
