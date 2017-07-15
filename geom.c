@@ -61,6 +61,10 @@ AU_Vector au_geom_vec_rand(AU_Vector min, AU_Vector max) {
 	};
 }
 
+float au_geom_vec_dot(AU_Vector a, AU_Vector b) {
+	return a.x * b.x + a.y * b.y;
+}
+
 AU_Transform au_geom_identity() {
 	return (AU_Transform) {
 		{

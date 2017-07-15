@@ -29,7 +29,8 @@ float au_geom_vec_len(AU_Vector);
 bool au_geom_vec_eq(AU_Vector, AU_Vector);
 //Generate a random vector bounded by two vectors
 AU_Vector au_geom_vec_rand(AU_Vector min, AU_Vector max);
-
+//Do a dot product of two vectors
+float au_geom_vec_dot(AU_Vector, AU_Vector);
 
 //A 3x3 matrix indexed by [row][col]
 typedef struct {
