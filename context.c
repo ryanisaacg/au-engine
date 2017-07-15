@@ -57,6 +57,7 @@ AU_Context au_context_init_stack(SDL_Window* wind) {
 	AU_Context ctx;
 	//Add SDL window and context to the context structure
 	ctx.window = wind;
+	SDL_GL_SetSwapInterval(1);
 	ctx.ctx = SDL_GL_CreateContext(wind);
 	//Load OpenGL
 	if (!gladLoadGL()) {
