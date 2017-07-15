@@ -65,6 +65,14 @@ float au_geom_vec_dot(AU_Vector a, AU_Vector b) {
 	return a.x * b.x + a.y * b.y;
 }
 
+AU_Vector au_geom_vec_rot_abt(AU_Vector v, AU_Vector origin, float angle) {
+	float c = cos(angle * M_PI / 180);
+	float s = sin(angle * M_PI / 180);
+	AU_Vector translated = { v.x - origin.x, v.y - origin.y };
+	AU_Vector rotated = { translated.x * c - translated.y * s, translated.y * c - translated.x * s };
+	return au_geom_vec_add(rotated, origin);
+}
+
 AU_Transform au_geom_identity() {
 	return (AU_Transform) {
 		{
