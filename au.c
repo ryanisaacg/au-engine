@@ -17,7 +17,7 @@
 
 AU_Engine* au_init(char* title, int width, int height, char* icon, AU_WindowConfig config) {
 	AU_Engine* engine = au_memory_alloc(sizeof(AU_Engine));
-	SDL_Init(SDL_INIT_VIDEO);
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 	SDL_Window* window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height,
 										  SDL_WINDOW_OPENGL | (SDL_WINDOW_RESIZABLE && config.resizable) |
 										  (SDL_WINDOW_FULLSCREEN && config.fullscreen) |
@@ -42,6 +42,8 @@ AU_Engine* au_init(char* title, int width, int height, char* icon, AU_WindowConf
 
 	TTF_Init(); //initialize the SDL font subsystem
 	Mix_Init(MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_MP3 | MIX_INIT_OGG); //Initialize the SDL mixer
+	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024);
+	Mix_AllocateChannels(512);
 
 	srand(time(NULL));
 
