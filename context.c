@@ -104,7 +104,7 @@ AU_Context au_context_init_stack(SDL_Window* wind) {
 	glBindFragDataLocation(ctx.shader, 0, "outColor");
 	glLinkProgram(ctx.shader);
 	glUseProgram(ctx.shader);
-	glEnable (GL_DEPTH_TEST);
+//	glEnable (GL_DEPTH_TEST);
 	glEnable (GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  
 	return ctx;
